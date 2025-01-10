@@ -1,14 +1,64 @@
 @import "../../common.scss";
 
+.track_table_wrapper {
+  display: flex;
+  flex-flow: column;
+  overflow: hidden;
+}
+
+.track_table_wrapper .track_table_filter_row {
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 0.5em;
+
+  .track_table_filter_input {
+    input {
+      background: rgba($bglighter, 0.25);
+      color: $white;
+      border: 1px solid transparent;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+
+      &::placeholder {
+        color: rgba($white, 0.5);
+      }
+
+      &::selection {
+        background-color: $blue;
+        color: $white;
+      }
+
+      &:active,
+      &:focus {
+        &::placeholder {
+          color: rgba($white, 0.2);
+        }
+      }
+    }
+  }
+
+  .track_table_filter_button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
+
 .track_table {
   width: 100%;
 
   thead {
     background: $bgdefault;
     color: $white;
+
+    tr {
+      width: 100%;
+    }
   }
 
   tbody {
+    height: 100%;
     &.body_dragged_over {
       background: $bgdark;
     }
@@ -19,9 +69,15 @@
     text-align: left;
   }
 
+  .title_with_icon {
+    display: flex;
+    justify-content: space-between;
+  }
+
   tr {
     color: $white;
     user-select: none;
+    height: 3em;
 
     &:hover {
       background: rgba($bgdefault, 0.25);
@@ -38,8 +94,10 @@
     }
 
     td {
-      @include ellipsis;
+      display: table-cell;
       padding: 0 1em;
+      height: 3em;
+      max-height: 3em;
     }
 
     &:hover {
@@ -47,9 +105,9 @@
         .position_cell_value {
           display: none;
         }
-        
+
         .add_button {
-          display: inline-block;
+          display: inline-flex;
         }
       }
 
@@ -89,7 +147,15 @@
 
     .add_button {
       display: none;
+      justify-content: center;
+      align-items: center;
       margin: 0;
+      width: 2.5em;
+      height: 2.5em;
+
+      .icon {
+        margin: 0 0 0 1.5px !important;
+      }
     }
   }
 
@@ -114,6 +180,8 @@
     }
 
     .title_cell_value {
+      @include ellipsis;
+      white-space: normal;
       flex: 1 1 auto;
     }
 
@@ -129,14 +197,14 @@
       justify-content: center;
       align-items: center;
       padding: 0;
-      width: 2em;
-      height: 2em;
+      width: 2.5em;
+      height: 2.5em;
       margin: 0;
       border: none;
       background: none;
 
       i.icon {
-        margin: 0 !important;
+        margin: 0 0 0.5px 0 !important;
       }
     }
   }
@@ -146,14 +214,25 @@
 
     .button {
       margin: 0;
+      width: 2.5em;
+      height: 2.5em;
+
+      i.icon {
+        margin: 1px 0 0 -1px !important;
+      }
     }
   }
 
   .delete_cell {
     padding-right: 0;
 
-    i.icon {
-      margin: 0 !important;
+    button {
+      width: 2.5em;
+      height: 2.5em;
+
+      i.icon {
+        margin: 0 0 0 -0.5px !important;
+      }
     }
   }
 
@@ -172,10 +251,28 @@
     }
   }
 
+  .date_cell {
+    text-align: right;
+    color: rgba($white, 0.4);
+  }
+
   .select_cell {
     text-align: end;
     .checkbox {
       margin-top: 5px;
     }
+  }
+}
+
+.history_table_date {
+  color: rgba($white, 0.4);
+  font-weight: normal;
+  font-size: 1.25em;
+  margin: 1em 0 0 0.5em;
+}
+
+.history_table {
+  td {
+    width: 30%;
   }
 }

@@ -7,9 +7,9 @@ Skrivbordsapp som fokuserar på att streama musik från avgiftsfria källor
 
 # Länkar
 
-[Officiell hemsida](https://nuclear.js.org)
+[Officiell hemsida](https://nuclearplayer.com)
 
-[Mastodon](https://mstdn.io/@nuclear)
+[Mastodon](https://fosstodon.org/@nuclearplayer)
 
 [Twitter](https://twitter.com/nuclear_player)
 
@@ -19,12 +19,14 @@ Discordkanal: https://discord.gg/JqPjKxE
 
 Readmeöversättningar:
 
-<kbd>[<img title="Deutsch" alt="Deutsch" src="https://cdn.staticaly.com/gh/hjnilsson/country-flags/master/svg/de.svg" width="22">](docs/README-de.md)</kbd>
-<kbd>[<img title="Português" alt="Português" src="https://cdn.staticaly.com/gh/hjnilsson/country-flags/master/svg/br.svg" width="22">](README-ptbr.md)</kbd>
-<kbd>[<img title="Svenska" alt="Svenska" src="https://cdn.staticaly.com/gh/hjnilsson/country-flags/master/svg/se.svg" width="22">](README-se.md)</kbd>
-<kbd>[<img title="English" alt="English" src="https://cdn.staticaly.com/gh/hjnilsson/country-flags/master/svg/us.svg" width="22">](../README.md)</kbd>
-<kbd>[<img title="Hebrew" alt="Hebrew" src="https://cdn.staticaly.com/gh/hjnilsson/country-flags/master/svg/il.svg" width="22">](README-he.md)</kbd>
-<kbd>[<img title="Italiano" alt="Italiano" src="https://cdn.staticaly.com/gh/hjnilsson/country-flags/master/svg/it.svg" width="22">](README-it.md)</kbd>
+<kbd>[<img title="Deutsch" alt="Deutsch" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/de.svg" width="22">](docs/README-de.md)</kbd>
+<kbd>[<img title="Português" alt="Português" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/br.svg" width="22">](README-ptbr.md)</kbd>
+<kbd>[<img title="Svenska" alt="Svenska" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/se.svg" width="22">](README-se.md)</kbd>
+<kbd>[<img title="English" alt="English" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/us.svg" width="22">](../README.md)</kbd>
+<kbd>[<img title="Hebrew" alt="Hebrew" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/il.svg" width="22">](README-he.md)</kbd>
+<kbd>[<img title="Italiano" alt="Italiano" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/it.svg" width="22">](README-it.md)</kbd>
+<kbd>[<img title="Indonesia" alt="Indonesia" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/id.svg" width="22">](docs/README-id.md)</kbd>
+<kbd>[<img title="Français" alt="Français" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/fr.svg" width="22">](docs/README-fr.md)</kbd>
 
 ## Vad är detta?
 nuclear är ett gratis musikstreamingprogram som hämtar innehåll från avgifstfria källor överallt på internet.
@@ -117,23 +119,28 @@ $ sudo docker-compose up dev
 ```
 
 ## Skärmdumpar
-Den här sektionen kommer uppdateras allt eftersom programmet utvecklas.
 
-![Albumsök](https://i.imgur.com/idFVnAF.png)
+![Default](../screenshots/screenshot_default.jpg)
 
-![Albumvy](https://i.imgur.com/Kvzo3q7.png)
+![Dashboard](../screenshots/screenshot_dashboard.jpg)
 
-![Artistvy](https://i.imgur.com/imBLYl3.png)
+![Album](../screenshots/screenshot_album.jpg)
 
-![Överblick Bästa Nya Musiken](https://i.imgur.com/bMDrR4M.png)
+![Artist](../screenshots/screenshot_artist.jpg)
 
-![Överblick Genrer](https://i.imgur.com/g0aCmKx.png)
+![Search](../screenshots/screenshot_search.jpg)
 
-![Spellistevy](https://i.imgur.com/2VMXHDC.png)
+![Command palette](../screenshots/screenshot_command_palette.jpg)
 
-![Låttextvy](https://i.imgur.com/7e3DJKJ.png)
+![Equalizer](../screenshots/screenshot_equalizer.jpg)
 
-![Equalizervy](https://i.imgur.com/WreRL0w.png)
+![Genres](../screenshots/screenshot_genres.jpg)
+
+![Playlist](../screenshots/screenshot_playlist.jpg)
+
+![Settings](../screenshots/screenshot_settings.jpg)
+
+![Visualizer](../screenshots/screenshot_visualizer.jpg)
 
 ## Licens
 

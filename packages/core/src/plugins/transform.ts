@@ -1,22 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { createConfigItem, transform, transformFile } from '@babel/core';
 import presetEnv from '@babel/preset-env';
 import presetReact from '@babel/preset-react';
 
-interface BabelConfig {
-  configFile: boolean;
-  sourceType: string;
-  presets: any[];
+export interface TransformResult {
+  [key: string]: any;
 }
 
-interface TransformResult {
-  metadata: any;
-  options: BabelConfig;
-}
-
-type Cb = (err: Error, result: TransformResult) => void;
-type Transformer = (input: string, babelConfig: BabelConfig, cb: Cb) => void;
+type Transformer = typeof transform | typeof transformFile;
 
 const transformGeneric = (transformer: Transformer) => 
   (input: string) => 
@@ -25,19 +15,25 @@ const transformGeneric = (transformer: Transformer) =>
         input,
         {
           configFile: false,
-          sourceType: 'unambiguous',
+          sourceType: 'module',
           presets: [
             createConfigItem([
               presetEnv,
               {
-                targets: {electron: '4'}
+                targets: {electron: '12'}
               }
             ]),
             createConfigItem(presetReact)
           ]
         },
-        (err: Error, result: TransformResult) => {
-          err ? reject(err) : resolve(result);
+        (err: Error, result) => {
+          if (err) {
+            reject(err);
+          } else {
+            const module = { exports: {} };
+            new Function('exports', result.code)(module.exports); 
+            resolve(module.exports as TransformResult);
+          }
         }
       );
     });

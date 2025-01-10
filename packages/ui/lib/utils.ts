@@ -1,7 +1,11 @@
 import _ from 'lodash';
-import { Track } from './types';
+import { Track, TrackItem } from './types';
 
 export function formatDuration(duration) {
+  if (typeof duration === 'string') {
+    return duration;
+  }
+
   if (!_.isFinite(parseInt(duration)) || duration <= 0) {
     return '00:00';
   }
@@ -38,26 +42,32 @@ export const getThumbnail = albumOrTrack => _.get(albumOrTrack, 'coverImage')
   || _.get(albumOrTrack, 'thumb')
   || _.get(albumOrTrack, 'thumbnail');
 
-export const getTrackItem = (track: Track) => ({
+export const getTrackItem = (track: Track): TrackItem => ({
   artist: getTrackArtist(track),
   name: getTrackTitle(track),
   thumbnail: getThumbnail(track),
   local: track.local,
-  streams: track.streams,
+  streams: track.streams ?? [],
   uuid: track.uuid
 });
 
 export const areTracksEqualByName = (trackA: Track, trackB: Track) => getTrackArtist(trackA) === getTrackArtist(trackB) && getTrackTitle(trackA) === getTrackTitle(trackB);
 
-export const removeTrackStreamUrl = (track: Track) => {
-  if (track.streams) {
-    track.streams = track.streams.map(s => {
-      delete s.stream;
-      return s;
-    });
-  } else {
-    track.streams = [];
+export const timestampToDateString = (timestamp: number, locale: string) => new Date(timestamp).toLocaleDateString(
+  locale, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
   }
+);
 
-  return track;
-};
+export const timestampToTimeString = (timestamp: number, locale: string) => new Date(timestamp).toLocaleDateString(
+  locale, {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric'
+  }
+);

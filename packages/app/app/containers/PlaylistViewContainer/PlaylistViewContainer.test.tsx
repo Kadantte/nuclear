@@ -1,17 +1,26 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { fireEvent, prettyDOM, render, waitFor, within } from '@testing-library/react';
 import React from 'react';
-import { fireEvent, render, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
+import { store as electronStore } from '@nuclear/core';
 
-import { buildStoreState } from '../../../test/storeBuilders';
+import { buildElectronStoreState, buildStoreState } from '../../../test/storeBuilders';
 import { AnyProps, configureMockStore, setupI18Next, TestRouterProvider, TestStoreProvider } from '../../../test/testUtils';
 import MainContentContainer from '../MainContentContainer';
 import { onReorder } from '.';
+import userEvent from '@testing-library/user-event';
 
 jest.mock('fs');
+jest.mock('electron-store');
 
 describe('Playlist view container', () => {
   beforeAll(() => {
     setupI18Next();
+  });
+
+  beforeEach(() => {
+    electronStore.clear();
   });
 
   it('should display a playlist', () => {
@@ -58,11 +67,15 @@ describe('Playlist view container', () => {
 
   it('should delete the playlist', async () => {
     const { component, store } = mountComponent();
+
+    let state = store.getState();
+    expect(state.playlists.localPlaylists.data).toHaveLength(2);
+
     await waitFor(() => component.getByTestId('more-button').click());
     await waitFor(() => component.getByText(/delete/i).click());
 
-    const state = store.getState();
-    expect(state.playlists.playlists).toEqual([]);
+    state = store.getState();
+    expect(state.playlists.localPlaylists.data).toHaveLength(1);
   });
 
   it('should export the playlist', async () => {
@@ -70,11 +83,9 @@ describe('Playlist view container', () => {
     await waitFor(() => component.getByTestId('more-button').click());
     await waitFor(() => component.getByText(/export/i).click());
     const state = store.getState();
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const remote = require('electron').remote;
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const fs = require('fs');
-    const [playlist] = state.playlists.playlists;
+    const [playlist] = state.playlists.localPlaylists.data;
     // check if the dialog was open
     expect(remote.dialog.showSaveDialog).toHaveBeenCalledWith({
       defaultPath: playlist.name,
@@ -100,7 +111,19 @@ describe('Playlist view container', () => {
     await waitFor(() => component.getByText(/rename/i).click());
 
     const state = store.getState();
-    expect(state.playlists.playlists[0].name).toEqual('new name');
+    expect(state.playlists.localPlaylists.data[0].name).toEqual('new name');
+  });
+
+  it('should update the last modified date when the playlist is modified', async () => {
+    Date.now = jest.fn(() => (new Date('2021-01-01').valueOf()));
+    const { component, store } = mountComponent();
+    await waitFor(() => component.getByTestId('rename-button').click());
+    const input = component.getByPlaceholderText('Playlist name...');
+    fireEvent.change(input, { target: { value: 'new name' } });
+    await waitFor(() => component.getByText(/rename/i).click());
+
+    const state = store.getState();
+    expect(state.playlists.localPlaylists.data[0].lastModified).toEqual(new Date('2021-01-01').valueOf());
   });
 
   it('should add a single track to the queue', async () => {
@@ -162,7 +185,80 @@ describe('Playlist view container', () => {
     ]);
   });
 
-  const mountComponent = (initialStore?: AnyProps) => {
+  it('should delete a single track from the playlist', async () => {
+    const { component, store } = mountComponent();
+    await waitFor(() => component.getAllByTestId('delete-button')[0].click());
+
+    const state = store.getState();
+    expect(state.playlists.localPlaylists.data[0].tracks).toHaveLength(1);
+    expect(state.playlists.localPlaylists.data[0].tracks).toEqual([
+      expect.objectContaining({
+        artist: 'test artist 2',
+        name: 'test track 22'
+      })
+    ]);
+  });
+
+  it.each([
+    { query: 'test track 22', by: 'track title' }, 
+    { query: 'test artist 2', by: 'artist' }
+  ])('should filter displayed tracks by $by', async ({ query }) => {
+    const { component } = mountComponent();
+
+    let rows = await component.findAllByTestId('track-table-row');
+    expect(rows.length).toBe(2);
+    userEvent.type(component.getByPlaceholderText('Filter...'), query);
+
+    rows = await component.findAllByTestId('track-table-row');
+    expect(rows.length).toBe(1);
+    expect(rows[0]).toHaveTextContent('test track 22');
+  });
+
+  it('should delete a single track from the playlist when there are its duplicates', async () => {
+    const initialStore = buildStoreState()
+      .withPlugins()
+      .withPlaylists([{
+        id: 'test-playlist-id',
+        name: 'test playlist',
+        lastModified: 1000198000000,
+        tracks: [{
+          uuid: 'test-track-uuid-1',
+          artist: 'test artist 1',
+          name: 'test track 1',
+          stream: undefined
+        }, {
+          uuid: 'test-track-uuid-1',
+          artist: 'test artist 1',
+          name: 'test track 1',
+          stream: undefined
+        }, {
+          uuid: 'test-track-uuid-3',
+          artist: 'test artist 2',
+          name: 'test track 2',
+          stream: undefined
+        }]}])
+      .withConnectivity()
+      .build();
+    const { component, store } = mountComponent(initialStore);
+    await waitFor(() => component.getAllByTestId('delete-button')[1].click());
+
+    const state = store.getState();
+    expect(state.playlists.localPlaylists.data[0].tracks).toHaveLength(2);
+    expect(state.playlists.localPlaylists.data[0].tracks).toEqual([
+      expect.objectContaining({
+        uuid: 'test-track-uuid-1',
+        artist: 'test artist 1',
+        name: 'test track 1'
+      }),
+      expect.objectContaining({
+        uuid: 'test-track-uuid-3',
+        artist: 'test artist 2',
+        name: 'test track 2'
+      })
+    ]);
+  });
+
+  const mountComponent = (initialStore?: AnyProps, initStore = true) => {
     const initialState = initialStore ||
       buildStoreState()
         .withPlugins()
@@ -170,8 +266,14 @@ describe('Playlist view container', () => {
         .withConnectivity()
         .build();
 
+    // @ts-ignore
+    initStore && electronStore.init({
+      ...buildElectronStoreState(),
+      playlists: initialState.playlists.localPlaylists.data
+    });
+
     const history = createMemoryHistory({
-      initialEntries: ['/playlist/0']
+      initialEntries: ['/playlist/test-playlist-id']
     });
 
     const store = configureMockStore(initialState);
@@ -202,8 +304,8 @@ describe('Playlist view container - utils', () => {
     newPlaylist = playlistState;
   };
 
-  let reorder;
-  
+  let reorder: ReturnType<typeof onReorder>;
+
   beforeEach(() => {
     newPlaylist = {};
     playlist = {
@@ -211,6 +313,7 @@ describe('Playlist view container - utils', () => {
     };
     reorder = onReorder(playlist, updatePlaylist);
   });
+  
   it('should reorder tracks correctly (1)', () => {
     reorder(0, 2);
     expect(newPlaylist).toEqual({

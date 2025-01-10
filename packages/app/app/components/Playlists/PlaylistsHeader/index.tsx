@@ -1,58 +1,92 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button } from '@nuclear/ui';
+import { Button, InputDialog, PopupButton } from '@nuclear/ui';
 
 import Header from '../../Header';
 import styles from './styles.scss';
-import { Icon } from 'semantic-ui-react';
-import InputDialog from '../../InputDialog';
+import { Icon, Popup } from 'semantic-ui-react';
+
+import SpotifyPlaylistImporter from '../../../containers/SpotifyPlaylistImporter/SpotifyPlaylistImporter';
 
 type PlaylistsHeaderProps = {
-  showText: boolean;
-  handleImportFromFile: React.MouseEventHandler;
-  createNew: (name: string) => void;
+  onImportFromFile: React.MouseEventHandler;
+  onCreate: (name: string) => void;
 }
 
-const PlaylistsHeader: React.FC<PlaylistsHeaderProps> = ({ showText, handleImportFromFile, createNew }) => {
+const PlaylistsHeader: React.FC<PlaylistsHeaderProps> = ({
+  onImportFromFile,
+  onCreate
+}) => {
   const { t } = useTranslation('playlists');
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const onOpen = () => setIsPopupOpen(true);
 
-  const handleAddPlaylist = (name) => {
-    createNew(name);
+  const onChildClose = () => {
+    setIsPopupOpen(false);
   };
 
   return (
-    <div className={styles.header_container}>
-      {showText && <Header>{t('header')}</Header>}
-      {!showText && <span />}
-
-      <div>
-        <InputDialog
-          header={<h4>Input playlist name:</h4>}
-          placeholder={t('dialog-placeholder')}
-          accept={t('dialog-accept')}
-          onAccept={handleAddPlaylist}
-          testIdPrefix='create-playlist'
+    <div className={styles.playlists_header_container}>
+      <Header>
+        {t('header')}
+        <Popup
+          on='click'
           trigger={
             <Button
-              basic
-              data-testid='create-new'
+              data-testid='playlists-header-add-button'
+              color='pink'
+              circular
+              className={styles.playlists_header_add_button}
             >
               <Icon name='plus' />
-              {t('create-button')}
+              {t('header-add-button')}
             </Button>
           }
-          initialString={t('new-playlist')}
-        />
-        <Button
-          basic
-          onClick={handleImportFromFile}
-          data-testid='import-from-file'
+          className={styles.add_playlist_popup}
+          open={isPopupOpen}
+          onOpen={onOpen}
         >
-          <Icon name='file text' />
-          {t('import-button')}
-        </Button>
-      </div>
+          <div className={styles.playlist_header_buttons}>
+            <InputDialog
+              header={<h4>{t('create-playlist-dialog-title')}</h4>}
+              placeholder={t('dialog-placeholder')}
+              acceptLabel={t('dialog-accept')}
+              cancelLabel={t('dialog-cancel')}
+              onAccept={onCreate}
+              onClose={onChildClose}
+              testIdPrefix='create-playlist'
+              trigger={
+                <PopupButton
+                  data-testid='create-new'
+                  ariaLabel={t('create-button')}
+                  icon='plus'
+                  label={t('create-button')}
+                />
+              }
+              initialString={t('new-playlist')}
+            />
+            <SpotifyPlaylistImporter
+              trigger={
+                <PopupButton
+                  data-testid='import-from-url'
+                  icon='spotify'
+                  label={t('import-url-button')}
+                  ariaLabel={t('import-url-button')}
+                />
+              }
+              onClose={onChildClose}
+            />
+            <PopupButton
+              onClick={onImportFromFile}
+              ariaLabel={t('import-button')}
+              icon='file text'
+              label={t('import-button')}
+            />
+          </div>
+        </Popup>
 
+      </Header>
+      <span />
     </div>
   );
 };

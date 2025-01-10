@@ -1,12 +1,16 @@
-import _ from 'lodash';
-import { store } from '@nuclear/core';
-import { areTracksEqualByName, getTrackItem, removeTrackStreamUrl } from '@nuclear/ui';
+import _, { flow, omit, unionWith } from 'lodash';
+import { store, Track } from '@nuclear/core';
+import { areTracksEqualByName, getTrackItem } from '@nuclear/ui';
 
 import { safeAddUuid } from './helpers';
+import { createStandardAction } from 'typesafe-actions';
+import { addToDownloads } from './downloads';
+import StreamProviderPlugin from '@nuclear/core/src/plugins/streamProvider';
 
 export const READ_FAVORITES = 'READ_FAVORITES';
 export const ADD_FAVORITE_TRACK = 'ADD_FAVORITE_TRACK';
 export const REMOVE_FAVORITE_TRACK = 'REMOVE_FAVORITE_TRACK';
+export const BULK_ADD_FAVORITE_TRACKS = 'BULK_ADD_FAVORITE_TRACKS';
 
 export const ADD_FAVORITE_ALBUM = 'ADD_FAVORITE_ALBUM';
 export const REMOVE_FAVORITE_ALBUM = 'REMOVE_FAVORITE_ALBUM';
@@ -23,19 +27,38 @@ export function readFavorites() {
 }
 
 export function addFavoriteTrack(track) {
-  const clonedTrack = safeAddUuid(getTrackItem(removeTrackStreamUrl(track)));
-
+  const clonedTrack = flow(safeAddUuid, getTrackItem)(track);
+  
   const favorites = store.get('favorites');
   const filteredTracks = favorites.tracks.filter(t => !areTracksEqualByName(t, track));
-  favorites.tracks = [...filteredTracks, clonedTrack];
-
+  favorites.tracks = [...filteredTracks, omit(clonedTrack, 'streams')];
+  
   store.set('favorites', favorites);
 
+  const settings = store.get('settings');
+  const autoDownloadFavourites = settings.autoDownloadFavourites;
+  
+  if (autoDownloadFavourites) {
+    const streamProviders: StreamProviderPlugin[] = store.get('StreamProvider') || [];
+    
+    addToDownloads(streamProviders, track);
+  }
+  
   return {
     type: ADD_FAVORITE_TRACK,
     payload: favorites
   };
 }
+
+const bulkAddFavoriteTracksAction = createStandardAction(BULK_ADD_FAVORITE_TRACKS)<Track[]>();
+
+export const bulkAddFavoriteTracks = (tracks: Track[]) => {
+  const favorites = store.get('favorites');
+  favorites.tracks = unionWith(favorites.tracks, tracks, areTracksEqualByName);
+  store.set('favorites', favorites);
+
+  return bulkAddFavoriteTracksAction(favorites);
+};
 
 export function removeFavoriteTrack(track) {
   const favorites = store.get('favorites');

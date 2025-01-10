@@ -6,9 +6,9 @@
 
 Music player para desktop focado no streaming a partir de fontes gratuitas.
 
-[Website oficial](https://nuclear.js.org)
+[Website oficial](https://nuclearplayer.com)
 
-[Mastodon](https://mstdn.io/@nuclear)
+[Mastodon](https://fosstodon.org/@nuclearplayer)
 
 [Twitter](https://twitter.com/nuclear_player)
 
@@ -77,23 +77,28 @@ Nuclear já foi traduzido para diversas línguas, e nós estamos sempre procuran
 | Filipino             | [giftofgrub](https://github.com/giftofgrub)                                                          |
 
 ## Screenshots
-Isto será atualizado conforme o programa evolui.
 
-![Busca por álbum](https://i.imgur.com/idFVnAF.png)
+![Default](../screenshots/screenshot_default.jpg)
 
-![Visualização do álbum](https://i.imgur.com/Kvzo3q7.png)
+![Dashboard](../screenshots/screenshot_dashboard.jpg)
 
-![Visualização do artista](https://i.imgur.com/imBLYl3.png)
+![Album](../screenshots/screenshot_album.jpg)
 
-![Painel melhores novas músicas](https://i.imgur.com/bMDrR4M.png)
+![Artist](../screenshots/screenshot_artist.jpg)
 
-![Painel de gêneros](https://i.imgur.com/g0aCmKx.png)
+![Search](../screenshots/screenshot_search.jpg)
 
-![Visualização da playlist](https://i.imgur.com/2VMXHDC.png)
+![Command palette](../screenshots/screenshot_command_palette.jpg)
 
-![Visualização das letras](https://i.imgur.com/7e3DJKJ.png)
+![Equalizer](../screenshots/screenshot_equalizer.jpg)
 
-![Visualização do equalizador](https://i.imgur.com/WreRL0w.png)
+![Genres](../screenshots/screenshot_genres.jpg)
+
+![Playlist](../screenshots/screenshot_playlist.jpg)
+
+![Settings](../screenshots/screenshot_settings.jpg)
+
+![Visualizer](../screenshots/screenshot_visualizer.jpg)
 
 ## Processo de Desenvolvimento
 Você precisará do docker e do docker-compose.

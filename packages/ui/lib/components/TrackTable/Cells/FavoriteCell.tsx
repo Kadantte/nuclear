@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { TdHTMLAttributes } from 'react';
 import cx from 'classnames';
 import { CellProps } from 'react-table';
 
@@ -7,13 +7,13 @@ import { Button } from '../../..';
 import { Track } from '../../../types';
 import styles from '../styles.scss';
 
-const FavoriteCell: React.FC<CellProps<Track> & TrackTableExtraProps> = ({
+const FavoriteCell: React.FC<CellProps<Track> & TrackTableExtraProps<Track>> = ({
   cell,
   row,
   value,
   onAddToFavorites,
   onRemoveFromFavorites
-}) => <td {...cell.getCellProps()} className={cx(styles.favorite_cell, styles.narrow)}>
+}) => <td {...cell.getCellProps() as TdHTMLAttributes<HTMLTableCellElement>} className={cx(styles.favorite_cell, styles.narrow)}>
   <Button
     basic
     borderless

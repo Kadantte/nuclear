@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-key */
-import React, { useMemo } from 'react';
+import React, { TableHTMLAttributes, ThHTMLAttributes, useMemo, useState } from 'react';
 import cx from 'classnames';
-import { useTable, Column, useRowSelect } from 'react-table';
-import _ from 'lodash';
+import { useTable, Column, useRowSelect, useSortBy, HeaderGroup, UseSortByColumnProps, TableState, UseSortByState, useGlobalFilter, TableInstance, UseGlobalFiltersInstanceProps } from 'react-table';
+import { isNumber, isString } from 'lodash';
 import { DragDropContext, Droppable, Draggable, DragDropContextProps } from 'react-beautiful-dnd';
-
+import { Input } from 'semantic-ui-react';
 
 import DeleteCell from './Cells/DeleteCell';
 import FavoriteCell from './Cells/FavoriteCell';
@@ -14,24 +14,29 @@ import ThumbnailCell from './Cells/ThumbnailCell';
 import TitleCell from './Cells/TitleCell';
 import TrackTableCell from './Cells/TrackTableCell';
 import SelectionHeader from './Headers/SelectionHeader';
+import ColumnHeader from './Headers/ColumnHeader';
 import { getTrackThumbnail } from '../TrackRow';
 import { TrackTableColumn, TrackTableExtraProps, TrackTableHeaders, TrackTableSettings, TrackTableStrings } from './types';
 import styles from './styles.scss';
 import artPlaceholder from '../../../resources/media/art_placeholder.png';
 import { Track } from '../../types';
+import { Button, formatDuration } from '../..';
 
-export type TrackTableProps = TrackTableExtraProps &
+export type TrackTableProps<T extends Track> = TrackTableExtraProps<T> &
   TrackTableHeaders &
   TrackTableSettings & {
-    tracks: Track[];
-    isTrackFavorite: (track: Track) => boolean;
+    className?: string;
+    tracks: T[];
+    isTrackFavorite: (track: T) => boolean;
     onDragEnd?: DragDropContextProps['onDragEnd'];
-
     strings: TrackTableStrings;
+    customColumns?: Column<T>[];
   }
 
-const TrackTable: React.FC<TrackTableProps> = ({
+function TrackTable<T extends Track>({
+  className,
   tracks,
+  customColumns = [],
   isTrackFavorite,
   onDragEnd,
 
@@ -42,6 +47,7 @@ const TrackTable: React.FC<TrackTableProps> = ({
   albumHeader,
   durationHeader,
 
+  displayHeaders = true,
   displayDeleteButton = true,
   displayPosition = true,
   displayThumbnail = true,
@@ -49,10 +55,13 @@ const TrackTable: React.FC<TrackTableProps> = ({
   displayArtist = true,
   displayAlbum = true,
   displayDuration = true,
+  displayCustom = true,
   selectable = true,
+  searchable = false,
 
   ...extraProps
-}) => {
+}: TrackTableProps<T>) {
+  const shouldDisplayDuration = displayDuration && tracks.every(track => Boolean(track.duration));
   const columns = useMemo(() => [
     displayDeleteButton && {
       id: TrackTableColumn.Delete,
@@ -60,15 +69,16 @@ const TrackTable: React.FC<TrackTableProps> = ({
     },
     displayPosition && {
       id: TrackTableColumn.Position,
-      Header: () => <span className={styles.center_aligned}>{positionHeader}</span>,
+      Header: ({ column }) => <ColumnHeader column={column} header={positionHeader} data-testid='position-header' />,
       accessor: 'position',
-      Cell: PositionCell
+      Cell: PositionCell,
+      enableSorting: true
     },
     displayThumbnail && {
       id: TrackTableColumn.Thumbnail,
       Header: () => <span className={styles.center_aligned}>{thumbnailHeader}</span>,
       accessor: (track) => getTrackThumbnail(track) || artPlaceholder,
-      Cell: ThumbnailCell
+      Cell: ThumbnailCell()
     },
     displayFavorite && {
       id: TrackTableColumn.Favorite,
@@ -77,17 +87,19 @@ const TrackTable: React.FC<TrackTableProps> = ({
     },
     {
       id: TrackTableColumn.Title,
-      Header: titleHeader,
+      Header: ({ column }) => <ColumnHeader column={column} header={titleHeader} />,
       accessor: (track) => track.title ?? track.name,
-      Cell: TitleCell
+      Cell: TitleCell,
+      enableSorting: true
     },
     displayArtist && {
       id: TrackTableColumn.Artist,
-      Header: artistHeader,
-      accessor: (track) => _.isString(track.artist)
+      Header: ({ column }) => <ColumnHeader column={column} header={artistHeader} />,
+      accessor: (track) => isString(track.artist)
         ? track.artist
         : track.artist.name,
-      Cell: TrackTableCell
+      Cell: TrackTableCell,
+      enableSorting: true
     },
     displayAlbum && {
       id: TrackTableColumn.Album,
@@ -95,87 +107,139 @@ const TrackTable: React.FC<TrackTableProps> = ({
       accessor: 'album',
       Cell: TrackTableCell
     },
-    displayDuration && {
+    shouldDisplayDuration && {
       id: TrackTableColumn.Duration,
       Header: durationHeader,
-      accessor: 'duration',
+      accessor: track => {
+        if (isString(track.duration)) {
+          return track.duration;
+        } else if (isNumber(track.duration)) {
+          return formatDuration(track.duration);
+        } else {
+          return null;
+        }
+      },
       Cell: TrackTableCell
     },
+    ...customColumns,
     selectable && {
       id: TrackTableColumn.Selection,
       Header: SelectionHeader,
       Cell: SelectionCell
     }
-  ].filter(Boolean) as Column<Track>[], [displayDeleteButton, displayPosition, displayThumbnail, displayFavorite, isTrackFavorite, titleHeader, displayArtist, artistHeader, displayAlbum, albumHeader, displayDuration, durationHeader, selectable, positionHeader, thumbnailHeader]);
+  ].filter(Boolean) as Column<T>[], [displayDeleteButton, displayPosition, displayThumbnail, displayFavorite, isTrackFavorite, titleHeader, displayArtist, artistHeader, displayAlbum, albumHeader, shouldDisplayDuration, durationHeader, selectable, positionHeader, thumbnailHeader]);
 
   const data = useMemo(() => tracks, [tracks]);
+  const initialState: Partial<TableState<T> & UseSortByState<T>> = {
+    sortBy: [{ id: TrackTableColumn.Position, desc: false }]
+  };
 
-  const table = useTable<Track>({ columns, data }, useRowSelect);
+  const table = useTable<T>({ columns, data, initialState }, useGlobalFilter, useSortBy, useRowSelect) as (TableInstance<T> & UseGlobalFiltersInstanceProps<T>);
+  const [globalFilter, setGlobalFilterState] = useState(''); // Required, because useGlobalFilter does not provide a way to get the current filter value
 
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
-    prepareRow
+    prepareRow,
+    setGlobalFilter
   } = table;
 
-  return <table {...getTableProps()} className={styles.track_table}>
-    <thead>
-      {
-        headerGroups.map(headerGroup => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {
-              headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>
-                  {column.render('Header', extraProps)}
-                </th>
-              ))
-            }
-          </tr>
-        ))
-      }
-    </thead>
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId='track_table'>
-        {(provided) => (
+  const onFilterClick = () => {
+    setGlobalFilter('');
+    setGlobalFilterState('');
+  };
 
-          <tbody
-            ref={provided.innerRef}
-            {...getTableBodyProps()}
-            {...provided.droppableProps}
-          >
-            {
-              rows.map(row => {
-                prepareRow(row);
-                return (
-                  <Draggable
-                    key={`${row.values[TrackTableColumn.Title]} ${row.index}`}
-                    draggableId={`${row.values[TrackTableColumn.Title]} ${row.index}`}
-                    index={row.index}
-                    isDragDisabled={!onDragEnd}
-                  >
-                    {(provided, snapshot) => (
-                      <tr
-                        ref={provided.innerRef}
-                        className={cx({ [styles.is_dragging]: snapshot.isDragging })}
-                        {...row.getRowProps()}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        {row.cells.map((cell, i) => (cell.render('Cell', {...extraProps, key: i})))}
-                      </tr>
-                    )}
-                  </Draggable>
-                );
-              })
-            }
-            {provided.placeholder}
-          </tbody>
-        )}
-      </Droppable>
-    </DragDropContext>
-  </table>;
-};
+  return <div className={styles.track_table_wrapper}> 
+    {
+      searchable && 
+      <div className={styles.track_table_filter_row}>
+        <Input
+          data-testid='track-table-filter-input'
+          type='text'
+          placeholder={extraProps.strings.filterInputPlaceholder}
+          className={styles.track_table_filter_input} 
+          onChange={(e) => {
+            setGlobalFilter(e.target.value);
+            setGlobalFilterState(e.target.value);
+          }}
+          value={globalFilter}
+        />
+        <Button 
+          className={styles.track_table_filter_button}
+          onClick={onFilterClick}
+          borderless
+          color={'blue'}
+          icon='filter' 
+        />
+      </div>
+    }
+    <table 
+      {...getTableProps() as TableHTMLAttributes<HTMLTableElement>} 
+      className={cx(className, styles.track_table)}
+    >
+      {
+        displayHeaders && <thead>
+          {
+            headerGroups.map(headerGroup => (
+              <tr {...headerGroup.getHeaderGroupProps() as TableHTMLAttributes<HTMLTableRowElement>}>
+                {
+                  headerGroup.headers.map((column: (HeaderGroup<T> & UseSortByColumnProps<T>)) => (
+                    <th {...column.getHeaderProps(column.getSortByToggleProps()) as ThHTMLAttributes<HTMLTableCellElement>}>
+                      {column.render('Header', extraProps)}
+                    </th>
+                  )
+                  )
+                }
+              </tr>
+            ))
+          }
+        </thead>
+      }
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId='track_table'>
+          {(provided) => (
+            <tbody
+              data-testid='track-table-body'
+              ref={provided.innerRef}
+              {...getTableBodyProps() as TableHTMLAttributes<HTMLTableSectionElement>}
+              {...provided.droppableProps}
+            >
+              {
+                rows.map(row => {
+                  prepareRow(row);
+                  return (
+                    <Draggable
+                      key={`${row.values[TrackTableColumn.Title]} ${row.index}`}
+                      draggableId={`${row.values[TrackTableColumn.Title]} ${row.index}`}
+                      index={row.index}
+                      isDragDisabled={!onDragEnd}
+                    >
+                      {(provided, snapshot) => (
+                        <tr
+                          data-testid='track-table-row'
+                          ref={provided.innerRef}
+                          className={cx({ [styles.is_dragging]: snapshot.isDragging })}
+                          {...row.getRowProps() as TableHTMLAttributes<HTMLTableRowElement>}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          {row.cells.map((cell, i) => (cell.render('Cell', { ...extraProps, key: i })))}
+                        </tr>
+                      )}
+                    </Draggable>
+                  );
+                })
+              }
+              {provided.placeholder}
+            </tbody>
+          )}
+        </Droppable>
+      </DragDropContext>
+    </table>
+  
+  </div>;
+}
 
 export default TrackTable;

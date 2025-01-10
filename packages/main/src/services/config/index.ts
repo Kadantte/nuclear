@@ -27,14 +27,17 @@ class Config {
   discordClientId: string;
   defaultInvidiousUrl: string;
   thumbCleanInterval: number;
-  sqliteDbName: string;
+  localLibraryDbName: string;
+  listeningHistoryDbName: string;
+  defaultWidth: number;
+  defaultHeight: number;
 
   constructor(
     @inject($mainLogger) logger: Logger
   ) {
     this.env = process.env.NODE_ENV as Env || Env.DEV;
     this.title = 'Nuclear Music Player';
-    this.appid = 'org.js.nuclear.Nuclear';
+    this.appid = 'nuclear';
     this.youtubeUrl = 'https://www.youtube.com/watch';
     this.youtubeSearch = 'https://www.googleapis.com/youtube/v3/search?part=id,snippet&type=video&maxResults=50&q=';
     this.supportedFormats = _.uniq(pkg.build.fileAssociations.map(({ ext }) => ext));
@@ -45,7 +48,11 @@ class Config {
     this.macIcon = path.resolve(iconPath, 'icon_apple.png');
 
     this.thumbCleanInterval = 30;
-    this.sqliteDbName = 'nuclear-local-db.sqlite';
+    this.localLibraryDbName = 'nuclear-local-db.sqlite';
+    this.listeningHistoryDbName = 'nuclear-listening-history.sqlite';
+
+    this.defaultWidth = 1366;
+    this.defaultHeight = 768;
 
     dotenv.config({
       path: path.resolve(__dirname, '.env')

@@ -12,6 +12,12 @@ export type LastfmArtistShort = {
 export type LastfmTag = {
   name: string;
   url: string;
+  reach: number;
+  taggings: number;
+  wiki: { 
+    summary: string;
+    content: string;
+  };
 }
 
 export type LastFmArtistInfo = {
@@ -46,4 +52,30 @@ export type LastfmTopTracks = {
   '@attr': {
     artist: 'string';
   };
+}
+
+export type LastfmTrackMatch = {
+  name: string;
+  mbid: string;
+  url: string;
+  streamable: string;
+  artist: string;
+  image: LastfmImage[];
+  listeners: string;
+}
+
+export type LastfmTrackMatchInternal  = LastfmTrackMatch & { thumbnail: string }
+
+export type LastfmTopTag = {
+  name: string
+  count: number
+  reach: number
+}
+
+export type LastfmAlbum = {
+  name: string;
+  mbid: string;
+  url: string;
+  artist: string;
+  image: LastfmImage[];
 }

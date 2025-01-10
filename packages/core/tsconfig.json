@@ -2,7 +2,9 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
-    "lib": ["DOM"],
+    "lib": [
+      "DOM"
+    ],
     "declaration": true,
     "outDir": "lib",
     "esModuleInterop": true,
@@ -11,7 +13,8 @@
     "allowJs": true,
     "typeRoots": [
       "../../node_modules/@types",
-      "typings"
+      "typings",
+      "src/ytdl-core"
     ]
   },
   "include": [

@@ -16,7 +16,6 @@ import {
 import {
   DiscogsReleaseSearchResponse,
   DiscogsArtistSearchResponse,
-  DiscogsArtistReleasesSearchResponse,
   DiscogsArtistInfo,
   DiscogsArtistSearchResult,
   DiscogsReleaseSearchResult,
@@ -26,9 +25,12 @@ import {
 } from '../../rest/Discogs.types';
 import { LastFmArtistInfo, LastfmTopTracks, LastfmTrack } from '../../rest/Lastfm.types';
 import { cleanName } from '../../structs/Artist';
+import SimilarArtistsService from './SimilarArtistsService';
 
 class DiscogsMetaProvider extends MetaProvider {
   lastfm: LastFmApi;
+  readonly similarArtistsService: SimilarArtistsService = new SimilarArtistsService();
+
   constructor() {
     super();
     this.name = 'Discogs Meta Provider';
@@ -36,7 +38,7 @@ class DiscogsMetaProvider extends MetaProvider {
     this.sourceName = 'Discogs Metadata Provider';
     this.description = 'Metadata provider that uses Discogs as a source.';
     this.image = null;
-    this.isDefault = true;
+    this.isDefault = false;
     this.lastfm = new LastFmApi(process.env.LAST_FM_API_KEY, process.env.LASTFM_API_SECRET);
   }
 
@@ -62,7 +64,7 @@ class DiscogsMetaProvider extends MetaProvider {
       source: SearchResultsSource.Discogs
     };
   }
-
+  
   discogsArtistReleaseSearchResultToGeneric(release: DiscogsArtistReleaseSearchResult): SearchResultsAlbum {
     return {
       id: `${release.id}`,
@@ -174,19 +176,19 @@ class DiscogsMetaProvider extends MetaProvider {
 
     const lastFmInfo: LastFmArtistInfo = (await (await this.lastfm.getArtistInfo(discogsInfo.name)).json()).artist;
     const lastFmTopTracks: LastfmTopTracks = (await (await this.lastfm.getArtistTopTracks(discogsInfo.name)).json()).toptracks;
-
     const coverImage = this.getCoverImage(discogsInfo);
+    const similarArtists = await this.similarArtistsService.createSimilarArtists(lastFmInfo);
 
-    return Promise.resolve({
+    return {
       id: discogsInfo.id,
       name: discogsInfo.name,
       description: _.get(lastFmInfo, 'bio.summary'),
       tags: _.map(_.get(lastFmInfo, 'tags.tag'), 'name'),
-      onTour: lastFmInfo.ontour === '1',
+      onTour: this.isArtistOnTour(lastFmInfo),
       coverImage,
       thumb: coverImage,
       images: _.map(discogsInfo.images, 'resource_url'),
-      topTracks: _.map(lastFmTopTracks.track, (track: LastfmTrack) => ({
+      topTracks: _.map(lastFmTopTracks?.track, (track: LastfmTrack) => ({
         name: track.name,
         title: track.name,
         thumb: coverImage,
@@ -194,12 +196,13 @@ class DiscogsMetaProvider extends MetaProvider {
         listeners: track.listeners,
         artist: track.artist
       })),
-      similar: _.map(lastFmInfo.similar.artist, artist => ({
-        name: artist.name,
-        thumbnail: _.get(_.find(artist.image, { size: 'large' }), '#text')
-      })),
+      similar: similarArtists,
       source: SearchResultsSource.Discogs
-    });
+    };
+  }
+
+  isArtistOnTour(artistInfo: LastFmArtistInfo | undefined): boolean {
+    return artistInfo?.ontour === '1';
   }
 
   async fetchArtistDetailsByName(artistName: string): Promise<ArtistDetails> {
@@ -209,8 +212,8 @@ class DiscogsMetaProvider extends MetaProvider {
   }
 
   async fetchArtistAlbums(artistId: string): Promise<SearchResultsAlbum[]> {
-    const releases: DiscogsArtistReleasesSearchResponse = await (await Discogs.artistReleases(artistId)).json();
-    return Promise.resolve(releases.releases.map(this.discogsArtistReleaseSearchResultToGeneric));
+    const releases = await (await Discogs.artistReleases(artistId));
+    return releases.map(this.discogsArtistReleaseSearchResultToGeneric);
   }
 
   async fetchAlbumDetails(
@@ -233,20 +236,19 @@ class DiscogsMetaProvider extends MetaProvider {
 
   async fetchAlbumDetailsByName(
     albumName: string,
-    albumType: 'master' | 'release' = 'master'
+    albumType: 'master' | 'release' = 'master',
+    artist: string
   ): Promise<AlbumDetails> {
-    const albumSearch: DiscogsReleaseSearchResponse = await (await Discogs.search(albumName, albumType)).json();
+    const albumSearch: DiscogsReleaseSearchResponse = await (await Discogs.search(albumName, ['master', 'release'], {artist})).json();
     const matchingAlbum: DiscogsReleaseSearchResult = _.head(albumSearch.results);
     const albumData: DiscogsReleaseInfo = await (await Discogs.releaseInfo(
       `${matchingAlbum.id}`,
       albumType,
       { resource_url: matchingAlbum.resource_url }
     )).json();
-    return Promise.resolve(
-      this.discogsReleaseInfoToGeneric(
-        albumData,
-        albumType === 'master' ? AlbumType.master : AlbumType.release
-      )
+    return this.discogsReleaseInfoToGeneric(
+      albumData,
+      albumType === 'master' ? AlbumType.master : AlbumType.release
     );
   }
 }

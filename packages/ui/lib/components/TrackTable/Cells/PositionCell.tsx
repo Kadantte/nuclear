@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { TdHTMLAttributes } from 'react';
 import cx from 'classnames';
 import { CellProps } from 'react-table';
 
@@ -7,14 +7,18 @@ import { Button } from '../../..';
 import { Track } from '../../../types';
 import styles from '../styles.scss';
 
-const PositionCell: React.FC<CellProps<Track> & TrackTableExtraProps> = ({
+const PositionCell: React.FC<CellProps<Track> & TrackTableExtraProps<Track>> = ({
   cell,
   row,
   value,
   onPlay
-}) => <td {...cell.getCellProps()} className={cx(styles.position_cell, styles.narrow)}>
-  <Button 
-    circular 
+}) => <td
+  {...cell.getCellProps() as TdHTMLAttributes<HTMLTableCellElement>}
+  className={cx(styles.position_cell, styles.narrow)}
+  data-testid='position-cell'
+>
+  <Button
+    circular
     size='tiny'
     icon='play'
     color='pink'
@@ -23,7 +27,7 @@ const PositionCell: React.FC<CellProps<Track> & TrackTableExtraProps> = ({
     data-testid='play-now'
   />
   <span className={styles.position_cell_value}>
-    {value ?? row.index+1}
+    {value ?? row.index + 1}
   </span>
 </td>;
 

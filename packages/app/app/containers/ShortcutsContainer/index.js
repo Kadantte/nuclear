@@ -1,12 +1,12 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Mousetrap from 'mousetrap';
 import Sound from 'react-hifi';
 import _ from 'lodash';
 import { compose } from 'recompose';
-
+import { isMac } from '../../hooks/usePlatform';
 
 import * as PlayerActions from '../../actions/player';
 import * as QueueActions from '../../actions/queue';
@@ -25,7 +25,7 @@ class Shortcuts extends React.Component {
     const { settings } = this.props;
     return _.defaultTo(settings.seekIteration, SEEK_ITERATION);
   }
-  
+
   incrementCoef() {
     clearTimeout(this.timeout);
     this.coef = this.coef + COEF_ITERATION;
@@ -39,9 +39,9 @@ class Shortcuts extends React.Component {
 
     if (queue.queueItems.length > 0) {
       if (player.playbackStatus === Sound.status.PLAYING) {
-        actions.pausePlayback();
+        actions.pausePlayback(false);
       } else {
-        actions.startPlayback();
+        actions.startPlayback(false);
       }
     }
     return false;
@@ -51,10 +51,10 @@ class Shortcuts extends React.Component {
     const { queue, player, actions } = this.props;
 
     if (
-      queue.queueItems.length > 0 && 
+      queue.queueItems.length > 0 &&
       player.playbackStatus !== Sound.status.PLAYING
     ) {
-      actions.startPlayback();
+      actions.startPlayback(false);
     }
     return false;
   }
@@ -63,7 +63,7 @@ class Shortcuts extends React.Component {
     const { player, actions } = this.props;
 
     if (player.volume < 100) {
-      actions.updateVolume(player.volume + VOLUME_ITERATION * this.coef);
+      actions.updateVolume(player.volume + VOLUME_ITERATION * this.coef, false);
       this.incrementCoef();
     }
     return false;
@@ -73,7 +73,7 @@ class Shortcuts extends React.Component {
     const { player, actions } = this.props;
 
     if (player.volume > 0) {
-      actions.updateVolume(player.volume - VOLUME_ITERATION * this.coef);
+      actions.updateVolume(player.volume - VOLUME_ITERATION * this.coef, false);
       this.incrementCoef();
     }
     return false;
@@ -81,7 +81,7 @@ class Shortcuts extends React.Component {
 
   increaseSeek = () => {
     const { player, actions } = this.props;
-    
+
     if (player.playbackProgress < 100) {
       actions.updateSeek(player.seek + this.getSeekIteration() * this.coef);
       this.incrementCoef();
@@ -90,7 +90,7 @@ class Shortcuts extends React.Component {
   }
 
   decreaseSeek = () => {
-    const { player, actions} = this.props;
+    const { player, actions } = this.props;
 
     if (player.playbackProgress > 0) {
       actions.updateSeek(player.seek - this.getSeekIteration() * this.coef);
@@ -100,14 +100,14 @@ class Shortcuts extends React.Component {
   }
 
   goToPreviousPage = () => {
-    const {history} = this.props;
-    if (history.index > 1 ) {
+    const { history } = this.props;
+    if (history.index > 1) {
       history.goBack();
     }
   }
 
   goToNextPage = () => {
-    const {history} = this.props;
+    const { history } = this.props;
     if (history.index < history.length - 1) {
       history.goForward();
     }
@@ -115,6 +115,12 @@ class Shortcuts extends React.Component {
 
 
   componentDidMount() {
+    Mousetrap.addKeycodes({
+      179: 'MediaPlayPause',
+      177: 'MediaTrackPrevious',
+      176: 'MediaTrackNext'
+    });
+
     Mousetrap.bind('space', this.handleSpaceBar);
     Mousetrap.bind('enter', this.playCurrentSong);
     Mousetrap.bind('up', this.increaseVolume);
@@ -127,6 +133,14 @@ class Shortcuts extends React.Component {
     Mousetrap.bind(['ctrl+left', 'command+left'], this.props.actions.previousSong);
     Mousetrap.bind(['ctrl+top', 'command+top'], this.props.actions.unmute);
     Mousetrap.bind(['ctrl+down', 'command+down'], this.props.actions.mute);
+    Mousetrap.bind('MediaPlayPause',  this.handleSpaceBar);
+    Mousetrap.bind('MediaTrackPrevious',  this.props.actions.previousSong);
+    Mousetrap.bind('MediaTrackNext',  this.props.actions.nextSong);
+    if (isMac()){
+      Mousetrap.bind('f7', this.props.actions.previousSong);
+      Mousetrap.bind('f8', this.handleSpaceBar);
+      Mousetrap.bind('f9', this.props.actions.nextSong);
+    }
   }
 
   componentWillUnmount() {
@@ -147,8 +161,16 @@ class Shortcuts extends React.Component {
       'command+top',
       'ctrl+down',
       'command+down',
+      'f7',
+      'f8',
+      'f9',
       'f12',
-      'command+i'
+      'command+i',
+      'MediaPlayPause',
+      'MediaTrackPrevious',
+      'MediaTrackNext'
+
+
     ]);
   }
 

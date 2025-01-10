@@ -7,11 +7,11 @@ import { createMemoryHistory } from 'history';
 import thunk from 'redux-thunk';
 import ReduxPromise from 'redux-promise';
 import { Router } from 'react-router';
+import { render } from '@testing-library/react';
 import en from '@nuclear/i18n/src/locales/en.json';
 
 import rootReducer from '../app/reducers';
 import syncStore from '../app/store/enhancers/syncStorage';
-import { render } from '@testing-library/react';
 
 import MainContentContainer from '../app/containers/MainContentContainer';
 import HelpModalContainer from '../app/containers/HelpModalContainer';
@@ -23,6 +23,8 @@ import NavButtons from '../app/components/NavButtons';
 export type AnyProps = {
   [k: string]: any;
 }
+
+export const uuidRegex = /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/;
 
 type TestRouteProviderProps = {
   children: React.ReactNode;
@@ -101,43 +103,41 @@ export const mountComponent = (
 
 export const mountedComponentFactory = (
   initialHistoryEntries: string[],
-  defaultInitialStore?: AnyProps
+  defaultInitialStore?: AnyProps,
+  AdditionalNodes?: React.FC
 ) =>
-  (initialStore?: AnyProps) => {
-    return mountComponent(
-      <MainContentContainer />, 
-      initialHistoryEntries, 
-      initialStore, 
-      defaultInitialStore
-    );
-  };
+  (initialStore?: AnyProps) => mountComponent(
+    <>
+      <MainContentContainer />
+      {AdditionalNodes && <AdditionalNodes />}
+    </>,
+    initialHistoryEntries,
+    initialStore,
+    defaultInitialStore
+  );
 
 export const mountedNavbarFactory= (
   initialHistoryEntries: string[],
   defaultInitialStore?: AnyProps
 ) =>
-  (initialStore?: AnyProps) => {
-    return mountComponent(
-      <Navbar>
-        <NavButtons />
-        <HelpModalContainer />
-      </Navbar>, 
-      initialHistoryEntries, 
-      initialStore, 
-      defaultInitialStore
-    );
-  };
-// { container: document.body }
+  (initialStore?: AnyProps) => mountComponent(
+    <Navbar>
+      <NavButtons />
+      <HelpModalContainer />
+    </Navbar>,
+    initialHistoryEntries,
+    initialStore,
+    defaultInitialStore
+  );
+  
 export const mountedPlayQueueFactory= (
   initialHistoryEntries: string[],
   defaultInitialStore?: AnyProps
 ) =>
-  (initialStore?: AnyProps) => {
-    return mountComponent(
-      <PlayQueueContainer />, 
-      initialHistoryEntries, 
-      initialStore, 
-      defaultInitialStore,
-      { container: document.body }
-    );
-  };
+  (initialStore?: AnyProps) => mountComponent(
+    <PlayQueueContainer />,
+    initialHistoryEntries,
+    initialStore,
+    defaultInitialStore,
+    { container: document.body }
+  );

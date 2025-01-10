@@ -1,33 +1,32 @@
-import React from 'react';
-import _ from 'lodash';
+import React, { useEffect, useRef } from 'react';
 import { Icon } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
 
 import LyricsHeader from './LyricsHeader';
 
 import styles from './styles.scss';
+import { QueueItem } from '../../reducers/queue';
+import { getTrackArtist } from '@nuclear/ui';
 
 type LyricsViewProps = {
-  lyricsSearchResults: {
-    type: string;
-  };
-  track?: {
-    name: string;
-    artist: string;
-  };
+  lyricsSearchResult: string
+  track?: QueueItem;
 }
 
 export const LyricsView: React.FC<LyricsViewProps> = ({
-  lyricsSearchResults,
+  lyricsSearchResult,
   track
 }) => {
   const { t } = useTranslation('lyrics');
-  let lyricsStr = _.get(lyricsSearchResults, 'type', '');
-  if (lyricsStr === '') {
-    lyricsStr = t('not-found');
-  }
+  const lyricsRef = useRef<HTMLDivElement>(null);
 
-  return <div className={styles.lyrics_view}>
+  useEffect(() => {
+    if (lyricsRef.current) {
+      lyricsRef.current.scrollTop = 0;
+    }
+  }, [lyricsSearchResult]);
+
+  return <div className={styles.lyrics_view} ref={lyricsRef}>
     {
       !track &&
       <div className={styles.empty_state}>
@@ -41,10 +40,10 @@ export const LyricsView: React.FC<LyricsViewProps> = ({
       <>
         <LyricsHeader
           name={track.name}
-          artist={track.artist}
+          artist={getTrackArtist(track)}
         />
         <div className={styles.lyrics_text}>
-          {lyricsStr}
+          {lyricsSearchResult || t('not-found')}
         </div>
       </>
     }

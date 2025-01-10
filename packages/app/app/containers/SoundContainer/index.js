@@ -5,7 +5,8 @@ import { bindActionCreators } from 'redux';
 import { compose, withProps } from 'recompose';
 import Sound, { Volume, Equalizer, AnalyserByFrequency } from 'react-hifi';
 import logger from 'electron-timber';
-import { rest } from '@nuclear/core';
+import { head } from 'lodash';
+import { IpcEvents, rest } from '@nuclear/core';
 import { post as mastodonPost } from '@nuclear/core/src/rest/Mastodon';
 
 import * as SearchActions from '../../actions/search';
@@ -14,11 +15,14 @@ import * as EqualizerActions from '../../actions/equalizer';
 import * as QueueActions from '../../actions/queue';
 import * as ScrobblingActions from '../../actions/scrobbling';
 import * as LyricsActions from '../../actions/lyrics';
+import * as VisualizerActions from '../../actions/visualizer'; 
 import { filterFrequencies } from '../../components/Equalizer/chart';
 import * as Autoradio from './autoradio';
 import VisualizerContainer from '../../containers/VisualizerContainer';
+import Normalizer from '../../components/Normalizer';
 import globals from '../../globals';
 import HlsPlayer from '../../components/HLSPlayer';
+import { ipcRenderer } from 'electron';
 
 const lastfm = new rest.LastFmApi(globals.lastfmApiKey, globals.lastfmApiSecret);
 
@@ -31,13 +35,20 @@ class SoundContainer extends React.Component {
     this.handleLoading = this.handleLoading.bind(this);
     this.handleLoaded = this.handleLoaded.bind(this);
     this.handleError = this.handleError.bind(this);
+    this.soundRef = React.createRef();
   }
-
+  
   handlePlaying(update) {
     const seek = update.position;
     const progress = (update.position / update.duration) * 100;
+    const rate = (this.props.player.playbackRate + 2) / 4;
     this.props.actions.updatePlaybackProgress(progress, seek);
     this.props.actions.updateStreamLoading(false);
+
+    if (this.soundRef?.current?.audio){
+      this.soundRef.current.audio.setAttribute('playbackRate', '');
+      this.soundRef.current.audio.playbackRate = rate;
+    }
   }
 
   handleLoading() {
@@ -55,7 +66,7 @@ class SoundContainer extends React.Component {
       this.props.queue.currentSong
     ];
 
-    if (typeof currentSong.lyrics === 'undefined') {
+    if (currentSong && typeof currentSong.lyrics === 'undefined') {
       this.props.actions.lyricsSearch(currentSong);
     }
   }
@@ -70,6 +81,10 @@ class SoundContainer extends React.Component {
   }
 
   handleFinishedPlaying() {
+    if (this.props.settings['visualizer.shuffle']) {
+      this.props.actions.randomizePreset();
+    }
+
     const currentSong = this.props.queue.queueItems[
       this.props.queue.currentSong
     ];
@@ -79,9 +94,16 @@ class SoundContainer extends React.Component {
     ) {
       this.props.actions.scrobbleAction(
         currentSong.artist,
-        currentSong.name,
+        currentSong.title ?? currentSong.name,
         this.props.scrobbling.lastFmSessionKey
       );
+    }
+
+    if (this.props.settings.listeningHistory) {
+      ipcRenderer.send(IpcEvents.POST_LISTENING_HISTORY_ENTRY, {
+        artist: currentSong.artist,
+        title: currentSong.title ?? currentSong.name
+      });
     }
 
     if (
@@ -91,14 +113,16 @@ class SoundContainer extends React.Component {
     ) {
       this.props.actions.nextSong();
     } else {
-      this.props.actions.pausePlayback();
+      this.props.actions.pausePlayback(false);
     }
 
     if (this.props.settings.mastodonAccessToken &&
       this.props.settings.mastodonInstance) {
+      const selectedStreamUrl = this.props.currentStream?.originalUrl || '';
       let content = this.props.settings.mastodonPostFormat + '';
       content = content.replaceAll('{{artist}}', currentSong.artist);
       content = content.replaceAll('{{title}}', currentSong.name);
+      content = content.replaceAll('{{url}}', selectedStreamUrl);
       mastodonPost(
         this.props.settings.mastodonInstance,
         this.props.settings.mastodonAccessToken,
@@ -145,7 +169,7 @@ class SoundContainer extends React.Component {
       this.props.actions.addToQueue({
         artist: artist.name,
         name: track.name,
-        thumbnail: track.thumbnail || track.image[0]['#text']
+        thumbnail: track.thumbnail ?? track.image[0]['#text'] ?? track.thumb
       });
       resolve(true);
     });
@@ -153,7 +177,8 @@ class SoundContainer extends React.Component {
 
   handleError(err) {
     logger.error(err.message);
-    this.props.actions.streamFailed();
+    const { queue } = this.props;
+    this.props.actions.removeFromQueue(queue.currentSong);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -164,7 +189,7 @@ class SoundContainer extends React.Component {
       this.props.queue.currentSong !== nextProps.queue.currentSong ||
       this.props.player.playbackStatus !== nextProps.player.playbackStatus ||
       this.props.player.seek !== nextProps.player.seek ||
-      (!!currentSong && !!currentSong.streams && currentSong.streams.length > 0)
+      (Boolean(currentSong) && Boolean(currentSong.streams))
     );
   }
 
@@ -176,15 +201,16 @@ class SoundContainer extends React.Component {
     const { queue, player, equalizer, actions, enableSpectrum, currentStream, location, defaultEqualizer } = this.props;
     const currentTrack = queue.queueItems[queue.currentSong];
     const usedEqualizer = enableSpectrum ? equalizer : defaultEqualizer;
+
     return Boolean(currentStream) && (this.isHlsStream(currentStream.stream) ? (
-      <HlsPlayer 
+      <HlsPlayer
         source={currentStream.stream}
         onError={this.handleError}
         playStatus={player.playbackStatus}
         onFinishedPlaying={this.handleFinishedPlaying}
         muted={player.muted}
         volume={player.volume}
-      />
+      /> 
     ) : (
       <Sound
         url={currentStream.stream}
@@ -195,7 +221,12 @@ class SoundContainer extends React.Component {
         onLoad={this.handleLoaded}
         position={player.seek}
         onError={this.handleError}
+        ref={this.soundRef}
       >
+        <Normalizer
+          url={currentStream.stream}
+          normalize={this.props.settings.normalize}
+        />
         <Volume value={player.muted ? 0 : player.volume} />
         <Equalizer
           data={filterFrequencies.reduce((acc, freq, idx) => ({
@@ -240,7 +271,8 @@ function mapDispatchToProps(dispatch) {
         QueueActions,
         ScrobblingActions,
         LyricsActions,
-        EqualizerActions
+        EqualizerActions,
+        VisualizerActions
       ),
       dispatch
     )
@@ -256,7 +288,7 @@ export default compose(
   withProps(({ queue }) => ({
     currentTrack: queue.queueItems[queue.currentSong]
   })),
-  withProps(({ currentTrack, plugins }) => ({
-    currentStream: Boolean(currentTrack) && (_.find(currentTrack.streams, { source: plugins.selected.streamProviders }) || _.head(currentTrack.streams))
+  withProps(({ currentTrack }) => ({
+    currentStream: head(currentTrack?.streams)
   }))
 )(SoundContainer);

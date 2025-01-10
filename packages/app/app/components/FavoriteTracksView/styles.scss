@@ -10,21 +10,14 @@
     @include emptyState;
   }
 
-  .button_container {
-    padding-top: 1rem;
-    margin-left: 1rem;
-    a {
-      padding: 0.375rem 2.5rem;
-    }
+  .favorite_tracks_segment {
+    flex: 1 1 auto;
   }
 
-  .play_button {
-    background: $pink;
-    color: $white;
-    border-radius: 1.5rem;
-    text-transform: uppercase;
-    display: inline-block;
-    margin: auto;
+  .header_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .tracks_container {
@@ -51,7 +44,9 @@
         width: 100%;
       }
 
-      th:nth-child(2) { width: 42px; }
+      th:nth-child(2) {
+        width: 42px;
+      }
     }
 
     .tbody {

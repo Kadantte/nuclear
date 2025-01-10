@@ -17,7 +17,7 @@ exports[`Dashboard container should display genres after going to genres tab 1`]
           <a
             class="item"
           >
-            Best new music
+            Trending
           </a>
           <a
             class="item"
@@ -106,7 +106,7 @@ exports[`Dashboard container should display genres after going to genres tab 1`]
 </DocumentFragment>
 `;
 
-exports[`Dashboard container should display the best new music page of the dashboard 1`] = `
+exports[`Dashboard container should display the trending music 1`] = `
 <DocumentFragment>
   <div
     class="main_layout_container"
@@ -123,7 +123,7 @@ exports[`Dashboard container should display the best new music page of the dashb
           <a
             class="active item"
           >
-            Best new music
+            Trending
           </a>
           <a
             class="item"
@@ -137,166 +137,374 @@ exports[`Dashboard container should display the best new music page of the dashb
           </a>
         </div>
         <div
-          class="ui segment active tab best_new_music_tab_pane"
+          class="ui segment active tab editorials_tab"
         >
           <div
-            class="best_new_music_menu"
+            class="row"
           >
             <div
-              class="ui large vertical menu"
+              class="cards_row_container"
             >
               <div
-                class="link item best_new_music_menu_header"
+                class="header_row"
               >
-                Best new albums
-              </div>
-              <div
-                class="link item"
-              >
+                <h2>
+                  Trending playlists
+                </h2>
                 <div
-                  class="best_new_music_card"
+                  class="scroll_buttons"
                 >
                   <div
-                    class="card_thumbnail"
-                  >
-                    <img
-                      alt="test title 1"
-                      src="test thumbnail 1"
-                    />
-                  </div>
-                  <div
-                    class="card_info"
+                    class="filter_container"
                   >
                     <div
-                      class="card_title_row"
+                      class="ui input cards_filter"
                     >
-                      <div
-                        class="card_title"
-                      >
-                        test title 1
-                      </div>
+                      <input
+                        placeholder="Filter..."
+                        type="text"
+                        value=""
+                      />
                     </div>
-                    <div
-                      class="card_artist"
+                    <button
+                      class="ui blue icon button nuclear button borderless filter_button"
                     >
-                      test artist 1
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="link item"
-              >
-                <div
-                  class="best_new_music_card"
-                >
-                  <div
-                    class="card_thumbnail"
-                  >
-                    <img
-                      alt="test title 2"
-                      src="test thumbnail 2"
-                    />
-                  </div>
-                  <div
-                    class="card_info"
-                  >
-                    <div
-                      class="card_title_row"
-                    >
-                      <div
-                        class="card_title"
-                      >
-                        test title 2
-                      </div>
-                    </div>
-                    <div
-                      class="card_artist"
-                    >
-                      test artist 2
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="link item best_new_music_menu_header"
-              >
-                Best new tracks
-              </div>
-              <div
-                class="link item"
-              >
-                <div
-                  class="best_new_music_card"
-                >
-                  <div
-                    class="card_thumbnail"
-                  >
-                    <img
-                      alt="test track title 1"
-                      src="test track thumbnail 1"
-                    />
-                  </div>
-                  <div
-                    class="card_info"
-                  >
-                    <div
-                      class="card_title_row"
-                    >
-                      <div
-                        class="card_title"
-                      >
-                        test track title 1
-                      </div>
                       <i
                         aria-hidden="true"
-                        class="star outline large icon card_favorite"
-                        data-testid="favorite-icon-test track artist 1-test track title 1"
+                        class="filter icon"
+                      />
+                    </button>
+                  </div>
+                  <button
+                    class="ui blue tiny circular icon button nuclear button borderless scroll_button"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="chevron left icon"
+                    />
+                  </button>
+                  <button
+                    class="ui blue tiny circular icon button nuclear button borderless scroll_button"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="chevron right icon"
+                    />
+                  </button>
+                </div>
+              </div>
+              <div
+                class="cards_row"
+              >
+                <div
+                  class="nuclear card_container row_card"
+                >
+                  <div
+                    class="card animated"
+                  >
+                    <div
+                      class="thumbnail"
+                    >
+                      <div
+                        class="overlay"
                       />
                     </div>
                     <div
-                      class="card_artist"
+                      class="card_content"
                     >
-                      test track artist 1
+                      <h4>
+                        playlist 1
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="nuclear card_container row_card"
+                >
+                  <div
+                    class="card animated"
+                  >
+                    <div
+                      class="thumbnail"
+                    >
+                      <div
+                        class="overlay"
+                      />
+                    </div>
+                    <div
+                      class="card_content"
+                    >
+                      <h4>
+                        playlist 2
+                      </h4>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+          <div
+            class="promoted_artist_row"
+          >
+            <div
+              class="promoted_artist"
+              style="background-image: url(https://nuclearplayer.com/background.jpg);"
+            >
               <div
-                class="link item"
+                class="promoted_artist_info"
               >
                 <div
-                  class="best_new_music_card"
+                  class="name"
+                >
+                  Promoted artist 1
+                </div>
+                <div
+                  class="description"
+                >
+                  Promoted artist 1 description
+                </div>
+                <div
+                  class="spacer"
+                />
+                <div
+                  class="button_row"
+                >
+                  <button
+                    class="ui pink circular button nuclear button promoted_artist_button"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="itunes note icon"
+                    />
+                    Check out
+                  </button>
+                  <button
+                    class="ui button nuclear button text promoted_artist_button external_link"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="external icon"
+                    />
+                    External link
+                  </button>
+                </div>
+              </div>
+              <div
+                class="promoted_artist_image"
+              >
+                <div
+                  class="image"
+                  style="background-image: url(https://promoted-artist-1.example/picture.jpg); mask-image: url(test-file-stub);"
+                />
+                <img
+                  class="mask_shadow"
+                  src="test-file-stub"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="row"
+          >
+            <div
+              class="cards_row_container"
+            >
+              <div
+                class="header_row"
+              >
+                <h2>
+                  Trending artists
+                </h2>
+                <div
+                  class="scroll_buttons"
                 >
                   <div
-                    class="card_thumbnail"
-                  >
-                    <img
-                      alt="test track title 2"
-                      src="test track thumbnail 2"
-                    />
-                  </div>
-                  <div
-                    class="card_info"
+                    class="filter_container"
                   >
                     <div
-                      class="card_title_row"
+                      class="ui input cards_filter"
                     >
-                      <div
-                        class="card_title"
-                      >
-                        test track title 2
-                      </div>
+                      <input
+                        placeholder="Filter..."
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                    <button
+                      class="ui blue icon button nuclear button borderless filter_button"
+                    >
                       <i
                         aria-hidden="true"
-                        class="star outline large icon card_favorite"
-                        data-testid="favorite-icon-test track artist 2-test track title 2"
+                        class="filter icon"
+                      />
+                    </button>
+                  </div>
+                  <button
+                    class="ui blue tiny circular icon button nuclear button borderless scroll_button"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="chevron left icon"
+                    />
+                  </button>
+                  <button
+                    class="ui blue tiny circular icon button nuclear button borderless scroll_button"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="chevron right icon"
+                    />
+                  </button>
+                </div>
+              </div>
+              <div
+                class="cards_row"
+              >
+                <div
+                  class="nuclear card_container row_card"
+                >
+                  <div
+                    class="card animated"
+                  >
+                    <div
+                      class="thumbnail"
+                    >
+                      <div
+                        class="overlay"
                       />
                     </div>
                     <div
-                      class="card_artist"
+                      class="card_content"
                     >
-                      test track artist 2
+                      <h4>
+                        artist 1
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="nuclear card_container row_card"
+                >
+                  <div
+                    class="card animated"
+                  >
+                    <div
+                      class="thumbnail"
+                    >
+                      <div
+                        class="overlay"
+                      />
+                    </div>
+                    <div
+                      class="card_content"
+                    >
+                      <h4>
+                        artist 2
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="row"
+          >
+            <div
+              class="cards_row_container"
+            >
+              <div
+                class="header_row"
+              >
+                <h2>
+                  Trending albums
+                </h2>
+                <div
+                  class="scroll_buttons"
+                >
+                  <div
+                    class="filter_container"
+                  >
+                    <div
+                      class="ui input cards_filter"
+                    >
+                      <input
+                        placeholder="Filter..."
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                    <button
+                      class="ui blue icon button nuclear button borderless filter_button"
+                    >
+                      <i
+                        aria-hidden="true"
+                        class="filter icon"
+                      />
+                    </button>
+                  </div>
+                  <button
+                    class="ui blue tiny circular icon button nuclear button borderless scroll_button"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="chevron left icon"
+                    />
+                  </button>
+                  <button
+                    class="ui blue tiny circular icon button nuclear button borderless scroll_button"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="chevron right icon"
+                    />
+                  </button>
+                </div>
+              </div>
+              <div
+                class="cards_row"
+              >
+                <div
+                  class="nuclear card_container row_card"
+                >
+                  <div
+                    class="card animated"
+                  >
+                    <div
+                      class="thumbnail"
+                    >
+                      <div
+                        class="overlay"
+                      />
+                    </div>
+                    <div
+                      class="card_content"
+                    >
+                      <h4>
+                        album 1
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="nuclear card_container row_card"
+                >
+                  <div
+                    class="card animated"
+                  >
+                    <div
+                      class="thumbnail"
+                    >
+                      <div
+                        class="overlay"
+                      />
+                    </div>
+                    <div
+                      class="card_content"
+                    >
+                      <h4>
+                        album 2
+                      </h4>
                     </div>
                   </div>
                 </div>
@@ -327,7 +535,7 @@ exports[`Dashboard container should display top tracks after going to top tracks
           <a
             class="item"
           >
-            Best new music
+            Trending
           </a>
           <a
             class="active item"
@@ -341,580 +549,397 @@ exports[`Dashboard container should display top tracks after going to top tracks
           </a>
         </div>
         <div
-          class="ui segment active tab"
+          class="ui segment active tab popular_tracks_tab"
         >
           <div
-            class="popular_tracks_container tracks_container"
+            class="popular_tracks_container"
           >
             <div
               class="popular_tracks_header"
             >
-              <h3>
+              <h2>
                 Top Tracks from Deezer
-              </h3>
-              <a
-                aria-label="Add all"
-                class="ui primary button add_button"
-                href="#"
-                role="button"
-              >
-                <span
-                  aria-hidden="true"
-                  class="fa fa-plus"
-                />
-                 Add all
-              </a>
+              </h2>
             </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>
-                    <span
-                      aria-hidden="true"
-                      class="fa fa-image"
-                    />
-                  </th>
-                  <th>
-                    Artist
-                  </th>
-                  <th>
-                    Title
-                  </th>
-                </tr>
-                <tr />
-              </thead>
-              <tbody>
-                <tr
-                  class="track"
-                >
-                  <td
-                    class="track_thumbnail"
-                  >
-                    <img
-                      src="top track thumbnail 1"
-                    />
-                  </td>
-                  <td
-                    class="track_artist"
-                  >
-                    top track artist 1
-                  </td>
-                  <td
-                    class="track_name"
-                  >
-                    top track 1
-                  </td>
-                </tr>
-                <tr
-                  class="track"
-                >
-                  <td
-                    class="track_thumbnail"
-                  >
-                    <img
-                      src="top track thumbnail 2"
-                    />
-                  </td>
-                  <td
-                    class="track_artist"
-                  >
-                    top track artist 2
-                  </td>
-                  <td
-                    class="track_name"
-                  >
-                    top track 2
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</DocumentFragment>
-`;
-
-exports[`Dashboard container should go to best new album review after clicking it 1`] = `
-<DocumentFragment>
-  <div
-    class="main_layout_container"
-  >
-    <div
-      class="dashboard"
-    >
-      <div
-        class="dashboard_tabs"
-      >
-        <div
-          class="ui pointing secondary menu"
-        >
-          <a
-            class="active item"
-          >
-            Best new music
-          </a>
-          <a
-            class="item"
-          >
-            Top Tracks
-          </a>
-          <a
-            class="item"
-          >
-            Genres
-          </a>
-        </div>
-        <div
-          class="ui segment active tab best_new_music_tab_pane"
-        >
-          <div
-            class="best_new_music_menu"
-          >
             <div
-              class="ui large vertical menu"
+              class="track_table_wrapper"
             >
               <div
-                class="link item best_new_music_menu_header"
-              >
-                Best new albums
-              </div>
-              <div
-                class="link item"
+                class="grid_track_table"
+                role="table"
               >
                 <div
-                  class="best_new_music_card"
+                  class="track_table_head"
                 >
                   <div
-                    class="card_thumbnail"
-                  >
-                    <img
-                      alt="test title 1"
-                      src="test thumbnail 1"
-                    />
-                  </div>
-                  <div
-                    class="card_info"
+                    class="track_table_header_row"
+                    role="row"
+                    style="grid-template-columns: 7.5em 4em 3em 3em minmax(8em, 1fr) 6em 6em auto;"
                   >
                     <div
-                      class="card_title_row"
+                      class="track_table_header_cell"
+                      colspan="1"
+                      role="columnheader"
                     >
                       <div
-                        class="card_title"
+                        class="selection_header"
                       >
-                        test title 1
+                        <div
+                          class="ui fitted checkbox nuclear checkbox"
+                          style="cursor: pointer;"
+                        >
+                          <input
+                            class="hidden"
+                            readonly=""
+                            tabindex="0"
+                            title="Toggle All Rows Selected"
+                            type="checkbox"
+                            value=""
+                          />
+                          <label />
+                        </div>
                       </div>
                     </div>
                     <div
-                      class="card_artist"
+                      class="track_table_header_cell"
+                      colspan="1"
+                      role="columnheader"
+                      style="cursor: pointer;"
+                      title="Toggle SortBy"
                     >
-                      test artist 1
+                      <div
+                        class="text_header centered"
+                        data-testid="position-header"
+                      >
+                        <i
+                          aria-hidden="true"
+                          class="hashtag icon"
+                        />
+                        <i
+                          aria-hidden="true"
+                          class="sort content ascending icon text_header_icon"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="track_table_header_cell"
+                      colspan="1"
+                      role="columnheader"
+                      style="cursor: pointer;"
+                      title="Toggle SortBy"
+                    >
+                      <div
+                        class="text_header"
+                      >
+                        <i
+                          aria-hidden="true"
+                          class="image icon"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="track_table_header_cell"
+                      colspan="1"
+                      role="columnheader"
+                      style="cursor: pointer;"
+                      title="Toggle SortBy"
+                    >
+                       
+                    </div>
+                    <div
+                      class="track_table_header_cell"
+                      colspan="1"
+                      role="columnheader"
+                      style="cursor: pointer;"
+                      title="Toggle SortBy"
+                    >
+                      <div
+                        class="text_header"
+                      >
+                        Title
+                      </div>
+                    </div>
+                    <div
+                      class="track_table_header_cell"
+                      colspan="1"
+                      role="columnheader"
+                      style="cursor: pointer;"
+                      title="Toggle SortBy"
+                    >
+                      <div
+                        class="text_header"
+                      >
+                        Artist
+                      </div>
+                    </div>
+                    <div
+                      class="track_table_header_cell"
+                      colspan="1"
+                      role="columnheader"
+                      style="cursor: pointer;"
+                      title="Toggle SortBy"
+                    >
+                      <div
+                        class="text_header"
+                      >
+                        Length
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div
-                class="link item"
-              >
                 <div
-                  class="best_new_music_card"
+                  class="track_table_body"
+                  data-rbd-droppable-context-id="0"
+                  data-rbd-droppable-id="track_table"
+                  data-testid="track-table-body"
+                  role="rowgroup"
                 >
                   <div
-                    class="card_thumbnail"
-                  >
-                    <img
-                      alt="test title 2"
-                      src="test thumbnail 2"
-                    />
-                  </div>
-                  <div
-                    class="card_info"
+                    class="track_table_virtualized_list"
+                    style="position: relative; height: 600px; width: 600px; overflow: auto; will-change: transform; direction: ltr;"
                   >
                     <div
-                      class="card_title_row"
+                      style="height: 84px; width: 100%;"
                     >
                       <div
-                        class="card_title"
+                        class="grid_track_table_row"
+                        data-rbd-draggable-context-id="0"
+                        data-rbd-draggable-id="0"
+                        data-testid="track-table-row"
+                        role="row"
+                        style="position: absolute; left: 0px; top: 0px; height: 42px; width: 100%; grid-template-columns: 7.5em 4em 3em 3em minmax(8em, 1fr) 6em 6em;"
+                        tabindex="0"
                       >
-                        test title 2
+                        <div
+                          class="selection_cell"
+                          role="cell"
+                        >
+                          <div
+                            class="ui fitted checkbox nuclear checkbox"
+                            style="cursor: pointer;"
+                          >
+                            <input
+                              class="hidden"
+                              readonly=""
+                              tabindex="-1"
+                              title="Toggle Row Selected"
+                              type="checkbox"
+                              value=""
+                            />
+                            <label />
+                          </div>
+                        </div>
+                        <div
+                          class="grid_track_table_cell position_cell"
+                          data-testid="position-cell"
+                          role="cell"
+                        >
+                          <button
+                            class="ui pink tiny circular icon button nuclear button play_button"
+                            data-testid="play-now"
+                          >
+                            <i
+                              aria-hidden="true"
+                              class="play icon"
+                            />
+                          </button>
+                          <span
+                            class="position_cell_value"
+                          >
+                            1
+                          </span>
+                        </div>
+                        <div
+                          class="grid_track_table_cell thumbnail_cell"
+                          role="cell"
+                        />
+                        <div
+                          class="grid_track_table_cell favorite_cell"
+                          data-testid="favorite-cell"
+                          role="cell"
+                        >
+                          <button
+                            class="ui tiny basic circular icon button nuclear button borderless"
+                            data-testid="favorite-button"
+                          >
+                            <i
+                              aria-hidden="true"
+                              class="heart outline icon"
+                            />
+                          </button>
+                        </div>
+                        <div
+                          class="grid_track_table_cell text_cell title_cell"
+                          data-testid="title-cell"
+                          role="cell"
+                        >
+                          <span
+                            class="title_cell_content"
+                          >
+                            <span
+                              class="title_cell_value"
+                            >
+                              top track 1
+                            </span>
+                            <span
+                              class="title_cell_buttons"
+                            >
+                              <button
+                                class="ui tiny basic circular icon button nuclear button borderless title_cell_button"
+                                data-testid="add-to-queue"
+                              >
+                                <i
+                                  aria-hidden="true"
+                                  class="plus icon"
+                                />
+                              </button>
+                              <button
+                                class="ui tiny basic circular icon button nuclear button borderless title_cell_button"
+                                data-testid="track-popup-trigger"
+                              >
+                                <i
+                                  aria-hidden="true"
+                                  class="ellipsis horizontal icon"
+                                />
+                              </button>
+                            </span>
+                          </span>
+                        </div>
+                        <div
+                          class="grid_track_table_cell text_cell"
+                          role="cell"
+                        >
+                          top track artist 1
+                        </div>
+                        <div
+                          class="grid_track_table_cell text_cell"
+                          role="cell"
+                        >
+                          01:40
+                        </div>
                       </div>
-                    </div>
-                    <div
-                      class="card_artist"
-                    >
-                      test artist 2
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="link item best_new_music_menu_header"
-              >
-                Best new tracks
-              </div>
-              <div
-                class="link item"
-              >
-                <div
-                  class="best_new_music_card"
-                >
-                  <div
-                    class="card_thumbnail"
-                  >
-                    <img
-                      alt="test track title 1"
-                      src="test track thumbnail 1"
-                    />
-                  </div>
-                  <div
-                    class="card_info"
-                  >
-                    <div
-                      class="card_title_row"
-                    >
                       <div
-                        class="card_title"
+                        class="grid_track_table_row"
+                        data-rbd-draggable-context-id="0"
+                        data-rbd-draggable-id="1"
+                        data-testid="track-table-row"
+                        role="row"
+                        style="position: absolute; left: 0px; top: 42px; height: 42px; width: 100%; grid-template-columns: 7.5em 4em 3em 3em minmax(8em, 1fr) 6em 6em;"
+                        tabindex="1"
                       >
-                        test track title 1
+                        <div
+                          class="selection_cell"
+                          role="cell"
+                        >
+                          <div
+                            class="ui fitted checkbox nuclear checkbox"
+                            style="cursor: pointer;"
+                          >
+                            <input
+                              class="hidden"
+                              readonly=""
+                              tabindex="-1"
+                              title="Toggle Row Selected"
+                              type="checkbox"
+                              value=""
+                            />
+                            <label />
+                          </div>
+                        </div>
+                        <div
+                          class="grid_track_table_cell position_cell"
+                          data-testid="position-cell"
+                          role="cell"
+                        >
+                          <button
+                            class="ui pink tiny circular icon button nuclear button play_button"
+                            data-testid="play-now"
+                          >
+                            <i
+                              aria-hidden="true"
+                              class="play icon"
+                            />
+                          </button>
+                          <span
+                            class="position_cell_value"
+                          >
+                            2
+                          </span>
+                        </div>
+                        <div
+                          class="grid_track_table_cell thumbnail_cell"
+                          role="cell"
+                        />
+                        <div
+                          class="grid_track_table_cell favorite_cell"
+                          data-testid="favorite-cell"
+                          role="cell"
+                        >
+                          <button
+                            class="ui tiny basic circular icon button nuclear button borderless"
+                            data-testid="favorite-button"
+                          >
+                            <i
+                              aria-hidden="true"
+                              class="heart outline icon"
+                            />
+                          </button>
+                        </div>
+                        <div
+                          class="grid_track_table_cell text_cell title_cell"
+                          data-testid="title-cell"
+                          role="cell"
+                        >
+                          <span
+                            class="title_cell_content"
+                          >
+                            <span
+                              class="title_cell_value"
+                            >
+                              top track 2
+                            </span>
+                            <span
+                              class="title_cell_buttons"
+                            >
+                              <button
+                                class="ui tiny basic circular icon button nuclear button borderless title_cell_button"
+                                data-testid="add-to-queue"
+                              >
+                                <i
+                                  aria-hidden="true"
+                                  class="plus icon"
+                                />
+                              </button>
+                              <button
+                                class="ui tiny basic circular icon button nuclear button borderless title_cell_button"
+                                data-testid="track-popup-trigger"
+                              >
+                                <i
+                                  aria-hidden="true"
+                                  class="ellipsis horizontal icon"
+                                />
+                              </button>
+                            </span>
+                          </span>
+                        </div>
+                        <div
+                          class="grid_track_table_cell text_cell"
+                          role="cell"
+                        >
+                          top track artist 2
+                        </div>
+                        <div
+                          class="grid_track_table_cell text_cell"
+                          role="cell"
+                        >
+                          01:18
+                        </div>
                       </div>
-                      <i
-                        aria-hidden="true"
-                        class="star outline large icon card_favorite"
-                        data-testid="favorite-icon-test track artist 1-test track title 1"
-                      />
-                    </div>
-                    <div
-                      class="card_artist"
-                    >
-                      test track artist 1
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="link item"
-              >
-                <div
-                  class="best_new_music_card"
-                >
-                  <div
-                    class="card_thumbnail"
-                  >
-                    <img
-                      alt="test track title 2"
-                      src="test track thumbnail 2"
-                    />
-                  </div>
-                  <div
-                    class="card_info"
-                  >
-                    <div
-                      class="card_title_row"
-                    >
-                      <div
-                        class="card_title"
-                      >
-                        test track title 2
-                      </div>
-                      <i
-                        aria-hidden="true"
-                        class="star outline large icon card_favorite"
-                        data-testid="favorite-icon-test track artist 2-test track title 2"
-                      />
-                    </div>
-                    <div
-                      class="card_artist"
-                    >
-                      test track artist 2
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div
-            class="best_new_music_content"
-          >
-            <div
-              class="review_header"
-            >
-              <div
-                class="thumbnail"
-              >
-                <img
-                  alt="test title 2"
-                  src="test thumbnail 2"
-                />
-              </div>
-              <div
-                class="review_headings"
-              >
-                <div
-                  class="artist"
-                >
-                  test artist 2
-                </div>
-                <div
-                  class="title"
-                >
-                  test title 2
-                </div>
-              </div>
-              <div
-                class="score"
-              >
-                <div
-                  class="score_box"
-                >
-                  8.0
-                </div>
-              </div>
-            </div>
-            <p
-              class="paragraph"
-            >
-              test review 2
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</DocumentFragment>
-`;
-
-exports[`Dashboard container should go to best new track review after clicking it 1`] = `
-<DocumentFragment>
-  <div
-    class="main_layout_container"
-  >
-    <div
-      class="dashboard"
-    >
-      <div
-        class="dashboard_tabs"
-      >
-        <div
-          class="ui pointing secondary menu"
-        >
-          <a
-            class="active item"
-          >
-            Best new music
-          </a>
-          <a
-            class="item"
-          >
-            Top Tracks
-          </a>
-          <a
-            class="item"
-          >
-            Genres
-          </a>
-        </div>
-        <div
-          class="ui segment active tab best_new_music_tab_pane"
-        >
-          <div
-            class="best_new_music_menu"
-          >
-            <div
-              class="ui large vertical menu"
-            >
-              <div
-                class="link item best_new_music_menu_header"
-              >
-                Best new albums
-              </div>
-              <div
-                class="link item"
-              >
-                <div
-                  class="best_new_music_card"
-                >
-                  <div
-                    class="card_thumbnail"
-                  >
-                    <img
-                      alt="test title 1"
-                      src="test thumbnail 1"
-                    />
-                  </div>
-                  <div
-                    class="card_info"
-                  >
-                    <div
-                      class="card_title_row"
-                    >
-                      <div
-                        class="card_title"
-                      >
-                        test title 1
-                      </div>
-                    </div>
-                    <div
-                      class="card_artist"
-                    >
-                      test artist 1
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="link item"
-              >
-                <div
-                  class="best_new_music_card"
-                >
-                  <div
-                    class="card_thumbnail"
-                  >
-                    <img
-                      alt="test title 2"
-                      src="test thumbnail 2"
-                    />
-                  </div>
-                  <div
-                    class="card_info"
-                  >
-                    <div
-                      class="card_title_row"
-                    >
-                      <div
-                        class="card_title"
-                      >
-                        test title 2
-                      </div>
-                    </div>
-                    <div
-                      class="card_artist"
-                    >
-                      test artist 2
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="link item best_new_music_menu_header"
-              >
-                Best new tracks
-              </div>
-              <div
-                class="link item"
-              >
-                <div
-                  class="best_new_music_card"
-                >
-                  <div
-                    class="card_thumbnail"
-                  >
-                    <img
-                      alt="test track title 1"
-                      src="test track thumbnail 1"
-                    />
-                  </div>
-                  <div
-                    class="card_info"
-                  >
-                    <div
-                      class="card_title_row"
-                    >
-                      <div
-                        class="card_title"
-                      >
-                        test track title 1
-                      </div>
-                      <i
-                        aria-hidden="true"
-                        class="star outline large icon card_favorite"
-                        data-testid="favorite-icon-test track artist 1-test track title 1"
-                      />
-                    </div>
-                    <div
-                      class="card_artist"
-                    >
-                      test track artist 1
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="link item"
-              >
-                <div
-                  class="best_new_music_card"
-                >
-                  <div
-                    class="card_thumbnail"
-                  >
-                    <img
-                      alt="test track title 2"
-                      src="test track thumbnail 2"
-                    />
-                  </div>
-                  <div
-                    class="card_info"
-                  >
-                    <div
-                      class="card_title_row"
-                    >
-                      <div
-                        class="card_title"
-                      >
-                        test track title 2
-                      </div>
-                      <i
-                        aria-hidden="true"
-                        class="star outline large icon card_favorite"
-                        data-testid="favorite-icon-test track artist 2-test track title 2"
-                      />
-                    </div>
-                    <div
-                      class="card_artist"
-                    >
-                      test track artist 2
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="best_new_music_content"
-          >
-            <div
-              class="review_header"
-            >
-              <div
-                class="thumbnail"
-              >
-                <img
-                  alt="test track title 2"
-                  src="test track thumbnail 2"
-                />
-              </div>
-              <div
-                class="review_headings"
-              >
-                <div
-                  class="artist"
-                >
-                  test track artist 2
-                </div>
-                <div
-                  class="title"
-                >
-                  test track title 2
-                </div>
-              </div>
-            </div>
-            <p
-              class="paragraph"
-            >
-              track review 2
-            </p>
           </div>
         </div>
       </div>

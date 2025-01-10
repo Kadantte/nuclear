@@ -1,14 +1,20 @@
 {
   "album": {
     "download": "Descargar",
-    "download-toast-content": "{{artist}} - {{title}} ha sido añadida a descargas.",
+    "download-toast-content": "{{artist}} - {{title}} ha sido añadido a las descargas.",
     "download-toast-title": "Álbum añadido a descargas",
-    "error-load": "Disculpa, este álbum no pudo ser cargado. Intenta de nuevo o abre una nueva incidencia en Github",
+    "error-load": "Disculpa, este álbum no pudo ser cargado. Intenta de nuevo o abre una nueva incidencia en GitHub",
     "genre": "Género:",
     "play": "Reproducir",
     "queue": "Añadir álbum a la cola",
     "tracks": "Pistas:",
-    "year": "Año:"
+    "year": "Año:",
+    "add-to-playlist": "Add album to playlist",
+    "create-playlist": "Create a new playlist",
+    "create-playlist-dialog-title": "Input playlist name:",
+    "create-playlist-dialog-placeholder": "Playlist name...",
+    "create-playlist-dialog-accept": "Guardar",
+    "create-playlist-dialog-cancel": "Cancelar"
   },
   "app": {
     "collection": "Colección",
@@ -19,33 +25,52 @@
     "favorite-artists": "Artistas Favoritos",
     "favorite-tracks": "Pistas Favoritas",
     "library": "Biblioteca Local",
+    "listening-history": "Historial de reproducción",
     "lyrics": "Letras",
     "main": "Principal",
     "playlists": "Listas de reproducción",
     "plugins": "Plugins",
     "search": "Resultados de la Búsqueda",
     "settings": "Ajustes",
-    "visualizer": "Visualizador"
+    "visualizer": "Visualizador",
+    "user-panel": {
+      "actions-tooltip": "Acciones de usuario",
+      "sign-up": "Regístrate / Accede",
+      "sign-out": "Cerrar sesión"
+    },
+    "version": "Versión"
   },
   "artist": {
-    "count": "Conteo de reproducciones",
+    "add-all": "Añadir todos",
+    "count": "Playcount",
     "queue": "Añadir todas las pistas a la cola",
     "similar": "Artistas similares",
     "title": "Título",
-    "tour": "En tour"
+    "tour": "En tour",
+    "popular-tracks": "Canciones populares",
+    "artist-albums": {
+      "header": "Albums",
+      "sort-by-release-date": "Sort by release date",
+      "sort-by-az": "Sort A-Z",
+      "sort-by-most-played": "Sort by most played",
+      "filter-placeholder": "Filter..."
+    }
   },
   "dashboard": {
     "add-all": "Añadir todo",
     "artist": "Artista",
-    "best": "Mejor música nueva",
-    "best-new-albums": "Mejores nuevos álbumes",
-    "best-new-tracks": "Mejores nuevas pistas",
     "genres": "Géneros",
     "news": "Noticias",
     "playcounts": "Número de reproducciones",
+    "playlists": "En tendencia",
     "popular-track-title": "Las Mejores Pistas de Deezer",
     "title": "Título",
-    "top": "Las Mejores Pistas"
+    "top": "Las Mejores Pistas",
+    "trending-playlists": "Playlists populares",
+    "trending-artists": "Artistas de moda",
+    "trending-albums": "Álbumes populares",
+    "filter": "Filtrar...",
+    "nothing-found": "No se ha encontrado nada."
   },
   "downloads": {
     "clear": "Borrar pistas completadas",
@@ -55,6 +80,18 @@
     "header": "Descargas",
     "name": "Nombre",
     "status": "Estado"
+  },
+  "equalizer": {
+    "classical": "Clásico",
+    "club": "Club",
+    "custom": "Personalizado",
+    "default": "Predeterminado",
+    "full-bass": "Full Bass",
+    "full-treble": "Full Treble",
+    "pop": "Pop",
+    "presets": "Predefinidos",
+    "reggae": "Reggae",
+    "rock": "Rock"
   },
   "favorite-albums": {
     "empty": "No hay álbumes favoritos",
@@ -71,17 +108,16 @@
     "empty": "No hay favoritos añadidos",
     "empty-help": "¡Prueba añadir algunas pistas a favoritos y aparecerán aquí!",
     "header": "Tus pistas favoritas",
+    "play-random": "Reproducir una pista aleatoria de tus favoritos",
     "title": "Título"
   },
   "help": {
     "about": "Acerca de Nuclear Music Player",
+    "contributors": "Nuestro top 10 contribuidores",
     "header": "Reproductor de música de escritorio para transmitir desde fuentes gratuitas",
     "released": "publicado bajo AGPL-3.0",
     "report": "Enviar incidencias o nuevas funcionalidades",
     "thanks": "Muchas gracias a nuestros colaboradores en GitHub, su ayuda ha sido vital en la creación de este programa."
-  },
-  "input-dialog": {
-    "cancel": "Cancelar"
   },
   "library": {
     "add": "Añadir carpetas",
@@ -102,6 +138,7 @@
     "not-found": "No se ha encontrado ninguna letra para esta canción."
   },
   "option-control": {
+    "rate": "Velocidad de reproducción",
     "autoradio": "Autoradio",
     "loop": "Bucle",
     "mini-player": "Minireproductor",
@@ -119,10 +156,9 @@
     "album": "Álbum",
     "artist": "Artista",
     "delete": "Eliminar esta lista de reproducción",
-    "dialog-placeholder": "Nombre de la lista de reproducción...",
     "duration": "Duración",
     "empty": "No hay listas de reproducción.",
-    "empty-help": "¡Prueba crear algunas listas de reproducción o impórtalas por URL y aparecerán aquí!",
+    "empty-help": "Try creating playlists, or import by URL, and they will appear here!",
     "error-empty-data": "Datos vacíos",
     "error-invalid-data": "Datos inválidos",
     "error-open-file": "No se puede abrir el archivo",
@@ -131,9 +167,17 @@
     "export-fail-title": "Exportación de lista de reproducción fallida",
     "export-success-title": "Lista de reproducción exportada exitosamente",
     "header": "Tus listas de reproducción",
+    "header-add-button": "Add",
+    "import-progress": "Importar progreso",
+    "spotify-import-placeholder": "Pega aquí una URL de una lista de reproducción de Spotify",
+    "dialog-placeholder": "Nombre de la lista de reproducción...",
     "dialog-accept": "Guardar",
-    "create-button": "Crear una nueva lista de reproducción",
+    "dialog-cancel": "Cancelar",
+    "dialog-rename": "Renombrar",
+    "dialog-import": "Importar",
+    "create-button": "Create a new playlist",
     "new-playlist": "Nueva lista de reproducción",
+    "import-url-button": "Import from Spotify",
     "import-button": "Importar desde archivo (JSON)",
     "import-fail-title": "Importación de lista de reproducción fallida",
     "import-success-title": "Lista de reproducción importada exitosamente",
@@ -146,7 +190,21 @@
     "songs_plural": "{{total}} canciones",
     "title": "Título",
     "tracks-selected-plural": "pistas seleccionadas",
-    "tracks-selected-singular": "pista seleccionada"
+    "tracks-selected-singular": "pista seleccionada",
+    "tracks-singular": "canción",
+    "tracks-plural": "canciones",
+    "modified-at": "Última modificación: ",
+    "never-modified": "Desconocido",
+    "server-modified-at": "Modificado en el servidor: ",
+    "upload-to-server": "Subir al servidor",
+    "download-from-server": "Descargar desde el servidor",
+    "number-of-tracks": "canciones",
+    "input-playlist-url": "Paste playlist URL:",
+    "create-playlist-dialog-title": "Input playlist name:",
+    "playlist": "Playlist",
+    "play": "Play",
+    "external-source-tooltip": "This playlist is from an external source: {{source}}. You can't edit it. Save it locally using the playlist menu to make changes.",
+    "save-external-playlist": "Save locally"
   },
   "plugins": {
     "add-a-plugin": "Añadir un plugin",
@@ -164,6 +222,7 @@
   "queue": {
     "clear": "Vaciar cola",
     "dialog-accept": "Guardar",
+    "dialog-cancel": "Cancelar",
     "dialog-placeholder": "Nombre de la lista de reproduccion...",
     "dialog-trigger": "Guardar como lista de reproducción",
     "download": "Descargar",
@@ -172,41 +231,68 @@
     "favorite-add": "Añadir a favoritos",
     "header": "Cola de reproducción",
     "header-track": "Pista actual",
-    "id": "ID de Transmisión:",
-    "source": "Fuente:",
-    "copy-track-url": "Copiar la url de la pista al portapapeles",
+    "copy-track-url": "Copy track URL to clipboard",
     "loading": "La transmisión sigue cargando.",
     "playlist-add": "Añadir a lista de reproducción",
+    "playlist-add-queue": "Add queue to playlist",
     "playlist-toast-content": "La lista de reproducción '{{name}}' ha sido creada.",
     "playlist-toast-title": "Lista de reproducción creada",
-    "title": "Título:"
+    "live": "En directo",
+    "stream-verification": {
+      "tooltip": {
+        "unknown": "El estado de este origen es desconocido.",
+        "unverified": "Esta transmisión aún no ha sido verificada por la comunidad.",
+        "weakly-verified": "Esta transmisión ha sido verificada por un par de usuarios.",
+        "verified": "Esta transmisión ha sido verificada por la comunidad.",
+        "verified-by-user": "Esta transmisión ha sido verificada por usted."
+      },
+      "stream-status": {
+        "unknown": "Desconocido",
+        "unverified": "Sin verificar",
+        "weakly-verified": "Poco verificado",
+        "verified": "Verificado",
+        "verified-by-user": "Verificado por ti"
+      },
+      "verify": "Verificar",
+      "unverify": "No verificar"
+    },
+    "create-playlist-dialog-title": "Input playlist name:",
+    "play-now": "Play now"
   },
   "search": {
     "album": "Álbum",
     "album_plural": "Álbumes",
+    "all": "Todo",
     "artist": "Artista",
     "artist_plural": "Artistas",
     "clear-history": "Limpiar el historial",
     "empty": "No se ha encontrado nada.",
     "last-searches": "Últimas búsquedas",
+    "live-stream": "Retransmisión en vivo",
     "placeholder": "Buscar...",
     "playlist": "Lista de reproducción",
     "playlist_plural": "Listas de reproducción",
+    "podcast": "Podcast",
     "queue-add": "Añadir todas las pistas a lista de reproducción",
     "track": "Pista",
     "track_plural": "Pistas",
     "you-can-search-for": "Puedes buscar:"
   },
   "seekbar": {
-    "segment-popup": "No música"
+    "live": "En directo",
+    "segment-popup": "Sin Música"
   },
   "settings": {
     "api-port": "Puerto usado por la API",
     "api-url": "",
+    "audio": "Audio",
     "autoradio": "Autoradio",
     "autoradio-craziness": "Nivel de locura de Autoradio",
     "autoradio-craziness-description": "Autoradio seleccionará canciones diferentes a aquellas en la cola mientras más loco esté",
     "autoradio-description": "Añadir pistas similares automáticamente cuando la cola esté terminando",
+    "auto-download-favourites": "Auto download favorite track",
+    "listening-history": "Historial de reproducción",
+    "listening-history-description": "Registre las canciones que escucha, a la Last.fm. El historial se almacena sin conexión.",
     "compact-menu-bar": "Usar el estilo compacto para la barra de menú",
     "compact-queue-bar": "Usar el estilo compacto para la barra de la cola",
     "developer": "Ajustes de desarrolladores",
@@ -225,13 +311,14 @@
     "github-description": "Inicia sesión en GitHub para crear y compartir tus listas de reproducción en línea (próximamente disponible).",
     "github-title": "GitHub",
     "http": "API HTTP",
-    "invidious-url": "URL de la instancia de Invidious",
+    "invidious-url": "Invidious instance URL",
     "language": "Idioma",
     "language-placeholder": "Elige un idioma",
     "lastfm-connect": "Conectar con Last.fm",
     "lastfm-description": "Para habilitar el scrobbling, primero debes conectar y autorizar Nuclear en Last.fm, y luego hacer clic en iniciar sesión.",
     "lastfm-enable": "Habilitar scrobbling a Last.fm",
     "lastfm-title": "Last.fm",
+    "less": "Menos",
     "login": "Iniciar sesión",
     "logout": "Cerrar sesión",
     "loop-after-queue-end": "Repetir al terminar el último elemento de la cola",
@@ -241,25 +328,37 @@
     "mastodon-awaiting-authorization": "Nuclear está registrado en {{instanceUrl}}. Esperando autorización.",
     "mastodon-description": "",
     "mastodon-instance-label": "URL de la instancia de Mastodon",
-    "mastodon-post-format-description": "Nuclear publicará un estado en Mastodon después de que cada pista termine de reproducirse. La cadena anterior será la plantilla para cada publicación, siendo {{artist}} y {{title}} reemplazados por el artista y título de la pista.",
+    "mastodon-post-format-description": "Nuclear publicará un estado en Mastodon después de que cada pista haya terminado de jugar. La cadena anterior será la plantilla para cada publicación, con {{artist}}, {{title}}, y {{url}} reemplazado por el artista, el título y un enlace a la pista respectivamente.",
     "mastodon-post-format-label": "Formato de la publicación",
     "mastodon-title": "",
+    "normalize": "Volumen normalizado",
+    "normalize-description": "Ajuste automáticamente el volumen de las pistas para que se reproduzcan al mismo nivel. Esto necesita recuperar todo el camino para que funcione, por lo que puede causar un retraso entre pistas.",
+    "nuclear-identity-service-url": "URL del servicio de identidad de Nuclear",
+    "nuclear-playlists-service-url": "URL del servicio de listas de reproducción de Nuclear",
     "mini-player": "Usar estilo de minireproductor",
-    "discord-rich-presence": "Toggle discord rich presence (requires restart)",
+    "more": "Más",
+    "discord-rich-presence": "Alternar Rich Presence de Discord (requiere reinicio)",
     "notification-timeout": "Tiempo de espera de notificaciones",
     "notlogged": "Sesión no iniciada",
     "playback": "Reproducción",
     "program-settings": "Ajustes del programa",
+    "promoted-artists": "Mostrar artistas promovidos en el dashboard",
+    "promoted-artists-description": "Este es un reel de algunos artistas seleccionados que te podrían gustar. Nadie recibe alguna compensación por ello.",
+    "saving-in": "Guardando en:",
     "seek-iteration": "Cantidad de segundos a desplazar al presionar las flechas direccionales",
+    "show-tray-icon": "Mostrar icono de la bandeja",
     "shuffle-queue": "Reproducción aleatoria",
     "shuffle-when-going-back": "Aleatorizar en pista previa",
     "shuffle-when-going-back-description": "Reproduce una pista aleatoria cuando está activada la reproducción aleatoria y se presiona el botón de pista previa",
     "social": "Social",
-    "skip-sponsorblock": "Skip non-music segment",
-    "skip-sponsorblock-description": "Playback skips non-music segment from SponsorBlock (https://sponsor.ajay.app/)",
+    "skip-sponsorblock": "Omitir segmento no musical",
+    "skip-sponsorblock-description": "La reproducción omite el segmento no musical de SponsorBlock (https://sponsor.ajay.app/)",
     "streaming": "Transmisión",
     "track-duration": "Mostrar duración de la pista sobre la barra de búsqueda",
     "user": "Usuario:",
+    "user-id": "ID de Usuario",
+    "use-stream-verification": "Usar verificación de transmisión",
+    "use-stream-verification-description": "Utilizar verificación de flujos. Carga los streams que la comunidad ha verificado como correctos para las pistas que juegas. También le permite votar sobre los streams. Consulte la documentación para más detalles.",
     "youtube": "YouTube",
     "yt-api-key": "Clave de la API de YouTube"
   },
@@ -275,6 +374,11 @@
     "add-to-favorite": "Añadir a favoritos",
     "add-to-playlist": "Añadir a lista de reproducción",
     "add-to-queue": "Añadir a la cola",
+    "create-playlist": "Create a new playlist",
+    "create-playlist-dialog-title": "Introduce el nombre de la playlist:",
+    "create-playlist-dialog-placeholder": "Nombre de la lista de reproducción...",
+    "create-playlist-dialog-accept": "Guardar",
+    "create-playlist-dialog-cancel": "Cancelar",
     "download": "Descargar",
     "download-toast-body": "{{artist}} - {{track}} ha sido añadida a descargas.",
     "download-toast-title": "Pista añadida a descargas",
@@ -291,9 +395,94 @@
     "add-selected-tracks-to-favorites": "Añadir lo seleccionado a favoritos",
     "play-selected-tracks-now": "Reproducir lo seleccionado ahora",
     "tracks-selected-label-singular": "pista seleccionada",
-    "tracks-selected-label-plural": "pistas seleccionadas"
+    "tracks-selected-label-plural": "pistas seleccionadas",
+    "filter-input-placeholder": "Filter..."
   },
   "visualizer": {
     "exit-fullscreen": "Presiona ESC para salir de la pantalla completa"
+  },
+  "command-palette": {
+    "reminder": "to open the command palette",
+    "search-placeholder": "¿Qué te gustaría hacer?",
+    "empty-state-help": "¿No encuentras lo que estás buscando? Prueba el comando de ayuda.",
+    "protip-text": "Consejo de pro:",
+    "protip-content": "Flechas para navegar, Introducir para seleccionar, Esc para cerrar",
+    "categories": {
+      "playback": "Reproducción",
+      "queue": "Cola",
+      "navigation": "Navegación",
+      "application": "Aplicación"
+    },
+    "actions": {
+      "play": "Reproducir",
+      "pause": "Pausar",
+      "next": "Siguiente",
+      "previous": "Anterior",
+      "go-to-next-page": "Página siguiente",
+      "go-to-previous-page": "Página anterior",
+      "shuffle": "Aleatorio",
+      "loop": "Bucle",
+      "autoradio": "Autoradio",
+      "raise-volume": "Subir el volumen",
+      "lower-volume": "Bajar el volumen",
+      "mute": "Silenciar",
+      "unmute": "Reactivar sonido",
+      "quit": "Salir",
+      "minimize": "Minimizar",
+      "maximize": "Maximizar",
+      "go-to-dashboard": "Ir al panel de control",
+      "go-to-downloads": "Ir a las descargas",
+      "go-to-lyrics": "Ir a la letra de la canción",
+      "go-to-plugins": "Ir a los plugins",
+      "go-to-search": "Ir a la búsqueda",
+      "go-to-settings": "Ir a los ajustes",
+      "go-to-equalizer": "Ir al ecualizador",
+      "go-to-visualizer": "Ir al visualizador",
+      "go-to-playlists": "Ir a las listas de reproducción",
+      "go-to-favorite-tracks": "Ir a tus canciones favoritas",
+      "go-to-library": "Ir a la biblioteca interna"
+    }
+  },
+  "listening-history": {
+    "title": "Historial de reproducción",
+    "empty-state": "No has escuchado nada aún.",
+    "clear-history": "Limpiar el historial",
+    "clear-history-confirm": "¿Seguro quieres limpiar tu historial de reproducción?",
+    "clear-history-confirm-yes": "Confirmar",
+    "clear-history-confirm-no": "Cancelar",
+    "clear-history-toast": "Historial de escucha limpiado"
+  },
+  "forms": {
+    "nuclear-sign-up": {
+      "header": "Registrarse",
+      "secondary-header": "Registrarse a los servicios web de Nuclear",
+      "side-paragraph-1": "NWS le permite hacer copias de seguridad de sus listas en línea y compartirlas.",
+      "side-paragraph-2": "Proporcionar su correo electrónico es opcional; le permitirá recuperar su cuenta si olvida la contraseña.",
+      "username-label": "Nombre de usuario",
+      "email-label": "Correo electrónico",
+      "password-label": "Contraseña",
+      "sign-up-button": "Registrarse",
+      "validation": {
+        "username": {
+          "length": "El nombre de usuario debe tener al menos 4 caracteres",
+          "required": "El nombre de usuario es necesario"
+        },
+        "email": {
+          "invalid": "El correo electrónico debe ser uno válido"
+        },
+        "password": {
+          "length": "La contraseña debe tener al menos 6 caracteres",
+          "required": "La contraseña es necesaria"
+        }
+      }
+    },
+    "nuclear-sign-in": {
+      "header": " Iniciar sesión",
+      "username-label": "Nombre de usuario",
+      "password-label": "Contraseña",
+      "no-account-label": "¿No tienes una cuenta?",
+      "no-account-link": "Registrarse",
+      "sign-in-button": "Iniciar sesión"
+    }
   }
 }

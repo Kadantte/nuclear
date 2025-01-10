@@ -5,17 +5,20 @@ import common from '../../common.scss';
 import styles from './styles.scss';
 
 type LoaderProps = {
-  type: string;
+  type: 'default' | 'circle' | 'small';
+  className?: string;
 }
 
 const Loader: React.FC<LoaderProps> = ({
-  type='default'
+  type='default',
+  className
 }) => {
   return (
     <span className={cx(
       common.nuclear,
       type,
-      styles.loader
+      styles.loader,
+      className
     )}>
       <span />
       <span />

@@ -1,7 +1,8 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "lib": ["DOM"],
+    "module": "commonjs",
+    "lib": ["DOM", "ESNext"],
     "outDir": "dist",
     "allowJs": true,
     "strict": false,
@@ -14,7 +15,8 @@
     "src",
     "typings",
     "node_modules/@nuclear",
-    "../core/src"
+    "../core/src",
+    "../scanner"
   ],
   "exclude": [
     "node_modules/@nuclear/*/test",

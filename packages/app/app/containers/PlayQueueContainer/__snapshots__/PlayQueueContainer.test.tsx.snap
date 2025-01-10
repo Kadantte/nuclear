@@ -13,6 +13,7 @@ exports[`Play Queue container should display a context popup on right click 1`] 
       >
         <a
           class="compactButton"
+          data-testid="queue-menu-collapse"
           href="#"
         >
           <i
@@ -24,7 +25,7 @@ exports[`Play Queue container should display a context popup on right click 1`] 
           aria-disabled="false"
           aria-expanded="false"
           class="ui item dropdown queue_menu_more"
-          data-testid="queue-more-container"
+          data-testid="queue-menu-more-container"
           role="listbox"
           tabindex="0"
         >
@@ -61,6 +62,44 @@ exports[`Play Queue container should display a context popup on right click 1`] 
               Save as playlist
             </div>
             <div
+              class="item"
+              role="option"
+            >
+              <div
+                aria-expanded="false"
+                class="ui dropdown left"
+                role="listbox"
+                tabindex="0"
+              >
+                <div
+                  aria-atomic="true"
+                  aria-live="polite"
+                  class="divider text"
+                  role="alert"
+                >
+                  Add queue to playlist
+                </div>
+                <i
+                  aria-hidden="true"
+                  class="dropdown icon"
+                />
+                <div
+                  class="menu transition left playlists_menu"
+                >
+                  <div
+                    class="item"
+                    role="option"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="music icon"
+                    />
+                    test playlist
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
               class="divider"
             />
             <div
@@ -92,17 +131,28 @@ exports[`Play Queue container should display a context popup on right click 1`] 
                 />
                 <div
                   class="menu transition left playlists_menu"
-                />
+                >
+                  <div
+                    class="item"
+                    role="option"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="music icon"
+                    />
+                    test playlist
+                  </div>
+                </div>
               </div>
             </div>
             <div
               class="item"
-              data-testid="queue-more-favorite"
+              data-testid="queue-menu-more-favorite"
               role="option"
             >
               <i
                 aria-hidden="true"
-                class="star icon"
+                class="heart icon"
               />
               Add to favorites
             </div>
@@ -123,118 +173,180 @@ exports[`Play Queue container should display a context popup on right click 1`] 
     </div>
     <div
       class="play_queue_items fade_in"
-      data-rbd-droppable-context-id="1"
+      data-rbd-droppable-context-id="2"
       data-rbd-droppable-id="play_queue"
     >
       <div
-        aria-describedby="rbd-hidden-text-1-hidden-text-4"
-        data-rbd-drag-handle-context-id="1"
-        data-rbd-drag-handle-draggable-id="uuid1+0"
-        data-rbd-draggable-context-id="1"
-        data-rbd-draggable-id="uuid1+0"
-        draggable="false"
-        role="button"
-        tabindex="0"
+        style="position: relative; height: 600px; width: 600px; overflow: auto; will-change: transform; direction: ltr;"
       >
         <div
-          data-testid="queue-popup-uuid1"
+          style="height: 192px; width: 100%;"
         >
           <div
-            class="nuclear queue_item current_song"
+            aria-describedby="rbd-hidden-text-2-hidden-text-22"
+            data-rbd-drag-handle-context-id="2"
+            data-rbd-drag-handle-draggable-id="uuid1"
+            data-rbd-draggable-context-id="2"
+            data-rbd-draggable-id="uuid1"
+            draggable="false"
+            role="button"
+            style="position: absolute; left: 0px; top: 0px; height: 64px; width: 100%;"
+            tabindex="0"
           >
             <div
-              class="thumbnail"
-            >
-              <img
-                src="https://test-track-thumb-url"
-              />
-              <div
-                class="thumbnail_overlay"
-              >
-                <i
-                  aria-hidden="true"
-                  class="trash alternate outline big icon"
-                />
-              </div>
-            </div>
-            <div
-              class="item_info_container"
+              data-testid="queue-popup-uuid1"
             >
               <div
-                class="name_container"
+                class="nuclear queue_item current_song"
               >
-                test track 1
-              </div>
-              <div
-                class="artist_container"
-              >
-                test artist 1
-              </div>
-            </div>
-            <div
-              class="item_duration_container"
-            >
-              <div
-                class="item_duration"
-              >
-                05:00
+                <div
+                  class="thumbnail"
+                >
+                  <div
+                    class="thumbnail_overlay"
+                    data-testid="queue-item-remove"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="trash alternate outline big icon"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="item_info_container"
+                >
+                  <div
+                    class="name_container"
+                  >
+                    test track 1
+                  </div>
+                  <div
+                    class="artist_container"
+                  >
+                    test artist 1
+                  </div>
+                </div>
+                <div
+                  class="item_duration_container"
+                >
+                  <div
+                    class="item_duration"
+                  >
+                    05:00
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div
-        aria-describedby="rbd-hidden-text-1-hidden-text-4"
-        data-rbd-drag-handle-context-id="1"
-        data-rbd-drag-handle-draggable-id="uuid2+1"
-        data-rbd-draggable-context-id="1"
-        data-rbd-draggable-id="uuid2+1"
-        draggable="false"
-        role="button"
-        tabindex="0"
-      >
-        <div
-          data-testid="queue-popup-uuid2"
-        >
           <div
-            class="nuclear queue_item"
+            aria-describedby="rbd-hidden-text-2-hidden-text-22"
+            data-rbd-drag-handle-context-id="2"
+            data-rbd-drag-handle-draggable-id="uuid2"
+            data-rbd-draggable-context-id="2"
+            data-rbd-draggable-id="uuid2"
+            draggable="false"
+            role="button"
+            style="position: absolute; left: 0px; top: 64px; height: 64px; width: 100%;"
+            tabindex="0"
           >
             <div
-              class="thumbnail"
+              data-testid="queue-popup-uuid2"
             >
-              <img
-                src="https://test-track-thumb-url"
-              />
               <div
-                class="thumbnail_overlay"
+                class="nuclear queue_item"
               >
-                <i
-                  aria-hidden="true"
-                  class="trash alternate outline big icon"
-                />
+                <div
+                  class="thumbnail"
+                >
+                  <div
+                    class="thumbnail_overlay"
+                    data-testid="queue-item-remove"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="trash alternate outline big icon"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="item_info_container"
+                >
+                  <div
+                    class="name_container"
+                  >
+                    test track 2
+                  </div>
+                  <div
+                    class="artist_container"
+                  >
+                    test artist 2
+                  </div>
+                </div>
+                <div
+                  class="item_duration_container"
+                >
+                  <div
+                    class="item_duration"
+                  >
+                    05:00
+                  </div>
+                </div>
               </div>
             </div>
+          </div>
+          <div
+            aria-describedby="rbd-hidden-text-2-hidden-text-22"
+            data-rbd-drag-handle-context-id="2"
+            data-rbd-drag-handle-draggable-id="uuid3"
+            data-rbd-draggable-context-id="2"
+            data-rbd-draggable-id="uuid3"
+            draggable="false"
+            role="button"
+            style="position: absolute; left: 0px; top: 128px; height: 64px; width: 100%;"
+            tabindex="0"
+          >
             <div
-              class="item_info_container"
+              data-testid="queue-popup-uuid3"
             >
               <div
-                class="name_container"
+                class="nuclear queue_item"
               >
-                test track 2
-              </div>
-              <div
-                class="artist_container"
-              >
-                test artist 2
-              </div>
-            </div>
-            <div
-              class="item_duration_container"
-            >
-              <div
-                class="item_duration"
-              >
-                00:00
+                <div
+                  class="thumbnail"
+                >
+                  <div
+                    class="thumbnail_overlay"
+                    data-testid="queue-item-remove"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="trash alternate outline big icon"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="item_info_container"
+                >
+                  <div
+                    class="name_container"
+                  >
+                    test track 3
+                  </div>
+                  <div
+                    class="artist_container"
+                  >
+                    test artist 3
+                  </div>
+                </div>
+                <div
+                  class="item_duration_container"
+                >
+                  <div
+                    class="item_duration"
+                  >
+                    05:00
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -245,11 +357,11 @@ exports[`Play Queue container should display a context popup on right click 1`] 
   <div
     aria-atomic="true"
     aria-live="assertive"
-    id="rbd-announcement-1"
+    id="rbd-announcement-2"
     style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
   />
   <div
-    id="rbd-hidden-text-1-hidden-text-4"
+    id="rbd-hidden-text-2-hidden-text-22"
     style="display: none;"
   >
     
@@ -275,103 +387,119 @@ exports[`Play Queue container should display a context popup on right click 1`] 
           class="stream_text_info"
         >
           <div
-            class="stream_source"
+            aria-expanded="false"
+            class="ui search selection dropdown nuclear dropdown stream_title"
+            role="combobox"
           >
-            <label>
-              Source:
-            </label>
-             
-            <div
-              aria-expanded="false"
-              class="ui inline dropdown"
-              role="listbox"
+            <input
+              aria-autocomplete="list"
+              autocomplete="off"
+              class="search"
               tabindex="0"
+              type="text"
+              value=""
+            />
+            <div
+              aria-atomic="true"
+              aria-live="polite"
+              class="divider text"
+              role="alert"
+            >
+              test track 1
+            </div>
+            <i
+              aria-hidden="true"
+              class="dropdown icon"
+            />
+            <div
+              class="menu transition"
+              role="listbox"
             >
               <div
-                aria-atomic="true"
-                aria-live="polite"
-                class="divider text"
-                role="alert"
-              >
-                Test Stream Provider
-              </div>
-              <i
-                aria-hidden="true"
-                class="dropdown icon"
-              />
-              <div
-                class="menu transition"
+                aria-checked="true"
+                aria-selected="true"
+                class="active selected item"
+                role="option"
+                style="pointer-events: all;"
               >
                 <div
-                  aria-checked="true"
-                  aria-selected="true"
-                  class="active selected item"
-                  role="option"
-                  style="pointer-events: all;"
+                  class="stream_option"
                 >
-                  <span
-                    class="text"
+                  <div
+                    class="stream_option_thumbnail"
                   >
-                    Test Stream Provider
-                  </span>
+                    <img
+                      src="https://test-track-thumb-url"
+                    />
+                    <div
+                      class="stream_option_thumbnail_overlay"
+                    />
+                  </div>
+                  <div
+                    class="stream_option_title"
+                  >
+                    test track 1
+                  </div>
                 </div>
+              </div>
+              <div
+                aria-checked="false"
+                aria-selected="false"
+                class="item"
+                role="option"
+                style="pointer-events: all;"
+              >
                 <div
-                  aria-checked="false"
-                  aria-selected="false"
-                  class="item"
-                  role="option"
-                  style="pointer-events: all;"
+                  class="stream_option"
                 >
-                  <span
-                    class="text"
+                  <div
+                    class="stream_option_thumbnail"
                   >
-                    Different Stream Provider
-                  </span>
+                    <img />
+                    <div
+                      class="stream_option_thumbnail_overlay"
+                    />
+                  </div>
+                  <div
+                    class="stream_option_title"
+                  >
+                    test track 1 - different stream
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div
-            class="stream_title"
-          >
-            <label>
-              Title:
-            </label>
-            <span>
-              test track 1
-            </span>
-          </div>
+            class="stream_author"
+          />
           <div
             class="stream_id"
           >
-            <label>
-              Stream ID:
-            </label>
             <span>
               CuklIb9d3fI
             </span>
+            <button
+              class="ui basic circular icon button nuclear button borderless"
+              data-testid="copy-original-url"
+            >
+              <i
+                aria-hidden="true"
+                class="clone icon"
+              />
+            </button>
           </div>
-        </div>
-        <div
-          class="stream_buttons"
-        >
-          <a
-            data-testid="copy-original-url"
-            href="#"
+          <div
+            class="spacer"
+          />
+          <div
+            class="stream_source"
           >
-            <i
-              aria-hidden="true"
-              class="linkify icon"
-            />
-          </a>
-          <a
-            href="#"
-          >
-            <i
-              aria-hidden="true"
-              class="refresh icon"
-            />
-          </a>
+            <span
+              class="stream_source_name"
+            >
+              Test Stream Provider
+            </span>
+          </div>
         </div>
       </div>
       <hr />
@@ -389,6 +517,39 @@ exports[`Play Queue container should display a context popup on right click 1`] 
           />
            Play now
         </a>
+        <div
+          aria-expanded="false"
+          class="ui dropdown nuclear dropdown popup_button left"
+          role="listbox"
+          tabindex="0"
+        >
+          <div
+            aria-atomic="true"
+            aria-live="polite"
+            class="divider text"
+            role="alert"
+          >
+            Add to playlist
+          </div>
+          <i
+            aria-hidden="true"
+            class="dropdown icon"
+          />
+          <div
+            class="menu transition left"
+          >
+            <div
+              class="item"
+              role="option"
+            >
+              <i
+                aria-hidden="true"
+                class="music icon"
+              />
+              test playlist
+            </div>
+          </div>
+        </div>
         <a
           aria-label="Add this track to favorites"
           class="popup_button"
@@ -397,7 +558,7 @@ exports[`Play Queue container should display a context popup on right click 1`] 
         >
           <i
             aria-hidden="true"
-            class="star icon"
+            class="heart icon"
           />
            Add to favorites
         </a>
@@ -418,7 +579,7 @@ exports[`Play Queue container should display a context popup on right click 1`] 
 </DocumentFragment>
 `;
 
-exports[`Play Queue container should display with track in queue 1`] = `
+exports[`Play Queue container should display a context popup on right click for tracks without thumbnails 1`] = `
 <DocumentFragment>
   <div
     class="play_queue_container"
@@ -431,6 +592,7 @@ exports[`Play Queue container should display with track in queue 1`] = `
       >
         <a
           class="compactButton"
+          data-testid="queue-menu-collapse"
           href="#"
         >
           <i
@@ -442,7 +604,7 @@ exports[`Play Queue container should display with track in queue 1`] = `
           aria-disabled="false"
           aria-expanded="false"
           class="ui item dropdown queue_menu_more"
-          data-testid="queue-more-container"
+          data-testid="queue-menu-more-container"
           role="listbox"
           tabindex="0"
         >
@@ -479,6 +641,44 @@ exports[`Play Queue container should display with track in queue 1`] = `
               Save as playlist
             </div>
             <div
+              class="item"
+              role="option"
+            >
+              <div
+                aria-expanded="false"
+                class="ui dropdown left"
+                role="listbox"
+                tabindex="0"
+              >
+                <div
+                  aria-atomic="true"
+                  aria-live="polite"
+                  class="divider text"
+                  role="alert"
+                >
+                  Add queue to playlist
+                </div>
+                <i
+                  aria-hidden="true"
+                  class="dropdown icon"
+                />
+                <div
+                  class="menu transition left playlists_menu"
+                >
+                  <div
+                    class="item"
+                    role="option"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="music icon"
+                    />
+                    test playlist
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
               class="divider"
             />
             <div
@@ -510,17 +710,566 @@ exports[`Play Queue container should display with track in queue 1`] = `
                 />
                 <div
                   class="menu transition left playlists_menu"
-                />
+                >
+                  <div
+                    class="item"
+                    role="option"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="music icon"
+                    />
+                    test playlist
+                  </div>
+                </div>
               </div>
             </div>
             <div
               class="item"
-              data-testid="queue-more-favorite"
+              data-testid="queue-menu-more-favorite"
               role="option"
             >
               <i
                 aria-hidden="true"
-                class="star icon"
+                class="heart icon"
+              />
+              Add to favorites
+            </div>
+            <div
+              class="item"
+              role="option"
+            >
+              <i
+                aria-hidden="true"
+                class="download icon"
+              />
+              Download
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr />
+    </div>
+    <div
+      class="play_queue_items fade_in"
+      data-rbd-droppable-context-id="3"
+      data-rbd-droppable-id="play_queue"
+    >
+      <div
+        style="position: relative; height: 600px; width: 600px; overflow: auto; will-change: transform; direction: ltr;"
+      >
+        <div
+          style="height: 192px; width: 100%;"
+        >
+          <div
+            aria-describedby="rbd-hidden-text-3-hidden-text-30"
+            data-rbd-drag-handle-context-id="3"
+            data-rbd-drag-handle-draggable-id="uuid1"
+            data-rbd-draggable-context-id="3"
+            data-rbd-draggable-id="uuid1"
+            draggable="false"
+            role="button"
+            style="position: absolute; left: 0px; top: 0px; height: 64px; width: 100%;"
+            tabindex="0"
+          >
+            <div
+              data-testid="queue-popup-uuid1"
+            >
+              <div
+                class="nuclear queue_item current_song"
+              >
+                <div
+                  class="thumbnail"
+                >
+                  <div
+                    class="thumbnail_overlay"
+                    data-testid="queue-item-remove"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="trash alternate outline big icon"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="item_info_container"
+                >
+                  <div
+                    class="name_container"
+                  >
+                    test track 1
+                  </div>
+                  <div
+                    class="artist_container"
+                  >
+                    test artist 1
+                  </div>
+                </div>
+                <div
+                  class="item_duration_container"
+                >
+                  <div
+                    class="item_duration"
+                  >
+                    05:00
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            aria-describedby="rbd-hidden-text-3-hidden-text-30"
+            data-rbd-drag-handle-context-id="3"
+            data-rbd-drag-handle-draggable-id="uuid2"
+            data-rbd-draggable-context-id="3"
+            data-rbd-draggable-id="uuid2"
+            draggable="false"
+            role="button"
+            style="position: absolute; left: 0px; top: 64px; height: 64px; width: 100%;"
+            tabindex="0"
+          >
+            <div
+              data-testid="queue-popup-uuid2"
+            >
+              <div
+                class="nuclear queue_item"
+              >
+                <div
+                  class="thumbnail"
+                >
+                  <div
+                    class="thumbnail_overlay"
+                    data-testid="queue-item-remove"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="trash alternate outline big icon"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="item_info_container"
+                >
+                  <div
+                    class="name_container"
+                  >
+                    test track 2
+                  </div>
+                  <div
+                    class="artist_container"
+                  >
+                    test artist 2
+                  </div>
+                </div>
+                <div
+                  class="item_duration_container"
+                >
+                  <div
+                    class="item_duration"
+                  >
+                    05:00
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            aria-describedby="rbd-hidden-text-3-hidden-text-30"
+            data-rbd-drag-handle-context-id="3"
+            data-rbd-drag-handle-draggable-id="uuid3"
+            data-rbd-draggable-context-id="3"
+            data-rbd-draggable-id="uuid3"
+            draggable="false"
+            role="button"
+            style="position: absolute; left: 0px; top: 128px; height: 64px; width: 100%;"
+            tabindex="0"
+          >
+            <div
+              data-testid="queue-popup-uuid3"
+            >
+              <div
+                class="nuclear queue_item"
+              >
+                <div
+                  class="thumbnail"
+                >
+                  <div
+                    class="thumbnail_overlay"
+                    data-testid="queue-item-remove"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="trash alternate outline big icon"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="item_info_container"
+                >
+                  <div
+                    class="name_container"
+                  >
+                    test track 3
+                  </div>
+                  <div
+                    class="artist_container"
+                  >
+                    test artist 3
+                  </div>
+                </div>
+                <div
+                  class="item_duration_container"
+                >
+                  <div
+                    class="item_duration"
+                  >
+                    05:00
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    aria-atomic="true"
+    aria-live="assertive"
+    id="rbd-announcement-3"
+    style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%);"
+  />
+  <div
+    id="rbd-hidden-text-3-hidden-text-30"
+    style="display: none;"
+  >
+    
+  Press space bar to start a drag.
+  When dragging you can use the arrow keys to move the item around and escape to cancel.
+  Some screen readers may require you to be in focus mode or to use your pass through key
+
+  </div>
+  <div
+    style="display: flex; position: absolute; left: 0px; top: 0px; transform: translate(0px, 0px);"
+  >
+    <div
+      class="ui bottom center popup transition visible queue_popup hidden"
+      style="position: initial;"
+    >
+      <div
+        class="stream_info"
+      >
+        <div
+          class="stream_thumbnail"
+        />
+        <div
+          class="stream_text_info"
+        >
+          <div
+            aria-expanded="false"
+            class="ui search selection dropdown nuclear dropdown stream_title"
+            role="combobox"
+          >
+            <input
+              aria-autocomplete="list"
+              autocomplete="off"
+              class="search"
+              tabindex="0"
+              type="text"
+              value=""
+            />
+            <div
+              aria-atomic="true"
+              aria-live="polite"
+              class="divider text"
+              role="alert"
+            >
+              test track 3
+            </div>
+            <i
+              aria-hidden="true"
+              class="dropdown icon"
+            />
+            <div
+              class="menu transition"
+              role="listbox"
+            >
+              <div
+                aria-checked="true"
+                aria-selected="true"
+                class="active selected item"
+                role="option"
+                style="pointer-events: all;"
+              >
+                <div
+                  class="stream_option"
+                >
+                  <div
+                    class="stream_option_thumbnail"
+                  >
+                    <img
+                      src="https://test-track-thumb-url"
+                    />
+                    <div
+                      class="stream_option_thumbnail_overlay"
+                    />
+                  </div>
+                  <div
+                    class="stream_option_title"
+                  >
+                    test track 3
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="stream_author"
+          />
+          <div
+            class="spacer"
+          />
+          <div
+            class="stream_source"
+          >
+            <span
+              class="stream_source_name"
+            >
+              Test Stream Provider
+            </span>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div
+        class="queue_popup_buttons_container"
+      >
+        <a
+          aria-label="Play this track now"
+          class="popup_button"
+          href="#"
+        >
+          <i
+            aria-hidden="true"
+            class="play icon"
+          />
+           Play now
+        </a>
+        <div
+          aria-expanded="false"
+          class="ui dropdown nuclear dropdown popup_button left"
+          role="listbox"
+          tabindex="0"
+        >
+          <div
+            aria-atomic="true"
+            aria-live="polite"
+            class="divider text"
+            role="alert"
+          >
+            Add to playlist
+          </div>
+          <i
+            aria-hidden="true"
+            class="dropdown icon"
+          />
+          <div
+            class="menu transition left"
+          >
+            <div
+              class="item"
+              role="option"
+            >
+              <i
+                aria-hidden="true"
+                class="music icon"
+              />
+              test playlist
+            </div>
+          </div>
+        </div>
+        <a
+          aria-label="Add this track to favorites"
+          class="popup_button"
+          data-testid="queue-popup-favorite"
+          href="#"
+        >
+          <i
+            aria-hidden="true"
+            class="heart icon"
+          />
+           Add to favorites
+        </a>
+        <a
+          aria-label="Download this track"
+          class="popup_button"
+          href="#"
+        >
+          <i
+            aria-hidden="true"
+            class="download icon"
+          />
+           Download
+        </a>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Play Queue container should display tracks in the queue 1`] = `
+<DocumentFragment>
+  <div
+    class="play_queue_container"
+  >
+    <div
+      class="queue_menu_container"
+    >
+      <div
+        class="queue_menu_buttons"
+      >
+        <a
+          class="compactButton"
+          data-testid="queue-menu-collapse"
+          href="#"
+        >
+          <i
+            aria-hidden="true"
+            class="angle right icon"
+          />
+        </a>
+        <div
+          aria-disabled="false"
+          aria-expanded="false"
+          class="ui item dropdown queue_menu_more"
+          data-testid="queue-menu-more-container"
+          role="listbox"
+          tabindex="0"
+        >
+          <i
+            aria-hidden="true"
+            class="ellipsis vertical icon"
+          />
+          <div
+            class="menu transition"
+          >
+            <div
+              class="header"
+            >
+              Queue
+            </div>
+            <div
+              class="item"
+              role="option"
+            >
+              <i
+                aria-hidden="true"
+                class="trash icon"
+              />
+              Clear queue
+            </div>
+            <div
+              class="item"
+              role="option"
+            >
+              <i
+                aria-hidden="true"
+                class="save icon"
+              />
+              Save as playlist
+            </div>
+            <div
+              class="item"
+              role="option"
+            >
+              <div
+                aria-expanded="false"
+                class="ui dropdown left"
+                role="listbox"
+                tabindex="0"
+              >
+                <div
+                  aria-atomic="true"
+                  aria-live="polite"
+                  class="divider text"
+                  role="alert"
+                >
+                  Add queue to playlist
+                </div>
+                <i
+                  aria-hidden="true"
+                  class="dropdown icon"
+                />
+                <div
+                  class="menu transition left playlists_menu"
+                >
+                  <div
+                    class="item"
+                    role="option"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="music icon"
+                    />
+                    test playlist
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="divider"
+            />
+            <div
+              class="header"
+            >
+              Current track
+            </div>
+            <div
+              class="item"
+              role="option"
+            >
+              <div
+                aria-expanded="false"
+                class="ui dropdown left"
+                role="listbox"
+                tabindex="0"
+              >
+                <div
+                  aria-atomic="true"
+                  aria-live="polite"
+                  class="divider text"
+                  role="alert"
+                >
+                  Add to playlist
+                </div>
+                <i
+                  aria-hidden="true"
+                  class="dropdown icon"
+                />
+                <div
+                  class="menu transition left playlists_menu"
+                >
+                  <div
+                    class="item"
+                    role="option"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="music icon"
+                    />
+                    test playlist
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="item"
+              data-testid="queue-menu-more-favorite"
+              role="option"
+            >
+              <i
+                aria-hidden="true"
+                class="heart icon"
               />
               Add to favorites
             </div>
@@ -545,114 +1294,176 @@ exports[`Play Queue container should display with track in queue 1`] = `
       data-rbd-droppable-id="play_queue"
     >
       <div
-        aria-describedby="rbd-hidden-text-0-hidden-text-0"
-        data-rbd-drag-handle-context-id="0"
-        data-rbd-drag-handle-draggable-id="uuid1+0"
-        data-rbd-draggable-context-id="0"
-        data-rbd-draggable-id="uuid1+0"
-        draggable="false"
-        role="button"
-        tabindex="0"
+        style="position: relative; height: 600px; width: 600px; overflow: auto; will-change: transform; direction: ltr;"
       >
         <div
-          data-testid="queue-popup-uuid1"
+          style="height: 192px; width: 100%;"
         >
           <div
-            class="nuclear queue_item current_song"
+            aria-describedby="rbd-hidden-text-0-hidden-text-0"
+            data-rbd-drag-handle-context-id="0"
+            data-rbd-drag-handle-draggable-id="uuid1"
+            data-rbd-draggable-context-id="0"
+            data-rbd-draggable-id="uuid1"
+            draggable="false"
+            role="button"
+            style="position: absolute; left: 0px; top: 0px; height: 64px; width: 100%;"
+            tabindex="0"
           >
             <div
-              class="thumbnail"
-            >
-              <img
-                src="https://test-track-thumb-url"
-              />
-              <div
-                class="thumbnail_overlay"
-              >
-                <i
-                  aria-hidden="true"
-                  class="trash alternate outline big icon"
-                />
-              </div>
-            </div>
-            <div
-              class="item_info_container"
+              data-testid="queue-popup-uuid1"
             >
               <div
-                class="name_container"
+                class="nuclear queue_item current_song"
               >
-                test track 1
-              </div>
-              <div
-                class="artist_container"
-              >
-                test artist 1
-              </div>
-            </div>
-            <div
-              class="item_duration_container"
-            >
-              <div
-                class="item_duration"
-              >
-                05:00
+                <div
+                  class="thumbnail"
+                >
+                  <div
+                    class="thumbnail_overlay"
+                    data-testid="queue-item-remove"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="trash alternate outline big icon"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="item_info_container"
+                >
+                  <div
+                    class="name_container"
+                  >
+                    test track 1
+                  </div>
+                  <div
+                    class="artist_container"
+                  >
+                    test artist 1
+                  </div>
+                </div>
+                <div
+                  class="item_duration_container"
+                >
+                  <div
+                    class="item_duration"
+                  >
+                    05:00
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div
-        aria-describedby="rbd-hidden-text-0-hidden-text-0"
-        data-rbd-drag-handle-context-id="0"
-        data-rbd-drag-handle-draggable-id="uuid2+1"
-        data-rbd-draggable-context-id="0"
-        data-rbd-draggable-id="uuid2+1"
-        draggable="false"
-        role="button"
-        tabindex="0"
-      >
-        <div
-          data-testid="queue-popup-uuid2"
-        >
           <div
-            class="nuclear queue_item"
+            aria-describedby="rbd-hidden-text-0-hidden-text-0"
+            data-rbd-drag-handle-context-id="0"
+            data-rbd-drag-handle-draggable-id="uuid2"
+            data-rbd-draggable-context-id="0"
+            data-rbd-draggable-id="uuid2"
+            draggable="false"
+            role="button"
+            style="position: absolute; left: 0px; top: 64px; height: 64px; width: 100%;"
+            tabindex="0"
           >
             <div
-              class="thumbnail"
+              data-testid="queue-popup-uuid2"
             >
-              <img
-                src="https://test-track-thumb-url"
-              />
               <div
-                class="thumbnail_overlay"
+                class="nuclear queue_item"
               >
-                <i
-                  aria-hidden="true"
-                  class="trash alternate outline big icon"
-                />
+                <div
+                  class="thumbnail"
+                >
+                  <div
+                    class="thumbnail_overlay"
+                    data-testid="queue-item-remove"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="trash alternate outline big icon"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="item_info_container"
+                >
+                  <div
+                    class="name_container"
+                  >
+                    test track 2
+                  </div>
+                  <div
+                    class="artist_container"
+                  >
+                    test artist 2
+                  </div>
+                </div>
+                <div
+                  class="item_duration_container"
+                >
+                  <div
+                    class="item_duration"
+                  >
+                    05:00
+                  </div>
+                </div>
               </div>
             </div>
+          </div>
+          <div
+            aria-describedby="rbd-hidden-text-0-hidden-text-0"
+            data-rbd-drag-handle-context-id="0"
+            data-rbd-drag-handle-draggable-id="uuid3"
+            data-rbd-draggable-context-id="0"
+            data-rbd-draggable-id="uuid3"
+            draggable="false"
+            role="button"
+            style="position: absolute; left: 0px; top: 128px; height: 64px; width: 100%;"
+            tabindex="0"
+          >
             <div
-              class="item_info_container"
+              data-testid="queue-popup-uuid3"
             >
               <div
-                class="name_container"
+                class="nuclear queue_item"
               >
-                test track 2
-              </div>
-              <div
-                class="artist_container"
-              >
-                test artist 2
-              </div>
-            </div>
-            <div
-              class="item_duration_container"
-            >
-              <div
-                class="item_duration"
-              >
-                00:00
+                <div
+                  class="thumbnail"
+                >
+                  <div
+                    class="thumbnail_overlay"
+                    data-testid="queue-item-remove"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="trash alternate outline big icon"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="item_info_container"
+                >
+                  <div
+                    class="name_container"
+                  >
+                    test track 3
+                  </div>
+                  <div
+                    class="artist_container"
+                  >
+                    test artist 3
+                  </div>
+                </div>
+                <div
+                  class="item_duration_container"
+                >
+                  <div
+                    class="item_duration"
+                  >
+                    05:00
+                  </div>
+                </div>
               </div>
             </div>
           </div>

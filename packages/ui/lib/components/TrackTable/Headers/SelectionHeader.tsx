@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
 import { HeaderProps, UseRowSelectInstanceProps } from 'react-table';
 
@@ -10,7 +10,7 @@ import styles from '../styles.scss';
 const SelectionHeader: React.FC<
   HeaderProps<Track> &
   UseRowSelectInstanceProps<Track> &
-  TrackTableExtraProps &
+  TrackTableExtraProps<Track> &
   { strings: TrackTableStrings }
 > = ({
   getToggleAllRowsSelectedProps,
@@ -31,7 +31,13 @@ const SelectionHeader: React.FC<
         <span className={styles.select_header_buttons}>
           <ContextPopup
             trigger={
-              <Button basic circular size='tiny' icon='ellipsis horizontal' />
+              <Button 
+                basic
+                circular
+                size='tiny'
+                icon='ellipsis horizontal'
+                data-testid='select-all-popup-trigger'
+              />
             }
             title={`${selectedTracks.length} ${selectedTracks.length > 1 ? strings.tracksSelectedLabelPlural : strings.tracksSelectedLabelSingular}`}
           >
@@ -47,18 +53,24 @@ const SelectionHeader: React.FC<
               icon='play'
               onClick={() => onPlayAll(selectedTracks)}
             />
-            <PopupButton
-              ariaLabel={strings.addSelectedTracksToFavorites}
-              label={strings.addSelectedTracksToFavorites}
-              icon='heart'
-              onClick={() => selectedTracks.forEach((track) => onAddToFavorites(track))}
-            />
-            <PopupButton
-              ariaLabel={strings.addSelectedTracksToDownloads}
-              label={strings.addSelectedTracksToDownloads}
-              icon='download'
-              onClick={() => selectedTracks.forEach((track) => onAddToDownloads(track))}
-            />
+            {
+              onAddToFavorites &&
+              <PopupButton
+                ariaLabel={strings.addSelectedTracksToFavorites}
+                label={strings.addSelectedTracksToFavorites}
+                icon='heart'
+                onClick={() => selectedTracks.forEach((track) => onAddToFavorites(track))}
+              />
+            }
+            {
+              onAddToDownloads &&
+              <PopupButton
+                ariaLabel={strings.addSelectedTracksToDownloads}
+                label={strings.addSelectedTracksToDownloads}
+                icon='download'
+                onClick={() => selectedTracks.forEach((track) => onAddToDownloads(track))}
+              />
+            }
           </ContextPopup>
         </span>
     }

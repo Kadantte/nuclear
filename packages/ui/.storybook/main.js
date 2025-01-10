@@ -2,14 +2,16 @@ const path = require('path');
 
 module.exports = {
   stories: [
-    '../stories/*.stories.js',
-    '../stories/*.stories.tsx'
+    '../stories/**/*.stories.js',
+    '../stories/**/*.stories.tsx'
   ],
   addons: [
-    '@storybook/preset-typescript',
     '@storybook/addon-actions',
     '@storybook/addon-links'
   ],
+  core: {
+    disableTelemetry: true // stop spying on me you parasites
+  },
   webpackFinal: config => {
     return {
       ...config,

@@ -9,6 +9,7 @@ import Config from '../config';
 import Logger, { $mainLogger, $ipcLogger } from '../logger';
 import Platform from '../platform';
 import Store from '../store';
+import { IpcEvents } from '@nuclear/core';
 
 const urlMapper: Record<Env, string> = {
   [Env.DEV]: url.format({
@@ -33,6 +34,8 @@ class Window {
   private browserWindow: BrowserWindow;
   private isReady: Promise<void>;
   private resolve: () => void;
+  private defaultWidth: number;
+  private defaultHeight: number;
 
   constructor(
     @inject(Config) private config: Config,
@@ -43,16 +46,23 @@ class Window {
   ) {
     const icon = nativeImage.createFromPath(config.icon);
 
+    this.defaultWidth = config.defaultWidth;
+    this.defaultHeight = config.defaultHeight;
+
     this.browserWindow = new BrowserWindow({
       title: config.title,
-      width: 1366,
-      height: 768,
+      width: this.defaultWidth,
+      height: this.defaultHeight,
+      minWidth: 330,
+      minHeight: 450,
+      
       frame: !store.getOption('framelessWindow'),
       icon,
       show: false,
       webPreferences: {
         nodeIntegration: true,
         webSecurity: false,
+        webviewTag: true,
         enableRemoteModule: true,
         contextIsolation: false,
         additionalArguments: [
@@ -69,6 +79,16 @@ class Window {
       this.browserWindow.flashFrame(true);
       this.browserWindow.once('focus', () => this.browserWindow.flashFrame(false));
     }
+
+    this.browserWindow.on('app-command', (e, cmd) => {
+      if (cmd === 'browser-backward') {
+        this.browserWindow.webContents.send(IpcEvents.NAVIGATE_BACK);
+        
+      }
+      if (cmd === 'browser-forward') {
+        this.browserWindow.webContents.send(IpcEvents.NAVIGATE_FORWARD);
+      }
+    });
 
     this.isReady = new Promise((resolve) => {
       this.resolve = resolve;
@@ -115,6 +135,21 @@ class Window {
     } else {
       this.browserWindow.isMaximized() ? this.browserWindow.unmaximize() : this.browserWindow.maximize();
     }
+  }
+
+  minify() {
+    // Unmaximize the window if it's maximized
+    if (this.platform.isMac()) {
+      this.browserWindow.isFullScreen() && this.browserWindow.setFullScreen(false);
+    } else {
+      this.browserWindow.isMaximized() && this.browserWindow.unmaximize();
+    }
+
+    this.browserWindow.setSize(0, 0, true);
+  }
+
+  restoreDefaultSize() {
+    this.browserWindow.setSize(this.defaultWidth, this.defaultHeight, true);
   }
 
   restore() {

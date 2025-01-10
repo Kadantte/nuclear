@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path');
-const CopyPlugin = require('copy-webpack-plugin');
-const { NormalModuleReplacementPlugin } = require('webpack');
-const os = require('os');
+import webpack from 'webpack';
+import os from 'os';
+import path from 'path';
+import CopyPlugin from 'copy-webpack-plugin';
 
 interface BuildEnv {
   NODE_ENV: 'development' | 'production' | 'test';
@@ -17,10 +15,11 @@ const osMapper: Record<string, BuildEnv['TARGET']> = {
 };
 
 const MAIN_DIR = path.resolve(__dirname, 'src');
-const CORE_DIR = path.resolve(__dirname, '..', 'core', 'src');
-const CORE_DIR_SYMLINKED = path.resolve(__dirname, 'node_modules', '@nuclear', 'core', 'src');
+const CORE_DIR = path.resolve(__dirname, '..', '..', 'node_modules', '@nuclear', 'core', 'src');
+const SCANNER_DIR = path.resolve(__dirname, '..', '..', 'node_modules', '@nuclear', 'scanner');
+const SCANNER_DIR_SYMLINKED = path.resolve(__dirname, 'node_modules', '@nuclear', 'scanner');
 
-module.exports = (env: BuildEnv): import('webpack').Configuration => {
+module.exports = (env: BuildEnv): webpack.Configuration => {
   if (!env.TARGET) {
     env.TARGET = osMapper[os.platform() as string];
   }
@@ -31,49 +30,58 @@ module.exports = (env: BuildEnv): import('webpack').Configuration => {
   return {
     entry: './src/main.ts',
     resolve: {
-      extensions: ['.ts', '.js', '.json'],
+      extensions: ['.ts', '.js', '.json', '.node'],
       alias: {
         jsbi: path.resolve(__dirname, '..', '..', 'node_modules', 'jsbi', 'dist', 'jsbi-cjs.js')
+      },
+      fallback: {
+        fs: false
       },
       symlinks: false
     },
     externals: {
-      'sqlite3': 'commonjs sqlite3'
+      'sqlite3': 'commonjs sqlite3',
+      '@nuclear/scanner': 'commonjs ./scanner.node'
     },
     output: {
       path: path.resolve(__dirname, outputDir),
       filename: 'main.js'
     },
     mode: IS_PROD ? 'production' : 'development',
+    devtool: 'source-map',
     stats: 'errors-only',
-    optimization: { namedModules: true },
+    optimization: { moduleIds: 'named' },
     module: {
       rules: [
         {
-          test: /.ts?$/,
+          test: /\.ts?$/,
           loader: 'ts-loader',
-          include: [MAIN_DIR, CORE_DIR, CORE_DIR_SYMLINKED]
+          include: [MAIN_DIR, CORE_DIR],
+          options: {
+            allowTsInNodeModules: true
+          }
         },
         {
           test: /\.node$/,
-          use: 'node-loader'
+          use: 'node-loader',
+          include: [MAIN_DIR, SCANNER_DIR, SCANNER_DIR_SYMLINKED]
         }
       ]
     },
     node: {
-      fs: 'empty',
       __dirname: false,
       __filename: false
     },
     target: 'electron-main',
-    plugins: [
-      new CopyPlugin([
+    plugins: [new CopyPlugin({
+      patterns: [
         { from: 'preload.js' },
-        { from: path.resolve(__dirname, '../../.env') }
-      ]),
-      new NormalModuleReplacementPlugin(/(.*)system-api(\.*)/, (resource: any) => {
-        resource.request = resource.request.replace(/system-api/, `@${env.TARGET}/system-api`);
-      })
-    ]
+        { from: path.resolve(__dirname, '../../.env') },
+        { from: path.resolve(SCANNER_DIR, 'index.node'), to: 'scanner.node' }
+      ]
+    }),
+    new webpack.NormalModuleReplacementPlugin(/(.*)system-api(\.*)/, (resource) => {
+      resource.request = resource.request.replace(/system-api/, `@${env.TARGET}/system-api`);
+    })]
   };
 };

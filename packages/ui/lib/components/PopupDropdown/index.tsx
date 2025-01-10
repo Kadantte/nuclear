@@ -8,22 +8,30 @@ import './styles.scss';
 
 export type PopupDropdownProps = {
   text: DropdownProps['text'];
-pointing?: DropdownProps['pointing'];
-};
+  pointing?: DropdownProps['pointing'];
+  direction?: DropdownProps['direction'];
+  className?: string;
+} & DropdownProps;
 
 const PopupDropdown: React.FC<PopupDropdownProps> = ({
   text,
   pointing,
-  children
+  direction,
+  children,
+  className,
+  ...rest
 }) => {
   return (
     <Dropdown
       text={text}
       className={cx(
         popupButtonStyles.popup_button,
-        'left'
+        'left',
+        className
       )}
       pointing={pointing}
+      direction={direction}
+      {...rest}
     >
       <SemanticDropdown.Menu>
         {children}

@@ -23,3 +23,21 @@ export { Mastodon };
 
 import * as iTunes from './iTunes';
 export { iTunes };
+
+import * as Spotify from './Spotify';
+export { Spotify };
+
+import { NuclearPlaylistsService } from './Nuclear/Playlists';
+export { NuclearPlaylistsService };
+
+import { NuclearIdentityService } from './Nuclear/Identity';
+export { NuclearIdentityService };
+
+import { NuclearPromotionService } from './Nuclear/Promotion';
+export { NuclearPromotionService };
+
+import { NuclearConfigurationService } from './Nuclear/Configuration';
+export { NuclearConfigurationService };
+
+import { NuclearStreamMappingsService } from './Nuclear/StreamMappings';
+export { NuclearStreamMappingsService };

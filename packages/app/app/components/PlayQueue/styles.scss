@@ -8,12 +8,9 @@
   flex-flow: column;
 
   .play_queue_items {
-    display: flex;
-    flex-flow: column;
+    display: block;
     flex: 1 1 auto;
-    overflow: auto;
     transition: $short-duration;
-    height: 0;
 
     div {
       &:hover,
@@ -50,6 +47,13 @@
   &.compact {
     .queue_menu_buttons {
       a:not(.compactButton) {
+        display: none;
+      }
+    }
+
+    .play_queue_items {
+      div div::-webkit-scrollbar {
+        width: 0 !important;
         display: none;
       }
     }

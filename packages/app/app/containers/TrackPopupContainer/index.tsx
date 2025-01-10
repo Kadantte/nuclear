@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { TrackPopup } from '@nuclear/ui';
-import { ContextPopupProps } from '@nuclear/ui/lib/types';
 import { useTrackPopupProps } from './hooks';
-import { Track } from '@nuclear/core';
+import { ContextPopupProps } from '@nuclear/ui/lib/components/ContextPopup';
+import { ArtistTopTrack } from '@nuclear/core/src/plugins/plugins.types';
 
 export type TrackPopupContainerProps = {
-  track: Track;
+  track: ArtistTopTrack;
   trigger: ContextPopupProps['trigger'];
   artist?: ContextPopupProps['artist'];
   title: ContextPopupProps['title'];
@@ -34,7 +34,7 @@ const TrackPopupContainer: React.FC<TrackPopupContainerProps> = ({
   withAddToDownloads=true
 }) => {
   const props = useTrackPopupProps(track, thumb);
-
+  
   return <TrackPopup
     trigger={trigger}
     artist={artist}

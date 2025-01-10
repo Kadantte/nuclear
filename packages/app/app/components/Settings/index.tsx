@@ -1,5 +1,5 @@
 import React from 'react';
-import { remote } from 'electron';
+import { ipcRenderer, remote } from 'electron';
 import { Button, Input, Radio, Segment, Icon } from 'semantic-ui-react';
 import cx from 'classnames';
 import _ from 'lodash';
@@ -96,10 +96,19 @@ const Settings: React.FC<SettingsProps> = ({
       search
       selection
       className={styles.list_option}
-      placeholder={placeholder}
+      placeholder={t(placeholder)}
       value={i18n.language}
       options={options}
-      onChange={(e, { value }) => i18n.changeLanguage(value as string)}
+      onChange={(e, { value }) => {
+        i18n.changeLanguage(value as string);
+        ipcRenderer.send('tray-menu-translations-update', {
+          'play': i18n.t('command-palette:actions.play'),
+          'pause': i18n.t('command-palette:actions.pause'),
+          'next': i18n.t('command-palette:actions.next'),
+          'previous': i18n.t('command-palette:actions.previous'),
+          'quit': i18n.t('command-palette:actions.quit')
+        });
+      }}
     />
   );
 
@@ -138,7 +147,7 @@ const Settings: React.FC<SettingsProps> = ({
 
   const renderSliderOption = (option) => (
     <div className={styles.slider_container}>
-      <label>Less</label>
+      <label>{t('less')}</label>
       <Range
         value={getOptionValue(option) || option.default}
         min={option.min}
@@ -150,7 +159,7 @@ const Settings: React.FC<SettingsProps> = ({
         width='auto'
         onChange={(e) => handleSliderChange(e, option)}
         thumbSize={21} />
-      <label>More</label>
+      <label>{t('more')}</label>
     </div>
   );
 

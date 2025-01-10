@@ -1,22 +1,24 @@
+import { useCallback, useEffect } from 'react';
 import Sound from 'react-hifi';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import _ from 'lodash';
+import _, { isEmpty } from 'lodash';
+import { getTrackArtist } from '@nuclear/ui';
+import { SemanticICONS } from 'semantic-ui-react/dist/commonjs/generic';
 
 import { normalizeTrack } from '../../utils';
 import settingsConst from '../../constants/settings';
-import * as searchActions from '../../actions/search';
+import { artistInfoSearchByName } from '../../actions/search';
 import * as playerActions from '../../actions/player';
 import * as queueActions from '../../actions/queue';
 import * as settingsActions from '../../actions/settings';
 import * as favoritesActions from '../../actions/favorites';
+import { favoritesSelectors, getFavoriteTrack } from '../../selectors/favorites';
 import { playerSelectors } from '../../selectors/player';
 import { queue as queueSelector } from '../../selectors/queue';
 import { settingsSelector } from '../../selectors/settings';
-import { getFavoriteTrack } from '../../selectors/favorites';
-import { useCallback } from 'react';
-import { SemanticICONS } from 'semantic-ui-react/dist/commonjs/generic';
+import { QueueItem, QueueStore } from '../../reducers/queue';
 
 export const useSeekbarProps = () => {
   const dispatch = useDispatch();
@@ -24,16 +26,8 @@ export const useSeekbarProps = () => {
   const queue = useSelector(queueSelector);
   const seek: number = useSelector(playerSelectors.seek);
   const playbackProgress: number = useSelector(playerSelectors.playbackProgress);
-  const currentTrackStream = _.head(
-    _.get(
-      queue.queueItems[queue.currentSong],
-      'streams'
-    )
-  );
-  const currentTrackDuration: number = _.get(
-    currentTrackStream,
-    'duration'
-  );
+  const currentTrackStream = queue.queueItems[queue.currentSong]?.streams?.[0];
+  const currentTrackDuration: number | undefined = currentTrackStream?.duration;
   const timeToEnd = currentTrackDuration - seek;
 
   const seekCallback = useCallback(
@@ -42,20 +36,16 @@ export const useSeekbarProps = () => {
   );
 
   const settings = useSelector(settingsSelector);
-  const allowSkipSegment = _.get(settings, 'skipSponsorblock', true);
+  const allowSkipSegment = settings.skipSponsorblock ?? true;
 
-  const skipSegments = _.get(
-    currentTrackStream,
-    'skipSegments',
-    []
-  );
+  const skipSegments = currentTrackStream?.skipSegments ?? [];
 
   return {
     queue,
     skipSegments,
     allowSkipSegment,
-    timeToEnd,
-    timePlayed: seek,
+    timeToEnd: currentTrackDuration === 0 ? t('live') : timeToEnd,
+    timePlayed: currentTrackDuration === 0 ? t('live') : seek,
     fill: playbackProgress,
     seek: seekCallback,
     segmentPopupMessage: t('segment-popup')
@@ -65,16 +55,24 @@ export const useSeekbarProps = () => {
 export const usePlayerControlsProps = () => {
   const dispatch = useDispatch();
   const queue = useSelector(queueSelector);
+  const settings = useSelector(settingsSelector);
   const playbackStatus = useSelector(playerSelectors.playbackStatus);
+  const currentTrack = queue?.queueItems[queue.currentSong];
+  const currentTrackStream = currentTrack?.streams?.[0];
   const playbackStreamLoading: boolean = useSelector(playerSelectors.playbackStreamLoading);
   const seek = useSelector(playerSelectors.seek);
+  const favoriteTracks = useSelector(favoritesSelectors.tracks);
 
   const couldPlay = queue.queueItems.length > 0;
   const couldForward = couldPlay && queue.currentSong + 1 < queue.queueItems.length;
-  const couldBack = couldPlay && queue.currentSong > 0;
+  const couldBack = couldPlay;
+  const goBackThreshold = ((
+    settings.skipSponsorblock && 
+      currentTrackStream?.skipSegments?.find(segment => segment.startTime === 0)?.endTime) 
+    ?? 0) + 3;
 
   const togglePlay = useCallback(
-    () => dispatch(playerActions.togglePlayback(playbackStatus)),
+    () => dispatch(playerActions.togglePlayback(playbackStatus, false)),
     [dispatch, playbackStatus]
   );
 
@@ -83,25 +81,25 @@ export const usePlayerControlsProps = () => {
     [dispatch]
   );
 
-
   const goBack = useCallback(
     () => {
-      if (seek > 3){
+      if (seek > goBackThreshold){
         dispatch(playerActions.updateSeek(0));
+      } else if (queue.currentSong === 0) {
+        dispatch(playerActions.resetPlayer());
       } else {
         dispatch(queueActions.previousSong());
       }
     },
-    [dispatch, seek]
+    [dispatch, seek, goBackThreshold]
   );
-
 
   return {
     goBackDisabled: !couldBack,
     goForwardDisabled: !couldForward,
     playDisabled: !couldPlay,
     isPlaying: playbackStatus === Sound.status.PLAYING,
-    isLoading: playbackStreamLoading,
+    isLoading: currentTrack?.loading || playbackStreamLoading,
     togglePlay,
     goForward,
     goBack
@@ -115,9 +113,9 @@ export const useTrackInfoProps = () => {
   const hasTracks = queue.queueItems.length > 0;
   const currentSong = _.get(queue.queueItems, queue.currentSong);
 
-  const track = _.get(currentSong, 'name');
-  const artist = _.get(currentSong, 'artist');
-  const cover = _.get(currentSong, 'thumbnail');
+  const track = currentSong?.name;
+  const artist = getTrackArtist(currentSong);
+  const cover = currentSong?.thumbnail;
 
   const favorite = useSelector(s => getFavoriteTrack(s, artist, track));
   const isFavorite = !_.isNil(favorite);
@@ -136,7 +134,7 @@ export const useTrackInfoProps = () => {
   );
 
   const onArtistClick = useCallback(
-    () => dispatch(searchActions.artistInfoSearchByName(artist, history)),
+    () => dispatch(artistInfoSearchByName(artist, history)),
     [dispatch, artist, history]
   );
 
@@ -165,12 +163,22 @@ export const useToggleOptionCallback = (
   [name, settings, toggleOption]
 );
 
+export const useTrackDurationProp = () => { 
+  const settings = useSelector(settingsSelector);
+  const trackDurationSetting = _.get(settings, 'trackDuration', false);
+  return {
+    'renderTrackDuration': trackDurationSetting
+  };
+};
+
 export const useVolumeControlsProps = () => {
   const { t } = useTranslation('option-control');
   const dispatch = useDispatch();
   const volume: number = useSelector(playerSelectors.volume);
   const isMuted: boolean = useSelector(playerSelectors.muted);
   const settings = useSelector(settingsSelector);
+  const playbackRate: number = useSelector(playerSelectors.playbackRate);
+  const isPlaybackRateOpen = _.get(settings, 'rate');
 
   const toggleOption = useCallback(
     (option, state) => dispatch(settingsActions.toggleOption(option, state)), [dispatch]
@@ -178,25 +186,36 @@ export const useVolumeControlsProps = () => {
 
   const playOptions = [
     {
+      name: t('rate'),
+      dataTestId: 'rate-play-option',
+      icon: 'heartbeat' as SemanticICONS,
+      enabled: _.get(settings, 'rate'),
+      onToggle: useToggleOptionCallback(toggleOption, 'rate', settings)
+    },
+    {
       name: t('loop'),
+      dataTestId: 'loop-play-option',
       icon: 'repeat' as SemanticICONS,
       enabled: _.get(settings, 'loopAfterQueueEnd'),
       onToggle: useToggleOptionCallback(toggleOption, 'loopAfterQueueEnd', settings)
     },
     {
       name: t('shuffle'),
+      dataTestId: 'shuffle-play-option',
       icon: 'random' as SemanticICONS,
       enabled: _.get(settings, 'shuffleQueue'),
       onToggle: useToggleOptionCallback(toggleOption, 'shuffleQueue', settings)
     },
     {
       name: t('autoradio'),
+      dataTestId: 'autoradio-play-option',
       icon: 'magic' as SemanticICONS,
       enabled: _.get(settings, 'autoradio'),
       onToggle: useToggleOptionCallback(toggleOption, 'autoradio', settings)
     },
     {
       name: t('mini-player'),
+      dataTestId: 'mini-player-play-option',
       icon: 'compress' as SemanticICONS,
       enabled: _.get(settings, 'miniPlayer'),
       onToggle: useToggleOptionCallback(toggleOption, 'miniPlayer', settings)
@@ -204,7 +223,12 @@ export const useVolumeControlsProps = () => {
   ];
 
   const updateVolume = useCallback(
-    (value) => dispatch(playerActions.updateVolume(value)),
+    (value) => dispatch(playerActions.updateVolume(value, false)),
+    [dispatch]
+  );
+
+  const updatePlaybackRate = useCallback(
+    (rate) => dispatch(playerActions.updatePlaybackRate(rate)),
     [dispatch]
   );
 
@@ -218,6 +242,47 @@ export const useVolumeControlsProps = () => {
     updateVolume,
     isMuted,
     toggleMute,
-    playOptions
+    playOptions,
+    updatePlaybackRate,
+    playbackRate,
+    isPlaybackRateOpen
   };
+};
+
+export const useStreamLookup = () => {
+  const dispatch = useDispatch();
+  const queue = useSelector(queueSelector);
+
+  useEffect(() => {
+    if (shouldSearchForStreams(queue)) {
+      const currentSong: QueueItem = queue.queueItems[queue.currentSong];
+
+      if (currentSong && queueActions.trackHasNoFirstStream(currentSong)) {
+        dispatch(queueActions.findStreamsForTrack(queue.currentSong));
+        return;
+      }
+    
+      const nextTrackWithNoStream = (queue.queueItems as QueueItem[]).findIndex((item) => isEmpty(item.streams));
+    
+      if (nextTrackWithNoStream !== -1) {
+        dispatch(queueActions.findStreamsForTrack(nextTrackWithNoStream));
+      }
+    }
+  }, [queue]);
+};
+
+const shouldSearchForStreams = (queue: QueueStore): boolean => {
+  const currentlyLoadingTrack = queue.queueItems.find((item) => item.loading);
+  if (!currentlyLoadingTrack) {
+    // No track is currently "loading": start searching for steams.
+    return true;
+  }
+  if (isEmpty(currentlyLoadingTrack.streams)) {
+    // Streams are not yet resolved: this happens when the track is being marked as "loading"
+    // while still resolving streams. We don't need to start a search until that operation completes or fails.
+    return false;
+  }
+  const firstStream = currentlyLoadingTrack.streams[0];
+  // A search should be performed if the first stream URL wasn't yet resolved.
+  return !firstStream?.stream;
 };

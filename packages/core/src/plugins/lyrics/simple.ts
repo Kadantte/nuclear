@@ -1,5 +1,6 @@
 import logger from 'electron-timber';
 import lyrics from 'get-lyrics-hd';
+import { noop } from 'lodash';
 
 import LyricsProvider from '../lyricsProvider';
 
@@ -13,11 +14,9 @@ class SimpleLyricsProvider extends LyricsProvider {
     this.isDefault = true;
   }
 
-  search(artistName: string, trackName: string): string {
+  search(artistName: string, trackName: string): Promise<string | void> {
     return lyrics.search(artistName, trackName)
-      .then(result => result.lyrics).catch(function (err) {
-        logger.log('error', err);
-      });
+      .then(result => result.lyrics).catch(noop);
   }
 }
 

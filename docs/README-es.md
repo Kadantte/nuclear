@@ -7,13 +7,13 @@ Reproductor de música de escritorio centrado en la transmisión desde fuentes g
 
 # Enlaces
 
-[Sitio web oficial](https://nuclear.js.org)
+[Sitio web oficial](https://nuclearplayer.com)
 
 [Descargas](https://github.com/nukeop/nuclear/releases)
 
 [Documentación](https://nukeop.gitbook.io/nuclear/)
 
-[Mastodon](https://mstdn.io/@nuclear)
+[Mastodon](https://fosstodon.org/@nuclearplayer)
 
 [Twitter](https://twitter.com/nuclear_player)
 
@@ -23,13 +23,15 @@ Chat en Discord: https://discord.gg/JqPjKxE
 
 Traducciones de la documentación: 
 
-<kbd>[<img title="Deutsch" alt="Deutsch" src="https://cdn.staticaly.com/gh/hjnilsson/country-flags/master/svg/de.svg" width="22">](docs/README-de.md)</kbd>
-<kbd>[<img title="Português" alt="Português" src="https://cdn.staticaly.com/gh/hjnilsson/country-flags/master/svg/br.svg" width="22">](docs/README-ptbr.md)</kbd>
-<kbd>[<img title="Svenska" alt="Svenska" src="https://cdn.staticaly.com/gh/hjnilsson/country-flags/master/svg/se.svg" width="22">](docs/README-se.md)</kbd>
-<kbd>[<img title="English" alt="English" src="https://cdn.staticaly.com/gh/hjnilsson/country-flags/master/svg/us.svg" width="22">](README.md)</kbd>
-<kbd>[<img title="Hebrew" alt="Hebrew" src="https://cdn.staticaly.com/gh/hjnilsson/country-flags/master/svg/il.svg" width="22">](docs/README-he.md)</kbd>
-<kbd>[<img title="Italiano" alt="Italiano" src="https://cdn.staticaly.com/gh/hjnilsson/country-flags/master/svg/it.svg" width="22">](docs/README-it.md)</kbd>
-<kbd>[<img title="Türkçe" alt="Türkçe" src="https://cdn.staticaly.com/gh/hjnilsson/country-flags/master/svg/tr.svg" width="22">](docs/README-tr.md)</kbd>
+<kbd>[<img title="Deutsch" alt="Deutsch" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/de.svg" width="22">](docs/README-de.md)</kbd>
+<kbd>[<img title="Português" alt="Português" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/br.svg" width="22">](docs/README-ptbr.md)</kbd>
+<kbd>[<img title="Svenska" alt="Svenska" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/se.svg" width="22">](docs/README-se.md)</kbd>
+<kbd>[<img title="English" alt="English" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/us.svg" width="22">](README.md)</kbd>
+<kbd>[<img title="Hebrew" alt="Hebrew" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/il.svg" width="22">](docs/README-he.md)</kbd>
+<kbd>[<img title="Italiano" alt="Italiano" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/it.svg" width="22">](docs/README-it.md)</kbd>
+<kbd>[<img title="Türkçe" alt="Türkçe" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/tr.svg" width="22">](docs/README-tr.md)</kbd>
+<kbd>[<img title="Indonesia" alt="Indonesia" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/id.svg" width="22">](docs/README-id.md)</kbd>
+<kbd>[<img title="Français" alt="Français" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/fr.svg" width="22">](docs/README-fr.md)</kbd>
 
 ## ¿Qué es?
 Nuclear es un programa gratuito de transmisión de música que extrae contenido de fuentes gratuitas en Internet.
@@ -150,23 +152,28 @@ $ flatpak-builder --run build-dir org.js.nuclear.Nuclear.json run.sh
 Puede convertir la aplicación en un repositorio local. actualmente, el archivo crea la última versión.
 
 ## Capturas de pantalla
-Esto se actualizará a medida que evolucione el programa.
 
-![Album Search](https://i.imgur.com/idFVnAF.png)
+![Default](../screenshots/screenshot_default.jpg)
 
-![Album Display](https://i.imgur.com/Kvzo3q7.png)
+![Dashboard](../screenshots/screenshot_dashboard.jpg)
 
-![Artist View](https://i.imgur.com/imBLYl3.png)
+![Album](../screenshots/screenshot_album.jpg)
 
-![Dashboard Best New Music](https://i.imgur.com/bMDrR4M.png)
+![Artist](../screenshots/screenshot_artist.jpg)
 
-![Dashboard Genres](https://i.imgur.com/g0aCmKx.png)
+![Search](../screenshots/screenshot_search.jpg)
 
-![Playlist View](https://i.imgur.com/2VMXHDC.png)
+![Command palette](../screenshots/screenshot_command_palette.jpg)
 
-![Lyrics View](https://i.imgur.com/7e3DJKJ.png)
+![Equalizer](../screenshots/screenshot_equalizer.jpg)
 
-![Equalizer View](https://i.imgur.com/WreRL0w.png)
+![Genres](../screenshots/screenshot_genres.jpg)
+
+![Playlist](../screenshots/screenshot_playlist.jpg)
+
+![Settings](../screenshots/screenshot_settings.jpg)
+
+![Visualizer](../screenshots/screenshot_visualizer.jpg)
 
 ## Licencia
 

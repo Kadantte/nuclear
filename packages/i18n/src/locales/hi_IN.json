@@ -3,12 +3,18 @@
     "download": "डाउनलोड",
     "download-toast-content": "{{artist}} - {{title}} को डाउनलोड में जोड़ा गया है |",
     "download-toast-title": "एल्बम को डाउनलोड में जोड़ा गया है |",
-    "error-load": "क्षमा कीजिए!, यह एल्बम लोड नहीं किया जा सका. बाद में पुन: प्रयास करें, या फिर Github पर एक नया issue खोलें |",
+    "error-load": "क्षमा कीजिए!, यह एल्बम लोड नहीं किया जा सका. बाद में पुन: प्रयास करें, या फिर \"गिटहब\" पर एक नया \" इशू \" खोलें |",
     "genre": "शैली",
     "play": "प्ले",
     "queue": "एल्बम को कतार में जोड़ें",
     "tracks": "ट्रैक",
-    "year": "वर्ष"
+    "year": "वर्ष",
+    "add-to-playlist": "Add album to playlist",
+    "create-playlist": "Create a new playlist",
+    "create-playlist-dialog-title": "Input playlist name:",
+    "create-playlist-dialog-placeholder": "Playlist name...",
+    "create-playlist-dialog-accept": "Save",
+    "create-playlist-dialog-cancel": "Cancel"
   },
   "app": {
     "collection": "संग्रह",
@@ -19,33 +25,52 @@
     "favorite-artists": "पसंदीदा कलाकार",
     "favorite-tracks": "पसंदीदा ट्रैक",
     "library": "स्थानीय संग्रह",
+    "listening-history": "सुनने का इतिहास",
     "lyrics": "गीतिकाव्य",
     "main": "प्रमुख",
     "playlists": "गानों की सूचीयाँ",
     "plugins": "प्लगइन्स",
     "search": "खोज परिणाम",
     "settings": "सेटिंग्स",
-    "visualizer": "विजुआलाइज़र"
+    "visualizer": "विजुआलाइज़र",
+    "user-panel": {
+      "actions-tooltip": "उपयोगकर्ता क्रियाएं",
+      "sign-up": "साइन अप / साइन इन करें",
+      "sign-out": "साइन आउट करें"
+    },
+    "version": "संस्करण"
   },
   "artist": {
-    "count": "प्ले काउंट",
+    "add-all": "सभी जोड़ें",
+    "count": "Playcount",
     "queue": "कतार में सभी ट्रैक जोड़ें",
     "similar": "समान कलाकार",
     "title": "शीर्षक",
-    "tour": "दौरे पर"
+    "tour": "दौरे पर",
+    "popular-tracks": "Popular tracks",
+    "artist-albums": {
+      "header": "Albums",
+      "sort-by-release-date": "Sort by release date",
+      "sort-by-az": "Sort A-Z",
+      "sort-by-most-played": "Sort by most played",
+      "filter-placeholder": "Filter..."
+    }
   },
   "dashboard": {
     "add-all": "सभी जोड़ें",
     "artist": "कलाकार",
-    "best": "सर्वश्रेष्ठ नए संगीत",
-    "best-new-albums": "सर्वश्रेष्ठ नए एल्बम",
-    "best-new-tracks": "सर्वश्रेष्ठ नए ट्रैक",
     "genres": "शैलियाँ",
     "news": "समाचार",
     "playcounts": "प्लेकाउंट्स",
+    "playlists": "चर्चित",
     "popular-track-title": "डीज़र के शीर्ष ट्रैक",
     "title": "शीर्षक",
-    "top": "शीर्ष ट्रैक्स"
+    "top": "शीर्ष ट्रैक्स",
+    "trending-playlists": "ट्रेंडिंग प्लेलिस्ट",
+    "trending-artists": "Trending artists",
+    "trending-albums": "Trending albums",
+    "filter": "फिल्टर...",
+    "nothing-found": "कुछ भी नहीं मिला"
   },
   "downloads": {
     "clear": "समाप्त ट्रैक साफ़ करें",
@@ -55,6 +80,18 @@
     "header": "डाउनलोड",
     "name": "नाम",
     "status": "स्थिति"
+  },
+  "equalizer": {
+    "classical": "शास्त्रीय",
+    "club": "क्लब",
+    "custom": "निजीकृत",
+    "default": "पूर्व निर्धारित",
+    "full-bass": "पूर्ण बास",
+    "full-treble": "पूर्ण ट्रेब्ल",
+    "pop": "पॉप",
+    "presets": "प्रीसेट",
+    "reggae": "रेगी",
+    "rock": "रॉक"
   },
   "favorite-albums": {
     "empty": "कोई पसंदीदा एल्बम नहीं",
@@ -71,17 +108,16 @@
     "empty": "कोई पसंदीदा नहीं जोड़ा गया",
     "empty-help": "पसंदीदा में कुछ ट्रैक जोड़ने का प्रयास करें और वे यहां दिखाई देंगे!",
     "header": "आपके पसंदीदा ट्रैक",
+    "play-random": "Play a random track from your favorites",
     "title": "शीर्षक"
   },
   "help": {
     "about": "न्यूक्लियर म्यूजिक प्लेयर के बारे में",
+    "contributors": "हमारे शीर्ष 10 योगदानकर्ता",
     "header": "मुफ्त स्रोतों से स्ट्रीमिंग के लिए डेस्कटॉप म्यूजिक प्लेयर",
     "released": "AGPL-3.0 के तहत जारी",
     "report": "समस्याएं या नई सुविधाएं सबमिट करें",
     "thanks": "Github पर हमारे योगदानकर्ताओं को बहुत-बहुत धन्यवाद, इस कार्यक्रम को बनाने में आपकी मदद महत्वपूर्ण थी।"
-  },
-  "input-dialog": {
-    "cancel": "रद्द करें"
   },
   "library": {
     "add": "फ़ोल्डर जोड़ें",
@@ -102,6 +138,7 @@
     "not-found": "इस गाने के कोई गीतिकाव्य नहीं मिले।"
   },
   "option-control": {
+    "rate": "Playback speed",
     "autoradio": "ऑटोरेडियो",
     "loop": "लूप",
     "mini-player": "मिनीप्लेयर",
@@ -119,10 +156,9 @@
     "album": "एल्बम",
     "artist": "कलाकार",
     "delete": "यह प्लेलिस्ट हटाएँ",
-    "dialog-placeholder": "प्लेलिस्ट का नाम",
     "duration": "अवधि",
     "empty": "कोई प्लेलिस्ट नही",
-    "empty-help": "कुछ प्लेलिस्ट बनाने या 'url' द्वारा आयात करने का प्रयास करें और वे यहां दिखाई देंगी!",
+    "empty-help": "Try creating playlists, or import by URL, and they will appear here!",
     "error-empty-data": "खाली डेटा",
     "error-invalid-data": "अमान्य डेटा",
     "error-open-file": "फाइल को खोला नहीं जा सका",
@@ -131,9 +167,17 @@
     "export-fail-title": "प्लेलिस्ट आयात विफल",
     "export-success-title": "प्लेलिस्ट आयात सफल",
     "header": "आपकी प्लेलिस्ट",
+    "header-add-button": "Add",
+    "import-progress": "इम्पोर्ट प्रोग्रेस",
+    "spotify-import-placeholder": "स्पॉटीफाई  प्लेलिस्ट यूआरएल यहां पेस्ट करें",
+    "dialog-placeholder": "प्लेलिस्ट का नाम",
     "dialog-accept": "सहेजें",
-    "create-button": "नया प्लेलिस्ट बनाएं",
+    "dialog-cancel": "रद्द करें",
+    "dialog-rename": "नाम बदलें",
+    "dialog-import": "इंपोर्ट",
+    "create-button": "Create a new playlist",
     "new-playlist": "नई प्लेलिस्ट",
+    "import-url-button": "Import from Spotify",
     "import-button": "फ़ाइल (JSON) से आयात करें",
     "import-fail-title": "प्लेलिस्ट आयात विफल",
     "import-success-title": "प्लेलिस्ट आयात सफल",
@@ -146,7 +190,21 @@
     "songs_plural": "{{total}} गीत",
     "title": "शीर्षक",
     "tracks-selected-plural": "चयनित ट्रैक",
-    "tracks-selected-singular": "चयनित ट्रैक"
+    "tracks-selected-singular": "चयनित ट्रैक",
+    "tracks-singular": "ट्रैक",
+    "tracks-plural": "ट्रैक",
+    "modified-at": "पिछली बार संशोधित: ",
+    "never-modified": "अज्ञात",
+    "server-modified-at": "सर्वर संशोधित ",
+    "upload-to-server": "सर्वर पर अपलोड करें",
+    "download-from-server": "सर्वर से डाउनलोड करें",
+    "number-of-tracks": "ट्रैक",
+    "input-playlist-url": "Paste playlist URL:",
+    "create-playlist-dialog-title": "Input playlist name:",
+    "playlist": "Playlist",
+    "play": "Play",
+    "external-source-tooltip": "This playlist is from an external source: {{source}}. You can't edit it. Save it locally using the playlist menu to make changes.",
+    "save-external-playlist": "Save locally"
   },
   "plugins": {
     "add-a-plugin": "प्लगइन जोड़ें",
@@ -164,6 +222,7 @@
   "queue": {
     "clear": "कतार खाली करें",
     "dialog-accept": "सहेजें",
+    "dialog-cancel": "रद्द करें",
     "dialog-placeholder": "प्लेलिस्ट का नाम",
     "dialog-trigger": "प्लेलिस्ट के रूप में सहेजें",
     "download": "डाउनलोड",
@@ -172,41 +231,68 @@
     "favorite-add": "पसंदीदा में जोड़े",
     "header": "कतार",
     "header-track": "वर्तमान ट्रैक",
-    "id": "स्ट्रीम आईडी",
-    "source": "स्रोत",
-    "copy-track-url": "ट्रैक यूआरएल को क्लिपबोर्ड पर कॉपी करें",
+    "copy-track-url": "Copy track URL to clipboard",
     "loading": "स्ट्रीम अभी भी लोड हो रही है.",
     "playlist-add": "प्‍लेलिस्‍ट में जोड़ें",
+    "playlist-add-queue": "Add queue to playlist",
     "playlist-toast-content": "प्लेलिस्ट {{name}} बन गई है।",
     "playlist-toast-title": "प्लेलिस्ट बनाई गई!",
-    "title": "शीर्षक:"
+    "live": "लाइव",
+    "stream-verification": {
+      "tooltip": {
+        "unknown": "The status of this stream is unknown.",
+        "unverified": "This stream has not yet been verified by the community.",
+        "weakly-verified": "This stream has been verified by a couple of users.",
+        "verified": "This stream has been verified by the community.",
+        "verified-by-user": "This stream has been verified by you."
+      },
+      "stream-status": {
+        "unknown": "Unknown",
+        "unverified": "Unverified",
+        "weakly-verified": "Weakly verified",
+        "verified": "Verified",
+        "verified-by-user": "Verified by you"
+      },
+      "verify": "Verify",
+      "unverify": "Unverify"
+    },
+    "create-playlist-dialog-title": "Input playlist name:",
+    "play-now": "Play now"
   },
   "search": {
     "album": "एल्बम",
     "album_plural": "एल्बम्स",
+    "all": "सभी",
     "artist": "कलाकार",
     "artist_plural": "कलाकार",
     "clear-history": "इतिहास साफ करें",
     "empty": "कुछ भी नहीं मिला",
     "last-searches": "पिछली खोजें",
+    "live-stream": "लाइव स्ट्रीम",
     "placeholder": "खोज़े...",
     "playlist": "प्लेलिस्ट",
     "playlist_plural": "प्लेलिस्ट",
+    "podcast": "पॉडकास्ट",
     "queue-add": "सभी ट्रैक कतार में जोड़ें",
     "track": "ट्रैक",
     "track_plural": "ट्रैक",
     "you-can-search-for": "आप खोज सकते हैं:"
   },
   "seekbar": {
+    "live": "लाइव",
     "segment-popup": "गैर-संगीत"
   },
   "settings": {
     "api-port": "एपीआई द्वारा उपयोगित पोर्ट",
     "api-url": "",
+    "audio": "Audio",
     "autoradio": "ऑटोरेडियो",
     "autoradio-craziness": "ऑटोरेडियो पागलपन",
     "autoradio-craziness-description": "ऑटोरेडियो उन गानों का चयन करेगा जो पहले से कतार में लगे गानों से कम मिलते-जुलते हैं",
     "autoradio-description": "कतार समाप्त होने पर स्वचालित रूप से समान ट्रैक जोड़ें",
+    "auto-download-favourites": "Auto download favorite track",
+    "listening-history": "Listening history",
+    "listening-history-description": "Log the tracks you listen to, a la Last.fm. The history is stored offline.",
     "compact-menu-bar": "मेनू बार के लिए कॉम्पैक्ट शैली का प्रयोग करें",
     "compact-queue-bar": "क्यू बार के लिए कॉम्पैक्ट स्टाइल का प्रयोग करें",
     "developer": "डेवलपर सेटिंग्स",
@@ -225,13 +311,14 @@
     "github-description": "अपनी प्लेलिस्ट ऑनलाइन (आगामी फीचर) बनाने और साझा करने में सक्षम होने के लिए Github के माध्यम से लॉग इन करें।",
     "github-title": "Github",
     "http": "HTTP API",
-    "invidious-url": "Invidious instance url",
+    "invidious-url": "Invidious instance URL",
     "language": "भाषा",
     "language-placeholder": "भाषा चुनें।",
     "lastfm-connect": "Last. fm के साथ साइन इन करें",
     "lastfm-description": "स्क्रोब्लिंग को सक्षम करने के लिए, आपको पहले Last.fm पर न्यूक्लियर को कनेक्ट और अधिकृत करना होगा, फिर लॉग इन पर क्लिक करना होगा।",
     "lastfm-enable": "स्क्रोब्लिंग को Last.fm पे सक्षम करें",
     "lastfm-title": "Last.fm",
+    "less": "कम",
     "login": "लौग इन",
     "logout": "लॉग आउट",
     "loop-after-queue-end": "अंतिम कतार आइटम खेलने के बाद लूप करें",
@@ -241,16 +328,25 @@
     "mastodon-awaiting-authorization": "Nuclear {{instanceUrl}} पर पंजीकृत है। प्राधिकरण की प्रतीक्षा करी जा रही है।",
     "mastodon-description": "",
     "mastodon-instance-label": "मैस्टोडाॅन इंस्टंस URL",
-    "mastodon-post-format-description": "प्रत्येक ट्रैक के चलने के बाद न्यूक्लियर मास्टोडन पर एक स्टेटस पोस्ट करेगा। उपरोक्त स्ट्रिंग प्रत्येक पोस्ट के लिए टेम्प्लेट होगी, जिसमें {{artist}} और {{title}} को कलाकार और ट्रैक के शीर्षक से बदल दिया जाएगा।",
+    "mastodon-post-format-description": "Nuclear will post a status on Mastodon after each track completes playing. The above string will be the template for each post, with {{artist}}, {{title}}, and {{url}} replaced with the artist, title, and a link to the track respectively.",
     "mastodon-post-format-label": "पोस्ट फॉर्मेट",
     "mastodon-title": "",
+    "normalize": "Normalize volume",
+    "normalize-description": "Automatically adjust volume of tracks so that they are played at the same level. This needs to fetch the whole track to work, so it may cause a delay between tracks.",
+    "nuclear-identity-service-url": "नुक्लेअर पहचान सेवा यूआरएल",
+    "nuclear-playlists-service-url": "नुक्लेअर प्लेलिस्ट सेवा यूआरएल",
     "mini-player": "मिनी प्लेयर शैली का प्रयोग करें",
+    "more": "अधिक",
     "discord-rich-presence": "डिस्कॉर्ड रिच प्रजेंस टॉगल करें (पुनरारंभ करने की आवश्यकता है)",
     "notification-timeout": "सूचना समयबाह्य",
     "notlogged": "लॉगिन नहीं हैं",
     "playback": "प्लेबैक",
     "program-settings": "कार्यक्रम सेटिंग्‍स",
+    "promoted-artists": "Show promoted artists in the dashboard",
+    "promoted-artists-description": "This is a reel of interesting, handpicked indie artists you might like. No one's receiving any compensation for this.",
+    "saving-in": "सहेजा जा रहा है...",
     "seek-iteration": "तीर कुंजियों को दबाते समय आगे/पीछे जाने के लिए सेकंड की संख्या",
+    "show-tray-icon": "Show tray icon",
     "shuffle-queue": "गीत शफल करे",
     "shuffle-when-going-back": "पिछले ट्रैक पर शफल करें",
     "shuffle-when-going-back-description": "जब शफल सक्रिय हो और पिछला ट्रैक बटन क्लिक किया गया हो तो एक यादृच्छिक ट्रैक चलाएं",
@@ -260,6 +356,9 @@
     "streaming": "स्ट्रीमिंग",
     "track-duration": "सीकबार पर ट्रैक की अवधि प्रदर्शित करें",
     "user": "उपयोगकर्ता:",
+    "user-id": "User ID",
+    "use-stream-verification": "Use stream verification",
+    "use-stream-verification-description": "Use stream verification. Loads the streams the community has verified as being correct for the tracks you play. Also allows you to vote on streams. See documentation for details.",
     "youtube": "यूट्यूब",
     "yt-api-key": "यूट्यूब API कुंजी"
   },
@@ -275,6 +374,11 @@
     "add-to-favorite": "पसंदीदा में जोड़े",
     "add-to-playlist": "प्‍लेलिस्‍ट में जोड़ें",
     "add-to-queue": "सूची में जोड़े",
+    "create-playlist": "Create a new playlist",
+    "create-playlist-dialog-title": "Input playlist name:",
+    "create-playlist-dialog-placeholder": "Playlist name...",
+    "create-playlist-dialog-accept": "Save",
+    "create-playlist-dialog-cancel": "Cancel",
     "download": "डाउनलोड",
     "download-toast-body": "{{artist}} - {{track}} को डाउनलोड में जोड़ा गया है |",
     "download-toast-title": "ट्रैक डाउनलोड में जोड़ा गया",
@@ -291,9 +395,94 @@
     "add-selected-tracks-to-favorites": "चयनित को प्रिय में जोड़ें",
     "play-selected-tracks-now": "चयनितो को अभी प्ले करें",
     "tracks-selected-label-singular": "चयनित ट्रैक",
-    "tracks-selected-label-plural": "चयनित ट्रैक"
+    "tracks-selected-label-plural": "चयनित ट्रैक",
+    "filter-input-placeholder": "Filter..."
   },
   "visualizer": {
     "exit-fullscreen": "फुलस्क्रीन मोड से बाहर निकलने के लिए Esc दबाएं।"
+  },
+  "command-palette": {
+    "reminder": "to open the command palette",
+    "search-placeholder": "आप क्या करना चाहेंगे?",
+    "empty-state-help": "क्या आप जो पता करना चाहते हैं वह आपको नहीं मिल रहा है? \"सहायता\" कमांड कोशिश करें",
+    "protip-text": "प्रो टिप:",
+    "protip-content": "नेविगेट करने के लिए Arrows \nका उपयोग \nकरे, चयन करने के लिए Enter दबाएँ, बंद करने के लिए Esc दबाएँ",
+    "categories": {
+      "playback": "प्लेबैक",
+      "queue": "कतार",
+      "navigation": "पथ प्रदर्शन",
+      "application": "आवेदन"
+    },
+    "actions": {
+      "play": "प्ले",
+      "pause": "विराम",
+      "next": "अगला",
+      "previous": "पिछला",
+      "go-to-next-page": "अगले पृष्ठ पर जाएँ",
+      "go-to-previous-page": "पिछले पृष्ठ पर जाएँ",
+      "shuffle": "शफल करें",
+      "loop": "लूप",
+      "autoradio": "ऑटोरेडियो",
+      "raise-volume": "वॉल्यूम बढ़ाएँ",
+      "lower-volume": "वॉल्यूम कम करें",
+      "mute": "म्यूट करें",
+      "unmute": "अनम्यूट करें",
+      "quit": "छोड़ें",
+      "minimize": "न्यूनतम",
+      "maximize": "अधिकतम",
+      "go-to-dashboard": "डैशबोर्ड पर जाएँ",
+      "go-to-downloads": "डाउनलोड पेज पर जाएं",
+      "go-to-lyrics": "बोल पर जाओ",
+      "go-to-plugins": "प्लगइन्स पर जाएं",
+      "go-to-search": "खोजने के लिए जाओ",
+      "go-to-settings": "सेटिंग्स में जाओ",
+      "go-to-equalizer": "इक्वलाइज़र/टोन में जाने के लिए",
+      "go-to-visualizer": "विसुअलिज़ेर पर जाएं",
+      "go-to-playlists": "प्लेलिस्ट पर जाएं",
+      "go-to-favorite-tracks": "पसंदीदा ट्रैक पर जाएं",
+      "go-to-library": "स्थानीय लाइब्रेरी में जाओ"
+    }
+  },
+  "listening-history": {
+    "title": "Listening history",
+    "empty-state": "You haven't listened to anything yet.",
+    "clear-history": "Clear history",
+    "clear-history-confirm": "Are you sure you want to clear your listening history?",
+    "clear-history-confirm-yes": "पुष्टि करें",
+    "clear-history-confirm-no": "रद्द करें",
+    "clear-history-toast": "Listening history cleared"
+  },
+  "forms": {
+    "nuclear-sign-up": {
+      "header": "साइन अप करें",
+      "secondary-header": "नुक्लेअर वेब सर्विस पे साइन अप करें",
+      "side-paragraph-1": "NWS आपको अपनी प्लेलिस्ट का ऑनलाइन बैकअप लेने और उन्हें साझा करने में सक्षम बनाता है।",
+      "side-paragraph-2": "अपना ईमेल प्रदान करना वैकल्पिक है; यदि आप अपना पासवर्ड भूल जाते हैं तो यह आपको अपना खाता पुनर्प्राप्त करने की अनुमति देगा।",
+      "username-label": "उपयोगकर्ता नाम",
+      "email-label": "ईमेल",
+      "password-label": "पासवर्ड",
+      "sign-up-button": "साइन अप करें",
+      "validation": {
+        "username": {
+          "length": "यूजरनेम 4 या इससे अधिक अक्षरों का होना चाहिए.",
+          "required": "उपयोगकर्ता नाम आवश्यक है"
+        },
+        "email": {
+          "invalid": "ईमेल एक वैध ईमेल होना चाहिए"
+        },
+        "password": {
+          "length": "पासवर्ड 6 कैरेक्टर या उससे बड़ा होना चाहिए",
+          "required": "पासवर्ड आवश्यक है"
+        }
+      }
+    },
+    "nuclear-sign-in": {
+      "header": " साइन इन",
+      "username-label": "उपयोगकर्ता नाम",
+      "password-label": "पासवर्ड",
+      "no-account-label": "क्या आपका कोई अकाउंट नहीं है?",
+      "no-account-link": "साइन अप करें",
+      "sign-in-button": "साइन इन"
+    }
   }
 }

@@ -1,12 +1,16 @@
-@import '../../common.scss';
+@import "../../common.scss";
 
 .track_info {
   display: flex;
   flex-flow: row;
-  flex: 1 1 50%;
+  width: calc(50% - 65px);
 
-  &>*:not(:first-child) {
-    padding-left: 1em;
+  & > *:not(:first-child) {
+    margin-left: 1em;
+  }
+
+  & > *:last-child {
+    margin-right: 1em;
   }
 
   .artist_part {
@@ -14,9 +18,15 @@
     flex-flow: column;
     justify-content: space-evenly;
     align-items: flex-start;
+    max-width: calc(100% - 136px);
   }
 
   .track_name {
+    @include ellipsis;
+    overflow-x: hidden;
+    overflow-y: visible;
+    line-height: 1.25;
+    max-width: 100%;
     font-size: 22px;
   }
 

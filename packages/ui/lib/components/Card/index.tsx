@@ -9,17 +9,19 @@ import styles from './styles.scss';
 
 export type CardMenuEntry = {
   type: 'header' | 'item' | 'divider';
-  props: DropdownItemProps | DropdownHeaderProps | DropdownDividerProps;
+  props?: DropdownItemProps | DropdownHeaderProps | DropdownDividerProps;
 };
 
 type CardProps = {
   header: string;
   content?: string;
-  image: string;
-  onClick: React.DOMAttributes<HTMLDivElement>['onClick'];
+  image?: string;
+  onClick?: React.MouseEventHandler;
   withMenu?: boolean;
   animated?: boolean;
   menuEntries?: CardMenuEntry[];
+  className?: string;
+  'data-testid'?: string;
 };
 
 const Card: React.FC<CardProps> = ({
@@ -29,12 +31,18 @@ const Card: React.FC<CardProps> = ({
   onClick,
   withMenu = false,
   animated = true,
-  menuEntries
+  menuEntries,
+  className,
+  'data-testid': dataTestId
 }) => (
-  <div className={cx(
-    common.nuclear,
-    styles.card_container
-  )}>
+  <div 
+    className={cx(
+      common.nuclear,
+      styles.card_container,
+      className
+    )}
+    data-testid={dataTestId}
+  >
     <div
       className={cx(
         styles.card,

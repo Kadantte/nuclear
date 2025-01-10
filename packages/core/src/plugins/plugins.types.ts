@@ -6,7 +6,8 @@ export enum SearchResultsSource {
     Musicbrainz = 'Musicbrainz',
     Bandcamp = 'Bandcamp',
     iTunesPodcast = 'iTunesPodcast',
-    iTunesMusic = 'iTunesMusic'
+    iTunesMusic = 'iTunesMusic',
+    Spotify = 'Spotify',
 }
 
 export enum AlbumType {
@@ -28,10 +29,19 @@ export type SearchResultsAlbum = {
     id: string;
     coverImage?: string;
     thumb?: string;
+    genres?: string[];
+    images?: string[];
     title: string;
     artist: string;
     resourceUrl?: string;
     type?: string;
+    tracklist?: {
+        uuid: string;
+        artist: string;
+        title: string;
+        duration: number;
+    }[];
+    year?: string;
     source: SearchResultsSource;
 }
 
@@ -51,6 +61,8 @@ export type SearchResultsTrack = {
     title: string;
     artist: string;
     source: SearchResultsSource;
+    thumb?: string;
+    discNumber?: number | string;
 }
 
 export type ArtistTopTrack = {
@@ -102,11 +114,16 @@ export type StreamQuery = {
 export type StreamData = {
     source: string;
     id: string;
-    stream: string;
+    stream?: string;
     duration: number;
     title: string;
     thumbnail: string;
     originalUrl?: string;
     format?: string;
-    skipSegments?: Array<any>
+    skipSegments?: Array<any>;
+    isLive?: boolean;
+    author?: {
+        name: string;
+        thumbnail: string;
+    }
 }

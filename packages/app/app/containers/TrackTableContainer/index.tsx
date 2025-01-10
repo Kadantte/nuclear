@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Icon } from 'semantic-ui-react';
 import _ from 'lodash';
-import { TrackTable, areTracksEqualByName } from '@nuclear/ui';
+
+import { Playlist } from '@nuclear/core';
+import { GridTrackTable, areTracksEqualByName } from '@nuclear/ui';
 import { TrackTableProps } from '@nuclear/ui/lib/components/TrackTable';
 import { TrackTableSettings } from '@nuclear/ui/lib/components/TrackTable/types';
 import { Track } from '@nuclear/ui/lib/types';
@@ -16,23 +18,30 @@ import * as playlistActions from '../../actions/playlists';
 import * as favoritesActions from '../../actions/favorites';
 import { favoritesSelectors } from '../../selectors/favorites';
 import { safeAddUuid } from '../../actions/helpers';
-import { Playlist } from '../../reducers/playlists';
 
-export type TrackTableContainerProps = TrackTableSettings & {
-  tracks: TrackTableProps['tracks'];
-  onDelete?: TrackTableProps['onDelete'];
+export type TrackTableContainerProps<T extends Track> = TrackTableSettings & {
+  tracks: TrackTableProps<T>['tracks'];
+  onDelete?: TrackTableProps<T>['onDelete'];
   onReorder?: (indexSource: number, indexDest: number) => void;
+  TrackTableComponent?: React.ComponentType<TrackTableProps<T>>;
+  customColumns?: TrackTableProps<T>['customColumns'];
+  displayAddToDownloads?: boolean;
+  displayAddToFavorites?: boolean;
 };
 
-const TrackTableContainer: React.FC<TrackTableContainerProps> = ({
+function TrackTableContainer<T extends Track> ({
   tracks,
   onDelete,
   onReorder,
+  TrackTableComponent = GridTrackTable,
+  customColumns,
+  displayAddToDownloads = true,
+  displayAddToFavorites = true,
   ...settings
-}) => {
+}: TrackTableContainerProps<T>) {
   const { t } = useTranslation('playlists');
   const dispatch = useDispatch();
-  const playlists: Playlist[] = useSelector(playlistsSelectors.playlists);
+  const playlists = useSelector(playlistsSelectors.localPlaylists);
   const favoriteTracks: Track[] = useSelector(favoritesSelectors.tracks);
 
   useEffect(() => {
@@ -42,22 +51,22 @@ const TrackTableContainer: React.FC<TrackTableContainerProps> = ({
   const isTrackFavorite = (track: Track) => !_.isNil(favoriteTracks.find(t => areTracksEqualByName(t, track)));
 
   const onAddToQueue = useCallback((track: Track) => {
-    dispatch(queueActions.addToQueue(track));
+    dispatch(queueActions.addToQueue(queueActions.toQueueItem(track)));
   }, [dispatch]);
 
   const onPlayNow = useCallback((track: Track) => {
-    dispatch(queueActions.playTrack(null, track));
+    dispatch(queueActions.playTrack(null, queueActions.toQueueItem(track)));
   }, [dispatch]);
 
   const onPlayNext = useCallback((track: Track) => {
-    dispatch(queueActions.playNext(track));
+    dispatch(queueActions.playNext(queueActions.toQueueItem(track)));
   }, [dispatch]);
 
   const onPlayAll = useCallback((tracks: Track[]) => {
     dispatch(queueActions.clearQueue());
     dispatch(queueActions.addPlaylistTracksToQueue(tracks));
     dispatch(queueActions.selectSong(0));
-    dispatch(playerActions.startPlayback());
+    dispatch(playerActions.startPlayback(false));
   }, [dispatch]);
 
   const onAddToFavorites = useCallback((track: Track) => {
@@ -74,7 +83,7 @@ const TrackTableContainer: React.FC<TrackTableContainerProps> = ({
 
   const onAddToPlaylist = useCallback((track: Track, playlist: Playlist ) => {
     const clonedTrack = {...safeAddUuid(track)};
-    const foundPlaylist = playlists.find(p => p.name === playlist.name);
+    const foundPlaylist = playlists.data?.find(p => p.name === playlist.name);
     const newPlaylist = {
       ...foundPlaylist,
       tracks: [
@@ -85,7 +94,18 @@ const TrackTableContainer: React.FC<TrackTableContainerProps> = ({
     dispatch(playlistActions.updatePlaylist(newPlaylist));
   }, [dispatch, playlists]);
 
-  const onDragEnd = useCallback<TrackTableProps['onDragEnd']>((result) => {
+  const onCreatePlaylist = useCallback(
+    (track: Track, { name }: { name: string } ) => {
+      const clonedTrack = {...safeAddUuid(track)};
+      if (clonedTrack.artist.name) {
+        _.set(clonedTrack, 'artist', clonedTrack.artist.name);
+      }
+      dispatch(playlistActions.addPlaylist([clonedTrack], name));
+    },
+    [dispatch]
+  );
+
+  const onDragEnd = useCallback<TrackTableProps<Track>['onDragEnd']>((result) => {
     const { source, destination } = result;
     onReorder(source.index, destination.index);
   }, [onReorder]);
@@ -97,7 +117,14 @@ const TrackTableContainer: React.FC<TrackTableContainerProps> = ({
     textPlayNext: popupTranstation('play-next'),
     textAddToFavorites: popupTranstation('add-to-favorite'),
     textAddToPlaylist: popupTranstation('add-to-playlist'),
-    textAddToDownloads: popupTranstation('download')
+    textCreatePlaylist: popupTranstation('create-playlist'),
+    textAddToDownloads: popupTranstation('download'),
+    createPlaylistDialog: {
+      title: popupTranstation('create-playlist-dialog-title'),
+      placeholder: popupTranstation('create-playlist-dialog-placeholder'),
+      accept: popupTranstation('create-playlist-dialog-accept'),
+      cancel: popupTranstation('create-playlist-dialog-cancel')
+    }
   };
 
   const trackTableTranslation = useTranslation('track-table').t;
@@ -107,10 +134,11 @@ const TrackTableContainer: React.FC<TrackTableContainerProps> = ({
     addSelectedTracksToFavorites: trackTableTranslation('add-selected-tracks-to-favorites'),
     playSelectedTracksNow: trackTableTranslation('play-selected-tracks-now'),
     tracksSelectedLabelSingular: trackTableTranslation('tracks-selected-label-singular'),
-    tracksSelectedLabelPlural: trackTableTranslation('tracks-selected-label-plural')
+    tracksSelectedLabelPlural: trackTableTranslation('tracks-selected-label-plural'),
+    filterInputPlaceholder: trackTableTranslation('filter-input-placeholder')
   };
 
-  return <TrackTable
+  return <TrackTableComponent
     {...settings}
     tracks={tracks}
     positionHeader={<Icon name='hashtag' />}
@@ -120,21 +148,23 @@ const TrackTableContainer: React.FC<TrackTableContainerProps> = ({
     albumHeader={t('album')}
     durationHeader={t('duration')}
     strings={trackTableStrings}
-    playlists={playlists}
+    playlists={playlists.data}
+    customColumns={customColumns}
     onAddToQueue={onAddToQueue}
     onPlay={onPlayNow}
     onPlayNext={onPlayNext}
     onPlayAll={onPlayAll}
-    onAddToFavorites={onAddToFavorites}
+    onAddToFavorites={Boolean(displayAddToFavorites) && onAddToFavorites}
     onRemoveFromFavorites={onRemoveFromFavorites}
-    onAddToDownloads={onAddToDownloads}
+    onAddToDownloads={Boolean(displayAddToDownloads) && onAddToDownloads}
     onAddToPlaylist={onAddToPlaylist}
+    onCreatePlaylist={onCreatePlaylist}
     onDelete={onDelete}
     onDragEnd={Boolean(onReorder) && onDragEnd}
     popupActionStrings={popupStrings}
 
     isTrackFavorite={isTrackFavorite}
   />;
-};
+}
 
 export default TrackTableContainer;

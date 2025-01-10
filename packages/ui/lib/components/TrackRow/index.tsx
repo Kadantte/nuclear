@@ -11,15 +11,11 @@ import { Track } from '../../types';
 import styles from './styles.scss';
 
 export const getTrackThumbnail = track => {
-  return _.get(
-    track,
-    'thumbnail',
-    _.get(track, 'image[0][#text]')
-  );
+  return track.thumbnail ?? track.image?.[0]?.['#text'] ?? track.thumb;
 };
 
 export type TrackRowProps = {
-  track: Track;
+  track: Partial<Track>;
 
   mini?: boolean;
 

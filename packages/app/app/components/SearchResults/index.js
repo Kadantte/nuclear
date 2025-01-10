@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import { Tab } from 'semantic-ui-react';
 import { withTranslation } from 'react-i18next';
 import { Card } from '@nuclear/ui';
@@ -101,48 +102,55 @@ class SearchResults extends React.Component {
   }
 
   panes() {
+    const artistsHasResults = _.get(this.props.artistSearchResults, ['length'], 0) > 0;
+    const albumsHasResults = _.get(this.props.albumSearchResults, ['length'], 0) > 0;
+    const tracksHasResults = _.get(this.props.trackSearchResults, ['info', 'length'], 0) > 0;
+    const playlistsHasResults = _.get(this.props.playlistSearchResults, ['info', 'length'], 0) > 0;
+    const liveStreamsHasResults = _.get(this.props.liveStreamSearchResults, ['info', 'length'], 0) > 0;
+    const podcastsHasResults = _.get(this.props.podcastSearchResults, ['length'], 0) > 0;
+
     const panes = [
       {
-        menuItem: 'All',
+        menuItem: this.props.t('all'),
         render: () => this.renderAllResultsPane()
       },
-      {
-        menuItem: 'Artists',
+      artistsHasResults && {
+        menuItem: this.props.t('artist_plural'),
         render: () =>
           this.renderPane(
             this.props.artistSearchResults,
             this.artistInfoSearch.bind(this)
           )
       },
-      {
-        menuItem: 'Albums',
+      albumsHasResults && {
+        menuItem: this.props.t('album_plural'),
         render: () =>
           this.renderPane(
             this.props.albumSearchResults,
             this.albumInfoSearch.bind(this)
           )
       },
-      {
-        menuItem: 'Tracks',
+      tracksHasResults && {
+        menuItem: this.props.t('track_plural'),
         render: () => this.renderTrackListPane(this.props.trackSearchResults.info)
       },
-      {
-        menuItem: 'Playlist',
+      playlistsHasResults && {
+        menuItem: this.props.t('playlist'),
         render: () => this.renderPlaylistPane()
       },
-      {
-        menuItem: 'LiveStream',
+      liveStreamsHasResults && {
+        menuItem: this.props.t('live-stream'),
         render: () => this.renderTrackListPane(this.props.liveStreamSearchResults.info)
       },
-      {
-        menuItem: 'Podcast',
+      podcastsHasResults && {
+        menuItem: this.props.t('podcast'),
         render: () =>
           this.renderPane(
             this.props.podcastSearchResults,
             this.podcastInfoSearch.bind(this)
           )
       }
-    ];
+    ].filter(pane => !!pane);
 
     return panes;
   }

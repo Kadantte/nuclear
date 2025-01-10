@@ -9,9 +9,9 @@ Ein Musikplayer für Computer, mit kostenlosem Streaming.
 
 # Links
 
-[Offizielle Webseite](https://nuclear.js.org)
+[Offizielle Webseite](https://nuclearplayer.com)
 
-[Mastodon](https://mstdn.io/@nuclear)
+[Mastodon](https://fosstodon.org/@nuclearplayer)
 
 [Twitter](https://twitter.com/nuclear_player)
 
@@ -21,16 +21,18 @@ Discordkanal: https://discord.gg/JqPjKxE
 
 Readme Übersetzungen: 
 
-<kbd>[<img title="Português" alt="Português" src="https://cdn.staticaly.com/gh/hjnilsson/country-flags/master/svg/br.svg" width="22">](README-ptbr.md)</kbd>
-<kbd>[<img title="Svenska" alt="Svenska" src="https://cdn.staticaly.com/gh/hjnilsson/country-flags/master/svg/se.svg" width="22">](README-se.md)</kbd>
-<kbd>[<img title="English" alt="English" src="https://cdn.staticaly.com/gh/hjnilsson/country-flags/master/svg/us.svg" width="22">](../README.md)</kbd>
-<kbd>[<img title="Hebrew" alt="Hebrew" src="https://cdn.staticaly.com/gh/hjnilsson/country-flags/master/svg/il.svg" width="22">](README-he.md)</kbd>
-<kbd>[<img title="Italiano" alt="Italiano" src="https://cdn.staticaly.com/gh/hjnilsson/country-flags/master/svg/it.svg" width="22">](README-it.md)</kbd>
+<kbd>[<img title="Português" alt="Português" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/br.svg" width="22">](README-ptbr.md)</kbd>
+<kbd>[<img title="Svenska" alt="Svenska" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/se.svg" width="22">](README-se.md)</kbd>
+<kbd>[<img title="English" alt="English" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/us.svg" width="22">](../README.md)</kbd>
+<kbd>[<img title="Hebrew" alt="Hebrew" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/il.svg" width="22">](README-he.md)</kbd>
+<kbd>[<img title="Italiano" alt="Italiano" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/it.svg" width="22">](README-it.md)</kbd>
+<kbd>[<img title="Indonesia" alt="Indonesia" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/id.svg" width="22">](docs/README-id.md)</kbd>
+<kbd>[<img title="Français" alt="Français" src="https://cdn.statically.io/gh/hjnilsson/country-flags/master/svg/fr.svg" width="22">](docs/README-fr.md)</kbd>
 
 ## Was genau ist nuclear?
-nuclear ist ein kostenloser Streaming-Dienst, welches seinen Inhalt aus kostenlosen Quellen vom Internet entnimmt.
+nuclear ist ein kostenloser Streaming-Dienst, welcher seinen Inhalt aus kostenlosen Quellen aus dem Internet entnimmt.
 
-Wenn Ihnen [mps-youtube](https://github.com/mps-youtube/mps-youtube) bekannt vor kommt, können sie sich ungefähr vorstellen, dass nuclear dem ähnelt, jedoch mit dem Vorteil, dass es eine grafische Oberfläche besitzt.
+Wenn Ihnen [mps-youtube](https://github.com/mps-youtube/mps-youtube) bekannt vor kommt, können sie sich ungefähr vorstellen was nuclear dem macht, jedoch mit dem Vorteil, dass es eine grafische Oberfläche besitzt.
 Man kann sagen, dass es so wie Spotify ist, jedoch mit einer größeren und vor allem kostenlosen Musikbibliothek.
 
 ## Was ist, wenn mir Electron nicht besonders gefällt?
@@ -38,7 +40,7 @@ Schauen Sie sich [das](docs/electron.md) an.
 
 ## Eigenschaften von nuclear
 
-- Suche und Wiedergabe von Musik aus YouTube (einschließlich Integration von Playlists und [SponsorBlock](https://sponsor.ajay.app/)), Jamendo, Audius und SoundCloud)
+- Suche und Wiedergabe von Musik von YouTube (einschließlich Integration von Playlists und [SponsorBlock](https://sponsor.ajay.app/)), Jamendo, Audius und SoundCloud)
 - Suche nach Alben (unterstützt von Last.fm und Discogs), Albenansicht, automatischer Liedsuche basierend auf Künstler- und Liedname (in Arbeit, kann etwas holprig sein)
 - Musikwarteschlange, die bei Bedarf, als Playlist exportiert werden kann
 - Aufrufen gespeicherter Playlists (als json Datei(en) gespeichert)
@@ -48,7 +50,7 @@ Schauen Sie sich [das](docs/electron.md) an.
 - Radiomodus (automatisches Einreihen ähnlicher Lieder)
 - Unlimitierte Downloads (unterstützt von Youtube)
 - Wiedergabe von Songtexte in Echtzeit
-- Vorschau von derzeitigen Beliebheiten
+- Vorschau von derzeitiger Beliebtheit
 - Liste mit Lieblingsliedern
 - Abspielen der eigenen Lokalen Bibliothek
 - Keine Konten
@@ -101,9 +103,9 @@ Nuclear wurde bereits in vielen Sprachen übersetzt, dennoch sind wir weiterhin 
 
 ## Entwicklungsprozess
 
-Als erstes, schauen Sie sich bitte die [Wiki Seite für Beitragende](https://github.com/nukeop/nuclear/wiki/Contributing) an.
+Schauen Sie sich bitte als erstes die [Wiki Seite für Beitragende](https://github.com/nukeop/nuclear/wiki/Contributing) an.
 
-Benutze npm:
+Npm:
 ```shell
 $ npm install # installs dependencies
 $ npm start
@@ -118,10 +120,10 @@ $ lerna bootstrap
 $ npm run build
 ```
 
-Anstelle von `build` können Sie auch `build:all` verwenden, um für alle Betriebsysteme zu kompilieren. Die Dateien werden sich dann in `packages/app/release` befinden.
+Anstelle von `build` können Sie auch `build:all` verwenden, um für alle Betriebsysteme zu kompilieren. Die Dateien werden sich in `packages/app/release` befinden.
 
 ---
-Es ist auch möglich, die Entwicklungsumgebung, mithilfe "Docker Containers" zu nutzen, diese ist jedoch in der Entwicklungsphase.
+Es ist auch möglich, die Entwicklungsumgebung, mithilfe eines "Docker Containers" zu nutzen, diese ist jedoch noch in der Entwicklungsphase.
 
 `docker` und `docker-compose` werden benötigt. Sie müssen dem root user eine Verbindung zum X11 Display erlauben, danach können Sie `docker-compose` verwenden.
 
@@ -129,7 +131,7 @@ Es ist auch möglich, die Entwicklungsumgebung, mithilfe "Docker Containers" zu 
 $ xhost SI:localuser:root
 $ sudo docker-compose up dev
 ```
-Ab sofort, ist es auch möglich eine Flatpak Version zu kompilieren. Dazu müssen gobject-introspection und flatpak-builder installiert sein. Für den Kompilierungsprozess müssen Sie, die für flatpak-buider erforderlichen Laufzeiten und Dependenzen installieren. Sie werden die 19.08 Version dieser Flatpaks benötigen.
+Ab sofort, ist es auch möglich eine Flatpak Version zu kompilieren. Dazu müssen gobject-introspection und flatpak-builder installiert sein. Für den Kompilierungsprozess müssen Sie, die für flatpak-buider erforderlichen Laufzeiten und Abhängigkeiten installieren. Sie benötigen die 19.08 Version dieser Flatpaks.
 ```shell
 $ flatpak install flathub org.freedesktop.Platform
 $ flatpak install flathub org.freedesktop.Sdk
@@ -146,23 +148,29 @@ $ flatpak-builder --run build-dir org.js.nuclear.Nuclear.json run.sh
 Sie können das Programm auf eine lokale Quelle ansetzen. Momentan kompiliert die Datei die aktuellste Veröffentlichung.
 
 ## Screenshots
-Diese werden mit der Entwicklung des Projektes aktualisiert.
+This will be updated as the program evolves.
 
-![Albumsuche](https://i.imgur.com/idFVnAF.png)
+![Default](../screenshots/screenshot_default.jpg)
 
-![Albenansicht](https://i.imgur.com/Kvzo3q7.png)
+![Dashboard](../screenshots/screenshot_dashboard.jpg)
 
-![Künstleransicht](https://i.imgur.com/imBLYl3.png)
+![Album](../screenshots/screenshot_album.jpg)
 
-![Dashboard beste neue Musik](https://i.imgur.com/bMDrR4M.png)
+![Artist](../screenshots/screenshot_artist.jpg)
 
-![Dashboard Genres](https://i.imgur.com/g0aCmKx.png)
+![Search](../screenshots/screenshot_search.jpg)
 
-![Playlists](https://i.imgur.com/2VMXHDC.png)
+![Command palette](../screenshots/screenshot_command_palette.jpg)
 
-![Songtexte](https://i.imgur.com/7e3DJKJ.png)
+![Equalizer](../screenshots/screenshot_equalizer.jpg)
 
-![Equalizer](https://i.imgur.com/WreRL0w.png)
+![Genres](../screenshots/screenshot_genres.jpg)
+
+![Playlist](../screenshots/screenshot_playlist.jpg)
+
+![Settings](../screenshots/screenshot_settings.jpg)
+
+![Visualizer](../screenshots/screenshot_visualizer.jpg)
 
 ## Lizenz
 

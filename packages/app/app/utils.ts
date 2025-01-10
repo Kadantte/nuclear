@@ -1,6 +1,5 @@
-import _ from 'lodash';
-
 import { Track } from '@nuclear/ui/lib/types';
+import { getTrackArtist, getTrackTitle } from '@nuclear/ui';
 
 export function formatDuration(duration) {
   const secNum = parseInt(duration, 10);
@@ -36,20 +35,6 @@ export function stringDurationToSeconds(duration?) {
   return 0;
 }
 
-export function getTrackDuration(track, selectedStreamProvider) {
-  const trackStreams = _.get(track, 'streams');
-  const selectedStream = _.find(trackStreams, { source: selectedStreamProvider });
-  const localStream = _.find(trackStreams, { source: 'Local' });
-
-  return _.isNil(localStream)
-    ? _.get(selectedStream, 'duration')
-    : _.get(localStream, 'duration');
-}
-
-export function removeQuotes(text) {
-  return String(text).replace(/[“”]/g, '');
-}
-
 export function createLastFMLink(artist, track) {
   if (!artist) {
     throw Error('"createLastFMLink" function requires at least "artist" argument');
@@ -65,14 +50,10 @@ export function createLastFMLink(artist, track) {
 export function normalizeTrack(track: Track){
   return {
     artist: {
-      name: track.artist
+      name: getTrackArtist(track)
     },
-    name: track.name,
-    image: [
-      {
-        '#text': track.thumbnail
-      }
-    ],
+    name: getTrackTitle(track),
+    thumbnail: track.thumbnail,
     streams: track.streams
   };
 }

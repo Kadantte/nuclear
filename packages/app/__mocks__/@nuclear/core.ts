@@ -1,43 +1,38 @@
-const initialStoreState = () => ({
-  equalizer: {
-    selected: 'Default'
-  },
-  downloads: [],
-  favorites: {
-    albums: [],
-    tracks: []
-  },
-  playlists: []
-});
+import { initialStoreState, mockElectronStore } from '../../test/mockElectronStore';
 
-let mockStore = initialStoreState();
+const mockStore = {...initialStoreState()};
+
+const LastFmApi = {
+  searchTracks: jest.fn().mockResolvedValue([])
+};
 
 module.exports = {
-  store: {
-    get: (key: string) => mockStore[key] || {},
-    set: (key: string, value: any) => {
-      mockStore[key] = value;
-    },
-    clear: () => mockStore = initialStoreState()
-  },
+  isArtistObject: jest.requireActual('@nuclear/core/src/types').isArtistObject,
+  store: mockElectronStore(mockStore),
   createApi: () => ({
     app: {},
     store: {},
     React: jest.fn(),
     ReactDOM: jest.fn()
   }),
+  setOption: jest.fn(),
   getOption: () => '',
   rest: {
-    LastFmApi: class {
-      constructor() {}
-
-      getTagInfo() {}
-      getTagTracks() {}
-      getTagAlbums() {}
-      getTagArtists() {}
-      getTopTags = () => Promise.resolve()
-      getTopTracks = () => Promise.resolve()
-    }
+    LastFmApi: jest.fn(() =>  ({
+      getTagInfo() {},
+      getTagTracks() {},
+      getTagAlbums() {},
+      getTagArtists() {},
+      getTopTags: jest.fn().mockResolvedValue([]),
+      getTopTracks: jest.fn().mockResolvedValue([]),
+      searchTracks: LastFmApi.searchTracks
+    })),
+    Youtube: {
+      urlSearch: jest.fn().mockResolvedValue([]),
+      liveStreamSearch: jest.fn().mockResolvedValue([])
+    },
+    NuclearPlaylistsService: jest.requireActual('@nuclear/core/src/rest/Nuclear/Playlists').NuclearPlaylistsService,
+    NuclearStreamMappingsService: jest.requireActual('@nuclear/core/src/rest/Nuclear/StreamMappings').NuclearStreamMappingsService
   },
   settingsConfig: jest.requireActual('@nuclear/core/src/settings').settingsConfig,
   SettingType: {
@@ -48,5 +43,6 @@ module.exports = {
     STRING: 'string',
     DIRECTORY: 'directory'
   },
-  PlaylistHelper: jest.requireActual('@nuclear/core/src/helpers').PlaylistHelper
+  PlaylistHelper: jest.requireActual('@nuclear/core/src/helpers').PlaylistHelper,
+  IpcEvents: jest.requireActual('@nuclear/core').IpcEvents
 };

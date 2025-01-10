@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 
-import { playlistsSelectors } from '../../selectors/playlists';
+import { PlaylistHelper } from '@nuclear/core';
+import { getTrackArtist, getTrackItem } from '@nuclear/ui/lib';
+import { TrackPopupStrings } from '@nuclear/ui/lib/components/TrackPopup';
+
 import { settingsSelector } from '../../selectors/settings';
 import { pluginsSelectors } from '../../selectors/plugins';
 import * as DownloadsActions from '../../actions/downloads';
@@ -11,12 +14,10 @@ import * as FavoritesActions from '../../actions/favorites';
 import * as QueueActions from '../../actions/queue';
 import * as ToastActions from '../../actions/toasts';
 import * as PlaylistsActions from '../../actions/playlists';
-import { getTrackArtist, getTrackItem } from '@nuclear/ui/lib';
 import { safeAddUuid } from '../../actions/helpers';
-import { PlaylistHelper } from '@nuclear/core';
-import { TrackPopupStrings } from '@nuclear/ui/lib/components/TrackPopup';
+import { useLocalPlaylists } from '../PlaylistsContainer/hooks';
 export const useTrackPopupProps = (track, thumb) => {
-  const playlists: Array<{name: string}> = useSelector(playlistsSelectors.playlists);
+  const { localPlaylists: playlists } = useLocalPlaylists();
   const settings = useSelector(settingsSelector);
   const plugins: any = useSelector(pluginsSelectors.plugins);
 
@@ -84,9 +85,11 @@ export const useTrackPopupProps = (track, thumb) => {
     if (clonedTrack.artist.name) {
       _.set(clonedTrack, 'artist', clonedTrack.artist.name);
     }
-    
-    playlist.tracks.push(PlaylistHelper.extractTrackData(track));
-    dispatch(PlaylistsActions.updatePlaylist(playlist));
+
+    dispatch(PlaylistsActions.updatePlaylist({
+      ...playlist,
+      tracks: [...playlist.tracks, PlaylistHelper.extractTrackData(clonedTrack)]
+    }));
     dispatch(ToastActions.info(
       playlistToastTitle,
       `${playlistToastBody} ${playlist.name}.`,
@@ -95,23 +98,42 @@ export const useTrackPopupProps = (track, thumb) => {
     ));
   }, [track, dispatch, playlistToastTitle, playlistToastBody, toastThumb, settings]);
 
+  const onCreatePlaylist = useCallback(
+    ({ name }: { name: string }) => {
+      const clonedTrack = {...safeAddUuid(track)};
+      if (clonedTrack.artist.name) {
+        _.set(clonedTrack, 'artist', clonedTrack.artist.name);
+      }
+      dispatch(PlaylistsActions.addPlaylist([PlaylistHelper.extractTrackData(track)], name));
+    },
+    [dispatch]
+  );
+
   const strings: TrackPopupStrings = {
     textAddToQueue: t('add-to-queue'),
     textPlayNow: t('play-now'),
     textPlayNext: t('play-next'),
     textAddToFavorites: t('add-to-favorite'),
     textAddToPlaylist: t('add-to-playlist'),
-    textAddToDownloads: t('download')
+    textCreatePlaylist: t('create-playlist'),
+    textAddToDownloads: t('download'),
+    createPlaylistDialog: {
+      title: t('create-playlist-dialog-title'),
+      placeholder: t('create-playlist-dialog-placeholder'),
+      accept: t('create-playlist-dialog-accept'),
+      cancel: t('create-playlist-dialog-cancel')
+    }
   };
 
   return {
-    playlists,
+    playlists: playlists.data,
     strings,
     onAddToQueue,
     onPlayNext,
     onPlayNow,
     onAddToFavorites,
     onAddToPlaylist,
+    onCreatePlaylist,
     onAddToDownloads
   };
 };

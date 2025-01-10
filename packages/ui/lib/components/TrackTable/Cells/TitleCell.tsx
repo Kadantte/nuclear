@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { TdHTMLAttributes } from 'react';
 import { CellProps } from 'react-table';
 
 import { Button, TrackPopup } from '../../..';
@@ -6,7 +6,7 @@ import { TrackTableColumn, TrackTableExtraProps } from '../types';
 import { Track } from '../../../types';
 import styles from '../styles.scss';
 
-const TitleCell: React.FC<CellProps<Track> & TrackTableExtraProps> = ({
+const TitleCell: React.FC<CellProps<Track> & TrackTableExtraProps<Track>> = ({
   cell,
   row,
   value,
@@ -16,21 +16,27 @@ const TitleCell: React.FC<CellProps<Track> & TrackTableExtraProps> = ({
   onAddToQueue,
   onAddToFavorites,
   onAddToPlaylist,
+  onCreatePlaylist,
   onAddToDownloads,
   playlists,
   popupActionStrings
-}) => <td {...cell.getCellProps()} className={styles.title_cell}>
+}) => <td
+  {...cell.getCellProps() as TdHTMLAttributes<HTMLTableCellElement>}
+  data-testid='title-cell'
+  className={styles.title_cell}
+>
   <span className={styles.title_cell_content}>
     <span className={styles.title_cell_value}>
       {value}
     </span>
     <span className={styles.title_cell_buttons}>
-      <Button 
-        basic 
-        borderless 
-        circular 
-        size='tiny' 
-        icon='plus' 
+      <Button
+        className={styles.title_cell_button}
+        basic
+        borderless
+        circular
+        size='tiny'
+        icon='plus'
         onClick={() => onAddToQueue(row.original)}
         data-testid='add-to-queue'
       />
@@ -38,6 +44,7 @@ const TitleCell: React.FC<CellProps<Track> & TrackTableExtraProps> = ({
       <TrackPopup
         trigger={
           <Button
+            className={styles.title_cell_button}
             basic
             borderless
             circular
@@ -55,7 +62,8 @@ const TitleCell: React.FC<CellProps<Track> & TrackTableExtraProps> = ({
         onPlayNext={() => onPlayNext(row.original)}
         onAddToQueue={() => onAddToQueue(row.original)}
         onAddToFavorites={() => onAddToFavorites(row.original)}
-        onAddToPlaylist={(playlist: {name: string}) => onAddToPlaylist(row.original, playlist)}
+        onAddToPlaylist={(playlist: { name: string }) => onAddToPlaylist(row.original, playlist)}
+        onCreatePlaylist={(options: { name: string }) => onCreatePlaylist(row.original, options)}
         onAddToDownloads={() => onAddToDownloads(row.original)}
 
         withPlayNow={Boolean(onPlay)}
@@ -63,7 +71,7 @@ const TitleCell: React.FC<CellProps<Track> & TrackTableExtraProps> = ({
         withAddToQueue={Boolean(onAddToQueue)}
         withAddToFavorites={Boolean(onAddToFavorites)}
         withAddToPlaylist={Boolean(onAddToFavorites)}
-        withAddToDownloads={Boolean(onAddToDownloads)}
+        withAddToDownloads={Boolean(onAddToDownloads) && !row.original.local}
 
         strings={popupActionStrings}
       />

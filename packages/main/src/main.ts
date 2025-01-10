@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import 'v8-compile-cache';
 
 import { transformSource } from '@nuclear/core';
 import { app, protocol } from 'electron';
@@ -9,15 +10,17 @@ import Config from './services/config';
 import Discord from './services/discord';
 import Store from './services/store';
 import TrayMenu from './services/trayMenu';
+import TouchbarMenu from './services/touchbar';
 import Window from './services/window';
 import Container from './utils/container';
 import LocalLibrary from './services/local-library';
 import HttpApi from './services/http';
 import LocalLibraryDb from './services/local-library/db';
+import ListeningHistoryDb from './services/listening-history/db';
 
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-(app as any).transformSource = transformSource;
+app.commandLine.appendSwitch('no-sandbox');
+app.transformSource = transformSource;
 
 let container: Container;
 
@@ -48,9 +51,11 @@ app.on('ready', async () => {
     const localLibrary = container.get<LocalLibrary>(LocalLibrary);
     const store = container.get<Store>(Store);
     const trayMenu = container.get<TrayMenu>(TrayMenu);
+    const touchbarMenu = container.get<TouchbarMenu>(TouchbarMenu);
     const window = container.get<Window>(Window);
     const discord = container.get<Discord>(Discord);
     const localLibraryDb = container.get<LocalLibraryDb>(LocalLibraryDb);
+    const listeningHistoryDb = container.get<ListeningHistoryDb>(ListeningHistoryDb);
 
     protocol.registerFileProtocol('file', (request, callback) => {
       const pathname = decodeURI(request.url.replace('file:///', ''));
@@ -65,9 +70,13 @@ app.on('ready', async () => {
     }
 
     await localLibraryDb.connect();
+    await listeningHistoryDb.connect();
     container.listen();
     await window.load();
-    trayMenu.init();
+    if (store.getOption('showTrayIcon')) {
+      trayMenu.init();
+    }
+    touchbarMenu.init();
     if (store.getOption('discordRichPresence')) {
       discord.init();
     }
@@ -84,6 +93,14 @@ app.on('ready', async () => {
   }
 });
 
+export function handleCertificateError(event, webContents, url, error, certificate, callback) {
+  logger.log('Certificate error', error, certificate);
+  event.preventDefault();
+  callback(true);
+}
+
+app.on('certificate-error', handleCertificateError);
+
 app.on('window-all-closed', async () => {
   try {
     logger.log('All windows closed, quitting');
@@ -96,12 +113,13 @@ app.on('window-all-closed', async () => {
       await httpApi.close();
     }
 
-    discord.clear();
+    await discord.clear();
     await localDb.cleanUnusedThumbnail();
   } catch (err) {
     logger.error('Something failed during app close');
     logger.error(err);
   } finally {
+    logger.log('Quitting app');
     app.quit();
   }
 });

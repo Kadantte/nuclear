@@ -14,7 +14,6 @@ import { compose, withHandlers } from 'recompose';
 
 import styles from './styles.scss';
 
-
 const LibraryFolders = ({
   openLocalFolderPicker,
   scanLocalFolders,
@@ -43,8 +42,7 @@ const LibraryFolders = ({
         disabled={_.isEmpty(localFolders)}
         loading={loading}
         onClick={scanLocalFolders}
-        className={styles.refresh_icon}
-      />
+        className={styles.refresh_icon} />
     </Segment>
     {
       scanTotal &&
@@ -52,11 +50,11 @@ const LibraryFolders = ({
         className={styles.progress_bar}
         value={scanProgress}
         total={scanTotal}
-        progress='ratio'
-      />
+        indicating
+        autoSuccess
+        progress='ratio' />
     }
-    {
-      !_.isEmpty(localFolders) &&
+    {!_.isEmpty(localFolders) &&
       <>
         <Divider />
         <List
@@ -69,15 +67,13 @@ const LibraryFolders = ({
                 <Icon
                   name='close'
                   onClick={() => onRemoveClick(folder)}
-                  className={styles.folder_remove_icon}
-                />
+                  className={styles.folder_remove_icon} />
               </List.Content>
               <List.Content>{folder}</List.Content>
             </List.Item>
           ))}
         </List>
-      </>
-    }
+      </>}
   </Segment>
 );
 

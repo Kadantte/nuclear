@@ -19,6 +19,10 @@ enum IpcEvents {
   LOCALFOLDERS_SET = 'set-localfolders',
   LOCAL_METAS = 'get-metas',
 
+  POST_LISTENING_HISTORY_ENTRY = 'post-listening-history-entry',
+  FETCH_LISTENING_HISTORY = 'fetch-listening-history',
+  CLEAR_LISTENING_HISTORY = 'clear-listening-history',
+
   TRACK_ADD = 'add-track',
   TRACK_REMOVE = 'remove-track',
   TRACK_SELECT = 'select-track',
@@ -43,6 +47,8 @@ enum IpcEvents {
 
   WINDOW_MINIMIZE = 'minimize',
   WINDOW_MAXIMIZE = 'maximize',
+  WINDOW_MINIFY = 'minify',
+  WINDOW_RESTORE = 'restore',
   WINDOW_CLOSE = 'close',
   WINDOW_OPEN_DEVTOOLS = 'open-devtools',
 
@@ -54,6 +60,10 @@ enum IpcEvents {
   PLAYLIST_ACTIVATE = 'activate-playlist',
   PLAYLIST_ADD_QUEUE = 'add-queue-playlist',
 
+  IMPORT_SPOTIFY_PLAYLIST_METADATA = 'import-spotify-playlist-metadata',
+  IMPORT_SPOTIFY_PLAYLIST_PROGRESS = 'import-spotify-playlist-progress',
+  IMPORT_SPOTIFY_PLAYLIST_SUCCESS = 'import-spotify-playlist-success',
+
   EQUALIZER_UPDATE = 'update-equalizer',
   EQUALIZER_SET = 'set-equalizer',
 
@@ -63,7 +73,11 @@ enum IpcEvents {
 
   PLAY_STARTUP_TRACK = 'play-startup-track',
 
-  ELECTRON_TIMBER_ERROR_EVENT = '__ELECTRON_TIMBER_ERROR__'
+  ELECTRON_TIMBER_ERROR_EVENT = '__ELECTRON_TIMBER_ERROR__',
+
+  NAVIGATE_BACK = 'navigate-back',
+  NAVIGATE_FORWARD = 'navigate-forward',
+
 }
 
 export default IpcEvents;

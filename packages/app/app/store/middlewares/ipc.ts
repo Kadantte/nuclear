@@ -1,15 +1,13 @@
 import { getOption, IpcEvents, isValidPort } from '@nuclear/core';
 import { ipcRenderer } from 'electron';
 import _ from 'lodash';
-
-import { PAUSE_PLAYBACK, START_PLAYBACK, UPDATE_VOLUME } from '../../actions/player';
-import { LocalLibrary } from '../../actions/actionTypes';
-import { ADD_QUEUE_ITEM, CLEAR_QUEUE, REMOVE_QUEUE_ITEM, QUEUE_DROP } from '../../actions/queue';
-import { Settings } from '../../actions/actionTypes';
-import { changeConnectivity } from '../../actions/connectivity';
-import { ADD_TO_DOWNLOADS, DOWNLOAD_RESUMED, DOWNLOAD_PAUSED, DOWNLOAD_FINISHED, DOWNLOAD_ERROR } from '../../actions/downloads';
-import { CLOSE_WINDOW, MINIMIZE_WINDOW, MAXIMIZE_WINDOW, OPEN_DEVTOOLS } from '../../actions/window';
+import { Middleware } from 'redux';
 import { getType } from 'typesafe-actions';
+import { LocalLibrary, Queue, Settings } from '../../actions/actionTypes';
+import { changeConnectivity } from '../../actions/connectivity';
+import * as DownloadActions from '../../actions/downloads';
+import * as PlayerActions from '../../actions/player';
+import { CLOSE_WINDOW, MAXIMIZE_WINDOW, MINIMIZE_WINDOW, OPEN_DEVTOOLS } from '../../actions/window';
 
 type IpcActionType = {
   type: string;
@@ -19,7 +17,7 @@ type IpcActionType = {
   };
 }
 
-const ipcConnect = () => next => {
+const ipcConnect: Middleware = () => next => {
   next({
     type: LocalLibrary.UPDATE_LOCAL_FOLDERS,
     payload: ipcRenderer.sendSync(IpcEvents.LOCALFOLDERS_GET)
@@ -37,14 +35,17 @@ const ipcConnect = () => next => {
     }
   
     switch (type) {
-    case START_PLAYBACK:
+    case getType(PlayerActions.startPlayback):
       ipcRenderer.send(IpcEvents.PLAY);
       break;
-    case UPDATE_VOLUME:
+    case getType(PlayerActions.updateVolume):
       ipcRenderer.send(IpcEvents.VOLUME, payload);
       break;
-    case PAUSE_PLAYBACK:
+    case getType(PlayerActions.pausePlayback):
       ipcRenderer.send(IpcEvents.PAUSE);
+      break;
+    case getType(PlayerActions.stopPlayback):
+      ipcRenderer.send(IpcEvents.STOP);
       break;
     
     case LocalLibrary.SCAN_LOCAL_FOLDERS:
@@ -57,16 +58,16 @@ const ipcConnect = () => next => {
       ipcRenderer.send(IpcEvents.LOCALFOLDERS_SET, payload);
       break;
   
-    case ADD_QUEUE_ITEM:
+    case Queue.ADD_QUEUE_ITEM:
       ipcRenderer.send(IpcEvents.TRACK_ADD, payload.item);
       break;
-    case CLEAR_QUEUE:
+    case Queue.CLEAR_QUEUE:
       ipcRenderer.send(IpcEvents.QUEUE_CLEAR);
       break;
-    case REMOVE_QUEUE_ITEM:
+    case Queue.REMOVE_QUEUE_ITEM:
       ipcRenderer.send(IpcEvents.TRACK_REMOVE, payload);
       break;
-    case QUEUE_DROP:
+    case Queue.QUEUE_DROP:
       return ipcRenderer.send(IpcEvents.QUEUE_DROP, payload);
   
     case Settings.SET_BOOLEAN_OPTION:
@@ -92,10 +93,14 @@ const ipcConnect = () => next => {
       ipcRenderer.send(IpcEvents.CONNECTIVITY, payload);
       break;
 
-    case ADD_TO_DOWNLOADS:
-    case DOWNLOAD_RESUMED: {
-      const {track} =_.find(payload.downloads, (item) => item.track.uuid === payload.track);
+    case getType(DownloadActions.addToDownloads):
+    case getType(DownloadActions.onDownloadResume): {
+      if (!payload.track) {
+        break;
+      }
 
+      const {track} =_.find(payload.downloads, (item) => item.track.uuid === payload.track);
+      
       let maxDownloads;
       try {
         maxDownloads = Number(getOption('max.downloads'));
@@ -105,17 +110,19 @@ const ipcConnect = () => next => {
       if (payload.downloads.filter(({status}) => status === 'Started' || status === 'Waiting').length > maxDownloads) {
         break;
       }
+      
       ipcRenderer.send(IpcEvents.DOWNLOAD_START, track);
       break;
     }
-    case DOWNLOAD_PAUSED: {
+    case getType(DownloadActions.onDownloadPause): {
       const {track} =_.find(payload.downloads, (item) => item.track.uuid === payload.track);
 
       ipcRenderer.send(IpcEvents.DOWNLOAD_PAUSE, track);
       break;
     }
-    case DOWNLOAD_FINISHED:
-    case DOWNLOAD_ERROR: {
+    case getType(DownloadActions.resumeDownloads):
+    case getType(DownloadActions.onDownloadFinished):
+    case getType(DownloadActions.onDownloadError): {
       const nextDownload = payload.find((download) =>
         download.status==='Waiting'
       );

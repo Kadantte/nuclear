@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NuclearStatus, NuclearMeta, NuclearPlaylist, PlaybackStatus, IpcEvents } from '@nuclear/core';
+import { IpcEvents, NuclearMeta, NuclearPlaylist, NuclearStatus, PlaybackStatus } from '@nuclear/core';
 import autobind from 'autobind-decorator';
-import { app, IpcMain, Event } from 'electron';
+import { app, Event, IpcMain } from 'electron';
 import { inject } from 'inversify';
-import MprisService, { MprisPlaylist, MprisMeta, PlaybackStatus as MprisStatus, LoopStatus } from 'mpris-service';
+import MprisService, { LoopStatus, MprisMeta, MprisPlaylist, PlaybackStatus as MprisStatus } from 'mpris-service';
 
 import NuclearApi from '../../interfaces/nuclear-api';
-import { systemMediaController, systemMediaEvent, SYSTEM_MEDIA_EVENT_KEY } from '../../utils/decorators';
+import { SYSTEM_MEDIA_EVENT_KEY, systemMediaController, systemMediaEvent } from '../../utils/decorators';
 import { ControllerMeta } from '../../utils/types';
 import Config from '../config';
 import Discord from '../discord';
@@ -35,7 +35,7 @@ const loopStatusMapper: Record<string, LoopStatus> = {
  * @see {@link https://github.com/altdesktop/playerctl}
  */
 
-@systemMediaController() 
+@systemMediaController()
 class LinuxMediaService extends MprisService implements NuclearApi {
   tracks: MprisMeta[];
 
@@ -87,7 +87,7 @@ class LinuxMediaService extends MprisService implements NuclearApi {
     return {
       Id: this.objectPath(`playlist/${index}`),
       Name: playlist.name,
-      Icon: playlist.tracks[0].thumbnail || ''
+      Icon: playlist.tracks?.[0]?.thumbnail || ''
     };
   }
 
@@ -118,7 +118,7 @@ class LinuxMediaService extends MprisService implements NuclearApi {
     this.loopStatus = this.loopStatus === MprisService.LOOP_STATUS_PLAYLIST
       ? MprisService.LOOP_STATUS_NONE
       : MprisService.LOOP_STATUS_PLAYLIST;
-  
+
     this.window.send(IpcEvents.SETTINGS, { loopAfterQueueEnd: this.loopStatus === MprisService.LOOP_STATUS_PLAYLIST });
   }
 
@@ -138,9 +138,17 @@ class LinuxMediaService extends MprisService implements NuclearApi {
 
   @systemMediaEvent('stop')
   onStop() {
-    this.playbackStatus = MprisService.PLAYBACK_STATUS_STOPED;
+    this.playbackStatus = MprisService.PLAYBACK_STATUS_STOPPED;
     this.discord.clear();
+    this.metadata['mpris:length'] = 0; 
     this.window.send(IpcEvents.STOP);
+    this.sendMetadata({
+      artist: 'Nuclear',
+      name: '',
+      uuid: '0',
+      thumbnail: '',
+      streams: []
+    });
   }
 
   @systemMediaEvent('playpause')
@@ -231,7 +239,7 @@ class LinuxMediaService extends MprisService implements NuclearApi {
     this.playbackStatus = statusMapper[status.playbackStatus];
     this.volume = status.volume / 100;
     this.shuffle = status.shuffleQueue;
-    this.loopStatus =loopStatusMapper[status.loopAfterQueueEnd.toString()];
+    this.loopStatus = loopStatusMapper[status.loopAfterQueueEnd.toString()];
 
     const meta: ControllerMeta[] = Reflect.getMetadata(SYSTEM_MEDIA_EVENT_KEY, LinuxMediaService.prototype);
 
@@ -244,7 +252,7 @@ class LinuxMediaService extends MprisService implements NuclearApi {
 
         if (result instanceof Promise) {
           result.catch((err: Error) => {
-            this.logger.error(`error in event ${eventName} => ${err.message}`);
+            this.logger.error(`lo ${eventName} => ${err.message}`);
           });
         }
       });

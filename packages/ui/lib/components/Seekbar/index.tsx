@@ -6,8 +6,10 @@ import styles from './styles.scss';
 import { Popup } from 'semantic-ui-react';
 
 type QueueItem = {
-  streams: { duration: number }[];
+  loading?: boolean;
+  streams?: { duration?: number }[];
 };
+
 type Segment = {
   startTime: number;
   endTime: number;
@@ -15,7 +17,7 @@ type Segment = {
 };
 
 export type SeekbarProps = {
-  children?: React.ReactNode;
+  isLoading?: boolean;
   fill: number;
   seek: (arg0: number) => void;
   queue: {
@@ -25,17 +27,18 @@ export type SeekbarProps = {
   height?: string;
   skipSegments?: Segment[];
   allowSkipSegment?: boolean;
-  timePlayed?: number;
+  timePlayed?: any;
   segmentPopupMessage: string;
 };
 
 const Seekbar: React.FC<SeekbarProps> = ({
   children,
+  isLoading,
   fill,
   seek,
   queue,
   height,
-  skipSegments=[],
+  skipSegments = [],
   allowSkipSegment,
   timePlayed,
   segmentPopupMessage
@@ -52,6 +55,7 @@ const Seekbar: React.FC<SeekbarProps> = ({
       }
     }
   }, [hasMounted, seek, skipSegments, timePlayed, allowSkipSegment]);
+
   const duration = queue?.queueItems[queue.currentSong]?.streams?.[0]?.duration;
 
   const handleClick = useCallback((seek) => {
@@ -63,21 +67,24 @@ const Seekbar: React.FC<SeekbarProps> = ({
 
   return (
     <div
+      data-testid='seekbar'
       className={cx(
         common.nuclear,
-        styles.seekbar
+        styles.seekbar,
+        isLoading ? 'loading' : ''
       )}
       onClick={handleClick(seek)}
       style={{ height }}
     >
       <div
-        style={{ width: `${fill}%` }}
+        data-testid='seekbar-fill'
+        style={{ width: `${isLoading ? 0 : fill}%` }}
         className={cx(
           common.nuclear,
           styles.seekbar_progress
         )}
       >
-        {children}
+        {!isLoading && children}
         {skipSegments.map((segment, index) => <Popup
           key={index}
           className={styles.seekbar_popup}

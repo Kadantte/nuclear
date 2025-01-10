@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { compose, withHandlers } from 'recompose';
 import { Icon, Dropdown } from 'semantic-ui-react';
 import { PopupButton, PopupDropdown, getThumbnail } from '@nuclear/ui';
+import { withTranslation } from 'react-i18next';
 
 import * as DownloadsActions from '../../actions/downloads';
 import * as QueueActions from '../../actions/queue';
@@ -17,7 +18,6 @@ import { normalizeTrack } from '../../utils';
 import { addTrackToPlaylist } from '../../components/PlayQueue/QueueMenu/QueueMenuMore';
 
 const QueuePopupButtons = ({
-  // track,
   playlists,
   withPlayNow,
   withAddToFavorites,
@@ -26,7 +26,8 @@ const QueuePopupButtons = ({
   handlePlayNow,
   handleAddFavorite,
   handleAddToDownloads,
-  handleAddToPlaylist
+  handleAddToPlaylist,
+  t
 }) => (
   <>
     {withPlayNow && (
@@ -34,11 +35,11 @@ const QueuePopupButtons = ({
         onClick={handlePlayNow}
         ariaLabel='Play this track now'
         icon='play'
-        label='Play now'
+        label={t('play-now')}
       />
     )}
     {withAddToPlaylist && Boolean(playlists.length) && (
-      <PopupDropdown text='Add to playlist'>
+      <PopupDropdown text={t('playlist-add')} direction='left'>
         {_.map(playlists, (playlist, i) => {
           return (
             <Dropdown.Item
@@ -56,9 +57,9 @@ const QueuePopupButtons = ({
       <PopupButton
         onClick={handleAddFavorite}
         ariaLabel='Add this track to favorites'
-        icon='star'
+        icon='heart'
         data-testid='queue-popup-favorite'
-        label='Add to favorites'
+        label={t('favorite-add')}
       />
     )}
     {withAddToDownloads && (
@@ -66,19 +67,21 @@ const QueuePopupButtons = ({
         onClick={handleAddToDownloads}
         ariaLabel='Download this track'
         icon='download'
-        label='Download'
+        label={t('download')}
       />
     )}
   </>
 );
 
-const mapStateToProps = (state, { track }) => ({
-  streamProviders: track.local
-    ? _.filter(state.plugin.plugins.streamProviders, { sourceName: 'Local' })
-    : state.plugin.plugins.streamProviders,
-  settings: state.settings,
-  playlists: state.playlists.playlists
-});
+const mapStateToProps = (state, { track }) => {
+  return ({
+    streamProviders: track.local
+      ? _.filter(state.plugin.plugins.streamProviders, { sourceName: 'Local' })
+      : state.plugin.plugins.streamProviders,
+    settings: state.settings,
+    playlists: state.playlists.localPlaylists.data
+  });
+};
 
 const mapDispatchToProps = dispatch => ({
   downloadsActions: bindActionCreators(DownloadsActions, dispatch),
@@ -170,5 +173,6 @@ export default compose(
         settings
       );
     }
-  })
+  }),
+  withTranslation('queue')
 )(QueuePopupButtons);

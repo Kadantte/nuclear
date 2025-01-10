@@ -3,9 +3,10 @@
 @import "../../../../ui/lib/common.scss";
 
 .album_view_container {
+  display: flex;
+  flex-flow: column;
   width: 100%;
   height: 100%;
-  margin: 1rem 0 0 0;
 
   .album_buttons {
     display: flex;
@@ -26,24 +27,24 @@
   }
 
   .more_button {
-    border: 1px solid white;
+    border: 1px solid $white;
     border-radius: 1.5rem;
   }
 
   .dimmable {
+    display: flex;
+    flex-flow: column;
     width: 100%;
     height: 100%;
 
     .album {
       display: flex;
       flex-flow: column;
+      flex: 1 1 auto;
     }
 
     .album_info_box {
       display: flex;
-
-      margin: 0rem 1rem;
-
       flex-flow: row;
 
       img {
@@ -59,30 +60,25 @@
 
       .album_details {
         display: flex;
-
         flex: 1;
-
         margin: 0rem 1rem;
-
         font-size: 16px;
-
         flex-flow: column;
-
         min-width: 300px;
 
         label {
           margin: 0 0.5rem 0 0;
-
-          color: $lightbg;
+          color: rgba($white, 0.6);
         }
 
         .album_title {
           display: flex;
           flex-direction: row;
+          align-items: center;
 
           .album_text {
             font-size: 32px;
-            line-height: 32px;
+            line-height: 1.2;
             flex: 1;
             @include ellipsis;
           }
@@ -91,11 +87,11 @@
         .album_artist {
           margin: 1rem 0;
 
-          color: $lightbg;
+          color: rgba($white, 0.6);
 
           font-size: 20px;
           a {
-            color: $lightbg;
+            color: rgba($white, 0.6);
             transition: $short-duration;
 
             &:hover {
@@ -122,46 +118,9 @@
       }
     }
 
-    .album_tracklist {
-      flex: 1 1 auto;
-      width: calc(100% - 3rem);
-      margin: 3rem 1rem;
-      font-size: 16px;
-
-      thead {
-        background: $background2;
-
-        th {
-          padding: 1rem 1rem;
-        }
-      }
-
-      tbody {
-        tr {
-          transition: $short-duration;
-        }
-
-        td {
-          padding: 1rem 1rem;
-          border-bottom: 1px solid $background2;
-        }
-      }
-
-      .left {
-        text-align: left;
-      }
-
-      .center {
-        text-align: center;
-      }
-
-      .position {
-        width: 48px;
-      }
-
-      .duration {
-        width: 64px;
-      }
+    [role="table"] {
+      margin-top: 2rem;
+      width: 100%;
     }
 
     .error {

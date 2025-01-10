@@ -14,23 +14,24 @@ class JamendoPlugin extends StreamProviderPlugin {
     this.image = null;
   }
 
-  search(query: StreamQuery): Promise<void | StreamData>  {
-    return this.getSearchResults(query).then(responseJson => {
-      if (responseJson.results.length === 0) {
-        return null;
-      }
+  search(query: StreamQuery): Promise<undefined | StreamData[]>  {
+    return this.getSearchResults(query)
+      .then(responseJson => {
+        if (responseJson.results.length === 0) {
+          return null;
+        }
 
-      const track = responseJson.results[0].tracks[0];
-      return {
-        source: this.sourceName,
-        id: track.id,
-        stream: track.audio,
-        duration: track.duration,
-        title: track.name,
-        thumbnail: track.image,
-        originalUrl: track.audio
-      };
-    });
+        const track = responseJson.results[0].tracks[0];
+        return [{
+          source: this.sourceName,
+          id: track.id,
+          stream: track.audio,
+          duration: track.duration,
+          title: track.name,
+          thumbnail: track.image,
+          originalUrl: track.audio
+        }];
+      });
   }
 
   getSearchResults(query) {
@@ -42,13 +43,7 @@ class JamendoPlugin extends StreamProviderPlugin {
       });
   }
 
-  getAlternateStream(query, currentStream) {
-    return this.getSearchResults(query).then(results => {
-      return _.find(results, result => result && result.id !== currentStream.id);
-    });
-  }
-
-  async getStreamForId(id: string): Promise<void | StreamData> {
+  async getStreamForId(id: string): Promise<undefined | StreamData> {
     return this.getTrackById(id).then(responseJson => {
       if (responseJson.results.length === 0) {
         return null;
@@ -75,7 +70,6 @@ class JamendoPlugin extends StreamProviderPlugin {
         logger.error(err);
       });
   }
-
 }
 
 export default JamendoPlugin;

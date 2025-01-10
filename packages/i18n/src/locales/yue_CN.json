@@ -8,7 +8,13 @@
     "play": "播放",
     "queue": "添加專輯到播放列表",
     "tracks": "曲目：",
-    "year": "年份："
+    "year": "年份：",
+    "add-to-playlist": "Add album to playlist",
+    "create-playlist": "Create a new playlist",
+    "create-playlist-dialog-title": "Input playlist name:",
+    "create-playlist-dialog-placeholder": "Playlist name...",
+    "create-playlist-dialog-accept": "Save",
+    "create-playlist-dialog-cancel": "Cancel"
   },
   "app": {
     "collection": "收藏",
@@ -19,33 +25,52 @@
     "favorite-artists": "鍾意嘅藝人",
     "favorite-tracks": "鍾意嘅曲目",
     "library": "本地曲庫",
+    "listening-history": "Listening History",
     "lyrics": "歌詞",
     "main": "主頁",
     "playlists": "播放列表",
     "plugins": "插件",
     "search": "搜索結果",
     "settings": "設置",
-    "visualizer": "可视器（？）"
+    "visualizer": "可视器（？）",
+    "user-panel": {
+      "actions-tooltip": "操作记录",
+      "sign-up": "注册/登入",
+      "sign-out": "登出"
+    },
+    "version": "版本"
   },
   "artist": {
-    "count": "播放计数",
+    "add-all": "添加所有",
+    "count": "Playcount",
     "queue": "将所有曲目加入播放列表",
     "similar": "类似嘅艺术家",
     "title": "标题",
-    "tour": "On tour"
+    "tour": "On tour",
+    "popular-tracks": "Popular tracks",
+    "artist-albums": {
+      "header": "Albums",
+      "sort-by-release-date": "Sort by release date",
+      "sort-by-az": "Sort A-Z",
+      "sort-by-most-played": "Sort by most played",
+      "filter-placeholder": "Filter..."
+    }
   },
   "dashboard": {
     "add-all": "添加所有",
     "artist": "音乐家",
-    "best": "最佳新曲",
-    "best-new-albums": "最佳新专辑",
-    "best-new-tracks": "最佳新单曲",
     "genres": "曲风",
     "news": "新闻",
     "playcounts": "播放计数",
+    "playlists": "Trending",
     "popular-track-title": "嚟自Deezer嘅热门单曲",
     "title": "标题",
-    "top": "热门单曲"
+    "top": "热门单曲",
+    "trending-playlists": "Trending playlists",
+    "trending-artists": "Trending artists",
+    "trending-albums": "Trending albums",
+    "filter": "Filter...",
+    "nothing-found": "Nothing found."
   },
   "downloads": {
     "clear": "清除已播放单曲",
@@ -55,6 +80,18 @@
     "header": "下载",
     "name": "名称",
     "status": "状态"
+  },
+  "equalizer": {
+    "classical": "古典",
+    "club": "Club",
+    "custom": "自定义",
+    "default": "默认",
+    "full-bass": "Full Bass",
+    "full-treble": "Full Treble",
+    "pop": "Pop",
+    "presets": "Presets",
+    "reggae": "Reggae",
+    "rock": "Rock"
   },
   "favorite-albums": {
     "empty": "冇钟意嘅专辑",
@@ -71,17 +108,16 @@
     "empty": "No favorites added",
     "empty-help": "Try adding some tracks to favorites and they will appear here!",
     "header": "钟意嘅单曲",
+    "play-random": "Play a random track from your favorites",
     "title": "Title"
   },
   "help": {
     "about": "About Nuclear Music Player",
+    "contributors": "Our top 10 Contributors",
     "header": "Desktop music player for streaming from free sources",
     "released": "released under AGPL-3.0",
     "report": "Submit issues or new features",
     "thanks": "多谢我哋喺Github嘅贡献者，你哋嘅帮助对呢个项目非常重要。"
-  },
-  "input-dialog": {
-    "cancel": "Cancel"
   },
   "library": {
     "add": "Add folders",
@@ -102,6 +138,7 @@
     "not-found": "No lyrics were found for this song."
   },
   "option-control": {
+    "rate": "Playback speed",
     "autoradio": "Autoradio",
     "loop": "Loop",
     "mini-player": "Miniplayer",
@@ -119,10 +156,9 @@
     "album": "Album",
     "artist": "Artist",
     "delete": "Delete this playlist",
-    "dialog-placeholder": "Playlist name...",
     "duration": "Length",
     "empty": "No playlists.",
-    "empty-help": "Try to create some playlists or import by url and they will appear here!",
+    "empty-help": "Try creating playlists, or import by URL, and they will appear here!",
     "error-empty-data": "Empty data",
     "error-invalid-data": "Invalid data",
     "error-open-file": "Can not open file",
@@ -131,9 +167,17 @@
     "export-fail-title": "导出播放列表失败",
     "export-success-title": "成功导出播放列表",
     "header": "你嘅播放列表",
+    "header-add-button": "Add",
+    "import-progress": "Import progress",
+    "spotify-import-placeholder": "Paste a Spotify playlist URL here",
+    "dialog-placeholder": "Playlist name...",
     "dialog-accept": "Save",
-    "create-button": "Create new playlist",
+    "dialog-cancel": "Cancel",
+    "dialog-rename": "Rename",
+    "dialog-import": "Import",
+    "create-button": "Create a new playlist",
     "new-playlist": "New playlist",
+    "import-url-button": "Import from Spotify",
     "import-button": "由文件导入(JSON)",
     "import-fail-title": "Playlist import fail",
     "import-success-title": "Playlist imported successfully",
@@ -146,7 +190,21 @@
     "songs_plural": "{{total}} songs",
     "title": "Title",
     "tracks-selected-plural": "tracks selected",
-    "tracks-selected-singular": "track selected"
+    "tracks-selected-singular": "track selected",
+    "tracks-singular": "track",
+    "tracks-plural": "tracks",
+    "modified-at": "Last modified: ",
+    "never-modified": "Unknown",
+    "server-modified-at": "Server modified: ",
+    "upload-to-server": "Upload to server",
+    "download-from-server": "Download from server",
+    "number-of-tracks": "tracks",
+    "input-playlist-url": "Paste playlist URL:",
+    "create-playlist-dialog-title": "Input playlist name:",
+    "playlist": "Playlist",
+    "play": "Play",
+    "external-source-tooltip": "This playlist is from an external source: {{source}}. You can't edit it. Save it locally using the playlist menu to make changes.",
+    "save-external-playlist": "Save locally"
   },
   "plugins": {
     "add-a-plugin": "Add a plugin",
@@ -164,6 +222,7 @@
   "queue": {
     "clear": "Clear queue",
     "dialog-accept": "Save",
+    "dialog-cancel": "Cancel",
     "dialog-placeholder": "Playlist name...",
     "dialog-trigger": "Save as playlist",
     "download": "Download",
@@ -172,41 +231,68 @@
     "favorite-add": "Add to favorites",
     "header": "Queue",
     "header-track": "Current track",
-    "id": "Stream ID:",
-    "source": "Source:",
-    "copy-track-url": "Copy track url to clipboard",
+    "copy-track-url": "Copy track URL to clipboard",
     "loading": "Stream still loading.",
     "playlist-add": "Add to playlist",
+    "playlist-add-queue": "Add queue to playlist",
     "playlist-toast-content": "Playlist {{name}} has been created.",
     "playlist-toast-title": "Playlist created",
-    "title": "Title:"
+    "live": "Live",
+    "stream-verification": {
+      "tooltip": {
+        "unknown": "The status of this stream is unknown.",
+        "unverified": "This stream has not yet been verified by the community.",
+        "weakly-verified": "This stream has been verified by a couple of users.",
+        "verified": "This stream has been verified by the community.",
+        "verified-by-user": "This stream has been verified by you."
+      },
+      "stream-status": {
+        "unknown": "Unknown",
+        "unverified": "Unverified",
+        "weakly-verified": "Weakly verified",
+        "verified": "Verified",
+        "verified-by-user": "Verified by you"
+      },
+      "verify": "Verify",
+      "unverify": "Unverify"
+    },
+    "create-playlist-dialog-title": "Input playlist name:",
+    "play-now": "Play now"
   },
   "search": {
     "album": "Album",
     "album_plural": "Albums",
+    "all": "All",
     "artist": "Artist",
     "artist_plural": "Artists",
     "clear-history": "Clear history",
     "empty": "Nothing found.",
     "last-searches": "Last searches",
+    "live-stream": "LiveStream",
     "placeholder": "Search...",
     "playlist": "Playlist",
     "playlist_plural": "Playlists",
+    "podcast": "Podcast",
     "queue-add": "Add all tracks to queue",
     "track": "Track",
     "track_plural": "Tracks",
     "you-can-search-for": "You can search for:"
   },
   "seekbar": {
+    "live": "Live",
     "segment-popup": "Non-music"
   },
   "settings": {
     "api-port": "Port used by the api",
     "api-url": "",
+    "audio": "Audio",
     "autoradio": "Autoradio",
     "autoradio-craziness": "Autoradio craziness",
     "autoradio-craziness-description": "Autoradio will select songs that are less similar to the ones already in the queue the crazier it is",
     "autoradio-description": "Add similar tracks automatically when the queue is ending",
+    "auto-download-favourites": "Auto download favorite track",
+    "listening-history": "Listening history",
+    "listening-history-description": "Log the tracks you listen to, a la Last.fm. The history is stored offline.",
     "compact-menu-bar": "Use compact style for menu bar",
     "compact-queue-bar": "Use compact style for queue bar",
     "developer": "Developer settings",
@@ -225,13 +311,14 @@
     "github-description": "Log in via Github to be able to create and share your playlists online (upcoming feature).",
     "github-title": "Github",
     "http": "HTTP API",
-    "invidious-url": "Invidious instance url",
+    "invidious-url": "Invidious instance URL",
     "language": "Language",
     "language-placeholder": "Pick a language",
     "lastfm-connect": "Connect with Last.fm",
     "lastfm-description": "In order to enable scrobbling, you first have to connect and authorize Nuclear on Last.fm, then click log in.",
     "lastfm-enable": "Enable scrobbling to Last.fm",
     "lastfm-title": "Last.fm",
+    "less": "Less",
     "login": "Log in",
     "logout": "Log out",
     "loop-after-queue-end": "Loop after playing the last queue item",
@@ -241,16 +328,25 @@
     "mastodon-awaiting-authorization": "Nuclear is registered on {{instanceUrl}}. Awaiting authorization.",
     "mastodon-description": "",
     "mastodon-instance-label": "Mastodon instance URL",
-    "mastodon-post-format-description": "Nuclear will post a status on Mastodon after each track completes playing. The above string will be the template for each post, with {{artist}} and {{title}} replaced with the artist and title of the track.",
+    "mastodon-post-format-description": "Nuclear will post a status on Mastodon after each track completes playing. The above string will be the template for each post, with {{artist}}, {{title}}, and {{url}} replaced with the artist, title, and a link to the track respectively.",
     "mastodon-post-format-label": "Post format",
     "mastodon-title": "",
+    "normalize": "Normalize volume",
+    "normalize-description": "Automatically adjust volume of tracks so that they are played at the same level. This needs to fetch the whole track to work, so it may cause a delay between tracks.",
+    "nuclear-identity-service-url": "Nuclear identity service URL",
+    "nuclear-playlists-service-url": "Nuclear playlists service URL",
     "mini-player": "Use mini player style",
+    "more": "More",
     "discord-rich-presence": "Toggle discord rich presence (requires restart)",
     "notification-timeout": "Notification timeout",
     "notlogged": "Not logged in",
     "playback": "Playback",
     "program-settings": "Program settings",
+    "promoted-artists": "Show promoted artists in the dashboard",
+    "promoted-artists-description": "This is a reel of interesting, handpicked indie artists you might like. No one's receiving any compensation for this.",
+    "saving-in": "Saving in:",
     "seek-iteration": "Number of seconds to seek forward/backwards when pressing arrow keys",
+    "show-tray-icon": "Show tray icon",
     "shuffle-queue": "Shuffle songs",
     "shuffle-when-going-back": "Shuffle on previous track",
     "shuffle-when-going-back-description": "Play a random track when shuffle is active and the previous track button is clicked",
@@ -260,6 +356,9 @@
     "streaming": "Streaming",
     "track-duration": "Display track duration over the seekbar",
     "user": "User:",
+    "user-id": "User ID",
+    "use-stream-verification": "Use stream verification",
+    "use-stream-verification-description": "Use stream verification. Loads the streams the community has verified as being correct for the tracks you play. Also allows you to vote on streams. See documentation for details.",
     "youtube": "Youtube",
     "yt-api-key": "Youtube API Key"
   },
@@ -275,6 +374,11 @@
     "add-to-favorite": "Add to favorites",
     "add-to-playlist": "Add to playlist",
     "add-to-queue": "Add to queue",
+    "create-playlist": "Create a new playlist",
+    "create-playlist-dialog-title": "Input playlist name:",
+    "create-playlist-dialog-placeholder": "Playlist name...",
+    "create-playlist-dialog-accept": "Save",
+    "create-playlist-dialog-cancel": "Cancel",
     "download": "Download",
     "download-toast-body": "{{artist}} - {{track}} has been added to downloads.",
     "download-toast-title": "Track added to downloads",
@@ -291,9 +395,94 @@
     "add-selected-tracks-to-favorites": "Add selected to favorites",
     "play-selected-tracks-now": "Play selected now",
     "tracks-selected-label-singular": "track selected",
-    "tracks-selected-label-plural": "tracks selected"
+    "tracks-selected-label-plural": "tracks selected",
+    "filter-input-placeholder": "Filter..."
   },
   "visualizer": {
     "exit-fullscreen": "Press ESC to exit full screen"
+  },
+  "command-palette": {
+    "reminder": "to open the command palette",
+    "search-placeholder": "What would you like to do?",
+    "empty-state-help": "Can't seem to find what you're looking for? Try the help command.",
+    "protip-text": "PROTIP:",
+    "protip-content": "Arrows to navigate, Enter to select, Esc to close",
+    "categories": {
+      "playback": "Playback",
+      "queue": "Queue",
+      "navigation": "Navigation",
+      "application": "Application"
+    },
+    "actions": {
+      "play": "Play",
+      "pause": "Pause",
+      "next": "Next",
+      "previous": "Previous",
+      "go-to-next-page": "Go to next page",
+      "go-to-previous-page": "Go to previous page",
+      "shuffle": "Shuffle",
+      "loop": "Loop",
+      "autoradio": "Autoradio",
+      "raise-volume": "Raise volume",
+      "lower-volume": "Lower volume",
+      "mute": "Mute",
+      "unmute": "Unmute",
+      "quit": "Quit",
+      "minimize": "Minimize",
+      "maximize": "Maximize",
+      "go-to-dashboard": "Go to dashboard",
+      "go-to-downloads": "Go to downloads",
+      "go-to-lyrics": "Go to lyrics",
+      "go-to-plugins": "Go to plugins",
+      "go-to-search": "Go to search",
+      "go-to-settings": "Go to settings",
+      "go-to-equalizer": "Go to equalizer",
+      "go-to-visualizer": "Go to visualizer",
+      "go-to-playlists": "Go to playlists",
+      "go-to-favorite-tracks": "Go to favorite tracks",
+      "go-to-library": "Go to local library"
+    }
+  },
+  "listening-history": {
+    "title": "Listening history",
+    "empty-state": "You haven't listened to anything yet.",
+    "clear-history": "Clear history",
+    "clear-history-confirm": "Are you sure you want to clear your listening history?",
+    "clear-history-confirm-yes": "Confirm",
+    "clear-history-confirm-no": "Cancel",
+    "clear-history-toast": "Listening history cleared"
+  },
+  "forms": {
+    "nuclear-sign-up": {
+      "header": "Sign up",
+      "secondary-header": "Sign up to Nuclear Web Services",
+      "side-paragraph-1": "NWS enables you to backup your playlists online and share them.",
+      "side-paragraph-2": "Providing your email is optional; it will allow you to recover your account if you forget your password.",
+      "username-label": "Username",
+      "email-label": "Email",
+      "password-label": "Password",
+      "sign-up-button": "Sign up",
+      "validation": {
+        "username": {
+          "length": "Username must be 4 characters or more",
+          "required": "Username is required"
+        },
+        "email": {
+          "invalid": "Email must be a valid email"
+        },
+        "password": {
+          "length": "Password must be 6 characters or more",
+          "required": "Password is required"
+        }
+      }
+    },
+    "nuclear-sign-in": {
+      "header": " Sign in",
+      "username-label": "Username",
+      "password-label": "Password",
+      "no-account-label": "Don't have an account?",
+      "no-account-link": "Sign up",
+      "sign-in-button": "Sign in"
+    }
   }
 }

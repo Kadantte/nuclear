@@ -1,21 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Img from 'react-image';
 import _ from 'lodash';
-import cx from 'classnames';
-import { Dimmer, Icon, Loader } from 'semantic-ui-react';
+import { Dimmer, Icon, Loader, Dropdown } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
-import { Loader as NuclearLoader, ContextPopup, PopupButton } from '@nuclear/ui';
-import { AlbumDetails } from '@nuclear/core/src/plugins/plugins.types';
-
-import TrackRow from '../TrackRow';
-import TrackRowHeading from '../TrackRowHeading/index';
+import { Loader as NuclearLoader, ContextPopup, PopupButton, PopupDropdown, InputDialog } from '@nuclear/ui';
 import styles from './styles.scss';
 import artPlaceholder from '../../../resources/media/art_placeholder.png';
+import TrackTableContainer from '../../containers/TrackTableContainer';
+import { AlbumDetailsState } from '../../reducers/search';
 
 type AlbumViewProps = {
-  album?: AlbumDetails & {
-    loading?: boolean;
-  };
+  album?: AlbumDetailsState 
   isFavorite: boolean;
   searchAlbumArtist: React.MouseEventHandler;
   addAlbumToDownloads: React.MouseEventHandler;
@@ -23,6 +18,9 @@ type AlbumViewProps = {
   playAll: React.MouseEventHandler;
   removeFavoriteAlbum: React.MouseEventHandler;
   addFavoriteAlbum: React.MouseEventHandler;
+  addAlbumToPlaylist: (playlistName: string) => void;
+  playlistNames: string[];
+  addAlbumToNewPlaylist?: (playlistName: string) => void;
 }
 
 export const AlbumView: React.FC<AlbumViewProps> = ({
@@ -33,9 +31,16 @@ export const AlbumView: React.FC<AlbumViewProps> = ({
   addAlbumToQueue,
   playAll,
   removeFavoriteAlbum,
-  addFavoriteAlbum
+  addFavoriteAlbum,
+  addAlbumToPlaylist,
+  playlistNames,
+  addAlbumToNewPlaylist
 }) => {
   const { t } = useTranslation('album');
+  const [isCreatePlaylistDialogOpen, setIsCreatePlaylistDialogOpen] = useState(false);
+  const displayPlaylistCreationDialog = () => setIsCreatePlaylistDialogOpen(true);
+  const hidePlaylistCreationDialog = () => setIsCreatePlaylistDialogOpen(false);
+
   const release_date: Date = new Date(album.year);
   return <div className={styles.album_view_container}>
     <Dimmer.Dimmable>
@@ -63,7 +68,7 @@ export const AlbumView: React.FC<AlbumViewProps> = ({
                     }
                   >
                     <Icon
-                      name={isFavorite ? 'star' : 'star outline'}
+                      name={isFavorite ? 'heart' : 'heart outline'}
                       size='big'
                     />
                   </a>
@@ -129,33 +134,53 @@ export const AlbumView: React.FC<AlbumViewProps> = ({
                       icon='download'
                       label={t('download')}
                     />
+                    <PopupDropdown
+                      text={t('add-to-playlist')}
+                      data-testid='add-album-to-playlist'
+                    >
+                      {
+                        playlistNames?.map((playlistName, i) => (
+                          <Dropdown.Item
+                            key={i}
+                            onClick={() => addAlbumToPlaylist(playlistName)}
+                          >
+                            <Icon name='music'/>
+                            {playlistName}
+                          </Dropdown.Item>
+                        ))
+                      }
+                      <Dropdown.Item
+                        onClick={() => displayPlaylistCreationDialog()}
+                        data-testid='playlist-popup-create-playlist'
+                      >
+                        <Icon name='plus'/>
+                        {t('create-playlist')}
+                      </Dropdown.Item>
+                    </PopupDropdown>
                   </ContextPopup>
+                  <InputDialog
+                    isOpen={isCreatePlaylistDialogOpen}
+                    onClose={() => hidePlaylistCreationDialog()}
+                    header={<h4>{t('create-playlist-dialog-title')}</h4>}
+                    placeholder={t('create-playlist-dialog-placeholder')}
+                    acceptLabel={t('create-playlist-dialog-accept')}
+                    cancelLabel={t('create-playlist-dialog-cancel')}
+                    onAccept={(input) => {
+                      addAlbumToNewPlaylist(input);
+                    }}
+                    initialString={`${album.artist} - ${album.title}`}
+                    testIdPrefix='create-playlist-dialog'
+                  />
                 </div>
               </div>
             </div>
-            <table className={styles.album_tracklist}>
-              <thead>
-                <tr>
-                  <th className={cx(styles.center, styles.position)}>
-                    <Icon name='hashtag' />
-                  </th>
-                  <th className={styles.left}>{t('tracks')}</th>
-                  <th className={cx(styles.center, styles.duration)}>
-                    <Icon name='clock outline' />
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {album.tracklist.map((track, index) => {
-                  return (!track.type || track.type === 'track') ? <TrackRow
-                    key={'album-track-row-' + index}
-                    track={track}
-                    displayTrackNumber
-                    displayDuration
-                  /> : <TrackRowHeading title={track.title} key={'album-track-heading-' + index} />;
-                })}
-              </tbody>
-            </table>
+            <TrackTableContainer 
+              tracks={album.tracklist}
+              displayDeleteButton={false}
+              displayThumbnail={false}
+              displayArtist={false}
+              displayAlbum={false}
+            />
           </div>
         )
       }
